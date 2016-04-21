@@ -20,7 +20,7 @@ namespace HJ.Library.Controllers
             return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
         }
 
-        [Route("user/{id: guid}", Name = "GetByUserId")]
+        [Route( "user/{id:guid}", Name = "GetUserById" )]
         public async Task<IHttpActionResult> GetUser(string Id)
         {
             var user = await this.AppUserManager.FindByIdAsync(Id);
