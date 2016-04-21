@@ -46,6 +46,7 @@ namespace HJ.Library.Controllers
             return NotFound();
         }
 
+        [Route("create")]
         public async Task<IHttpActionResult> CreateUser(UserBindingModel userModel)
         {
             if (!ModelState.IsValid)
@@ -70,5 +71,11 @@ namespace HJ.Library.Controllers
 
             return Created(locationHeader, TheModelFactory.Create(user));
         }
+
+        //[Route()]
+        //public async Task<IHttpActionResult> ChangePassword(UserBindingModel createUserModel)
+        //{
+ 
+        //}
     }
 }
