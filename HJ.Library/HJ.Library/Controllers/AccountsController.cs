@@ -13,6 +13,7 @@ namespace HJ.Library.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController: BaseApiController
     {
+        [Authorize]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
@@ -20,6 +21,7 @@ namespace HJ.Library.Controllers
             return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
         }
 
+        [Authorize]
         [Route( "user/{id:guid}", Name = "GetUserById" )]
         public async Task<IHttpActionResult> GetUser(string Id)
         {
@@ -33,6 +35,7 @@ namespace HJ.Library.Controllers
             return NotFound();
         }
 
+        [Authorize]
         [Route("user/{userName}")]
         public async Task<IHttpActionResult> GetUserByName(string userName)
         {
@@ -46,6 +49,7 @@ namespace HJ.Library.Controllers
             return NotFound();
         }
 
+        [AllowAnonymous]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(UserBindingModel userModel)
         {
@@ -72,15 +76,16 @@ namespace HJ.Library.Controllers
             return Created(locationHeader, TheModelFactory.Create(user));
         }
 
+        [Authorize]
         [Route("ChangePassword")]
-        public async Task<IHttpActionResult> ChangePassword(string currentPassword, string newPassword)
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await this.AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), currentPassword, newPassword);
+            IdentityResult result = await this.AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
 
             if (!result.Succeeded)
             {
@@ -90,7 +95,8 @@ namespace HJ.Library.Controllers
             return Ok();
         }
 
-        [Route("user/{id: guid}")]
+        [Authorize]
+        [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
 

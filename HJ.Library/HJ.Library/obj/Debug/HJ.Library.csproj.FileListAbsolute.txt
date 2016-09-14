@@ -78,3 +78,10 @@ C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library
 C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.csproj.GenerateResource.Cache
 C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.dll
 C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.pdb
+C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\bin\Thinktecture.IdentityModel.Core.dll
+C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\bin\System.IdentityModel.Tokens.Jwt.pdb
+C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\bin\Thinktecture.IdentityModel.Core.pdb
+C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\bin\Microsoft.Owin.Security.Jwt.dll
+C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\bin\Microsoft.Owin.Security.Jwt.xml
