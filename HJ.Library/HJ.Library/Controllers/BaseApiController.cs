@@ -15,12 +15,21 @@ namespace HJ.Library.Controllers
     {
         private ModelFactory modelFactory;
         private ApplicationUserManager appUserManager = null;
+        private ApplicationRoleManager appRoleManager = null;
 
         protected ApplicationUserManager AppUserManager
         {
             get
             {
                 return this.appUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+        }
+
+        protected ApplicationRoleManager AppRoleManager
+        {
+            get 
+            {
+                return this.appRoleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
             }
         }
 

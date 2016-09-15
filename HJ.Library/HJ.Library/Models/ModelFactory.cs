@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http.Routing;
 using HJ.Library.Infrastructure;
 using System.Net.Http;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace HJ.Library.Models
 {
@@ -34,6 +35,15 @@ namespace HJ.Library.Models
                 Claims = appUserManager.GetClaimsAsync(appUser.Id).Result
             };
         }
+
+        public RoleReturnModel Create( IdentityRole appRole )
+        {
+            return new RoleReturnModel {
+                Url = this.urlHelper.Link( "GetRoleById", new { id = appRole.Id } ),
+                Id = appRole.Id,
+                Name = appRole.Name
+            };
+        }
     }
 
     public class UserReturnModel
@@ -47,5 +57,12 @@ namespace HJ.Library.Models
         public bool EmailConfirmed { get; set; }
         public IList<string> Roles { get; set; }
         public IList<System.Security.Claims.Claim> Claims { get; set; }
+    }
+
+    public class RoleReturnModel
+    {
+        public string Url { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }

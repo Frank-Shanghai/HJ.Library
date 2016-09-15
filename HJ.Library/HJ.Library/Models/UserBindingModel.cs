@@ -6,7 +6,7 @@ using System.Web;
 
 namespace HJ.Library.Models
 {
-    public class UserBindingModel
+    public class CreateUserBindingModel
     {
         [Required]
         [EmailAddress]        

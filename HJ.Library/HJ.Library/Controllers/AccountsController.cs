@@ -13,7 +13,7 @@ namespace HJ.Library.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController: BaseApiController
     {
-        [Authorize]
+        [Authorize(Roles="Admin")]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
@@ -21,7 +21,7 @@ namespace HJ.Library.Controllers
             return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
         }
 
-        [Authorize]
+        [Authorize(Roles="Admin")]
         [Route( "user/{id:guid}", Name = "GetUserById" )]
         public async Task<IHttpActionResult> GetUser(string Id)
         {
@@ -35,7 +35,7 @@ namespace HJ.Library.Controllers
             return NotFound();
         }
 
-        [Authorize]
+        [Authorize(Roles="Admin")]
         [Route("user/{userName}")]
         public async Task<IHttpActionResult> GetUserByName(string userName)
         {
@@ -51,7 +51,7 @@ namespace HJ.Library.Controllers
 
         [AllowAnonymous]
         [Route("create")]
-        public async Task<IHttpActionResult> CreateUser(UserBindingModel userModel)
+        public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel userModel)
         {
             if (!ModelState.IsValid)
             {
@@ -95,19 +95,16 @@ namespace HJ.Library.Controllers
             return Ok();
         }
 
-        [Authorize]
+        [Authorize(Roles="Admin")]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
-
             // Only SuperAdmin or Admin can delete users (Later when implement roles)
-
             var appUser = await this.AppUserManager.FindByIdAsync(id);
 
             if (appUser != null)
             {
                 IdentityResult result = await this.AppUserManager.DeleteAsync(appUser);
-
                 if (!result.Succeeded)
                 {
                     return GetErrorResult(result);
@@ -117,6 +114,43 @@ namespace HJ.Library.Controllers
             }
 
             return NotFound();
+        }
+
+        [Authorize(Roles="Admin")]
+        [Route("user/{id:guid}/roles")]
+        [HttpPut]
+        public async Task<IHttpActionResult> AssignRolesToUser( [FromUri] string id, [FromBody] string[] rolesToAssign )
+        {
+            var appUser = await this.AppUserManager.FindByIdAsync( id );
+            if ( appUser == null )
+            {
+                return NotFound();
+            }
+
+            var currentRoles = await this.AppUserManager.GetRolesAsync( appUser.Id );
+            var rolesNotExist = rolesToAssign.Except( this.AppRoleManager.Roles.Select( x => x.Name ) ).ToArray();
+
+            if ( rolesNotExist.Count() > 0 )
+            {
+                ModelState.AddModelError( "", string.Format( "Roles '{0}' does not exist in the system", string.Join( ",", rolesNotExist ) ) );
+                return BadRequest( ModelState );
+            }
+
+            IdentityResult removeResult = await this.AppUserManager.RemoveFromRolesAsync( appUser.Id, currentRoles.ToArray() );
+            if ( !removeResult.Succeeded )
+            {
+                ModelState.AddModelError( "", "Failed to remove user roles" );
+                return BadRequest( ModelState );
+            }
+
+            IdentityResult addResult = await this.AppUserManager.AddToRolesAsync( appUser.Id, rolesToAssign );
+            if ( !addResult.Succeeded )
+            {
+                ModelState.AddModelError( "", "Failed to add user roles" );
+                return BadRequest( ModelState );
+            }
+
+            return Ok();
         }
     }
 }

@@ -129,7 +129,9 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
+    <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\ApplicationUser.cs" />
     <Compile Include="Infrastructure\ApplicationUserManager.cs" />
     <Compile Include="Migrations\201604161617001_InitialCreate.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChangePasswordBindingModel.cs" />
     <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\RoleBindingModels.cs" />
     <Compile Include="Models\UserBindingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomJwtFormat.cs" />
