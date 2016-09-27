@@ -31,7 +31,7 @@ namespace HJ.Library.Providers
             {
                 context.SetError( "invalid_grant", "The user name or password is incorrect." );
             }
-
+            
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync( userManager, "JWT" );
             var ticket = new AuthenticationTicket( oAuthIdentity, null );
             context.Validated( ticket );

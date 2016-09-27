@@ -43,7 +43,7 @@ namespace HJ.Library
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays( 1 ),
                 Provider = new Providers.CustomOAuthProvider(),
                 // check the port number in project property -> Web tab page
-                AccessTokenFormat = new Providers.CustomJwtFormat( "http://localhost:59845/" )
+                AccessTokenFormat = new Providers.CustomJwtFormat( "http://localhost:8010/" )
             };
 
             // OAuth 2.0 Bearer Access Token generation
