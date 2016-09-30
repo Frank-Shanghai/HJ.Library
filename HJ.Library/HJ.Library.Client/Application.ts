@@ -13,6 +13,7 @@
 
         public user: authentication.LogonUserViewModel;
         public activePage: any;
+        public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
 
         constructor() {
             this.user = new authentication.LogonUserViewModel()

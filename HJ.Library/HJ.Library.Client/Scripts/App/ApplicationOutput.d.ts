@@ -4,6 +4,7 @@ declare module hj.library {
         static instance: Application;
         user: authentication.LogonUserViewModel;
         activePage: any;
+        isAuthenticated: KnockoutObservable<boolean>;
         constructor();
     }
 }
@@ -11,8 +12,12 @@ declare module hj.library.authentication {
     class LogonUserViewModel {
         name: KnockoutObservable<string>;
         password: KnockoutObservable<string>;
+        private token;
+        private tokenType;
         constructor();
         logon: () => void;
+        private handleLogonResponse(data);
+        private onLogonFail(jqXhr);
     }
 }
 declare module hj.library.authentication {

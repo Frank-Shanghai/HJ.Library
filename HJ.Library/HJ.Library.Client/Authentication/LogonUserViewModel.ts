@@ -2,6 +2,8 @@
     export class LogonUserViewModel {
         public name: KnockoutObservable<string> = ko.observable<string>("");
         public password: KnockoutObservable<string> = ko.observable<string>("");
+        private token: string = "";
+        private tokenType: string = "";
 
         constructor()
         { }
@@ -9,19 +11,30 @@
         public logon = () => {
             $.ajax({
                 type: 'post',
-                contentType: "application/x-www-form-urlencoded",                
-                url: 'http://localhost:8010/oauth/token',
+                contentType: "application/x-www-form-urlencoded",
+                url: '/oauth/token',
                 data: {
                     grant_type: 'password',
                     username: this.name(),
                     password: this.password()
                 }
-            }).done(function (data) {
-                alert("scuccess");
-                console.log(data);
-                }).fail(function (data) {
-                    alert("fail");
-                });
+            }).done(this.handleLogonResponse)
+                .fail(this.onLogonFail);
+        }
+
+        private handleLogonResponse(data: any) {
+            this.token = data.access_token;
+            library.Application.instance.isAuthenticated(true);
+            $.ajaxSetup({
+                headers: {
+                    authorization: this.tokenType + " " + this.token
+                }
+            });
+        }
+
+        private onLogonFail(jqXhr: JQueryXHR) {
+            console.log(jqXhr);
+            alert("failed to logon, press F12, refer to console window output for more details.");
         }
     }
 }

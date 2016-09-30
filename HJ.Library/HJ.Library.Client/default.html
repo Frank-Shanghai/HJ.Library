@@ -11,8 +11,12 @@
     <script type="text/javascript" src="Scripts/App/Startup.js"></script>
 </head>
 <body>
-    
+    <!-- ko ifnot: isAuthenticated -->
     <div data-bind="template: {name: 'hj-library-authentication-LogonUserView', data: user}"></div>
-    
+    <!-- /ko -->
+
+    <!-- ko if: isAuthenticated -->
+    <div>Main page here</div>
+    <!-- /ko -->
 </body>
 </html>

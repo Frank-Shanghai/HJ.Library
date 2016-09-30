@@ -4,6 +4,7 @@ var hj;
     (function (library) {
         var Application = (function () {
             function Application() {
+                this.isAuthenticated = ko.observable(false);
                 this.user = new library.authentication.LogonUserViewModel();
                 this.activePage = "page";
             }
@@ -33,24 +34,35 @@ var hj;
                     var _this = this;
                     this.name = ko.observable("");
                     this.password = ko.observable("");
+                    this.token = "";
+                    this.tokenType = "";
                     this.logon = function () {
                         $.ajax({
                             type: 'post',
                             contentType: "application/x-www-form-urlencoded",
-                            url: 'http://localhost:8010/oauth/token',
+                            url: '/oauth/token',
                             data: {
                                 grant_type: 'password',
                                 username: _this.name(),
                                 password: _this.password()
                             }
-                        }).done(function (data) {
-                            alert("scuccess");
-                            console.log(data);
-                        }).fail(function (data) {
-                            alert("fail");
-                        });
+                        }).done(_this.handleLogonResponse)
+                            .fail(_this.onLogonFail);
                     };
                 }
+                LogonUserViewModel.prototype.handleLogonResponse = function (data) {
+                    this.token = data.access_token;
+                    library.Application.instance.isAuthenticated(true);
+                    $.ajaxSetup({
+                        headers: {
+                            authorization: this.tokenType + " " + this.token
+                        }
+                    });
+                };
+                LogonUserViewModel.prototype.onLogonFail = function (jqXhr) {
+                    console.log(jqXhr);
+                    alert("failed to logon, press F12, refer to console window output for more details.");
+                };
                 return LogonUserViewModel;
             }());
             authentication.LogonUserViewModel = LogonUserViewModel;
