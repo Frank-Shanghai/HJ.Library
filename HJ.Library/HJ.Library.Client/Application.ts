@@ -11,15 +11,13 @@
             return Application._instance;
         }
 
-        public user: authentication.LogonUserViewModel;
+        public user: authentication.LogonViewModel;
         public activePage: any;
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
 
         constructor() {
-            this.user = new authentication.LogonUserViewModel()
+            this.user = new authentication.LogonViewModel()
             this.activePage = "page";
-        }
-
-        
+        }        
     }
 }

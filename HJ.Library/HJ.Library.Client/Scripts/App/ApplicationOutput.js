@@ -5,7 +5,7 @@ var hj;
         var Application = (function () {
             function Application() {
                 this.isAuthenticated = ko.observable(false);
-                this.user = new library.authentication.LogonUserViewModel();
+                this.user = new library.authentication.LogonViewModel();
                 this.activePage = "page";
             }
             Object.defineProperty(Application, "instance", {
@@ -29,9 +29,8 @@ var hj;
     (function (library) {
         var authentication;
         (function (authentication) {
-            var LogonUserViewModel = (function () {
-                function LogonUserViewModel() {
-                    var _this = this;
+            var LogonViewModel = (function () {
+                function LogonViewModel() {
                     this.name = ko.observable("");
                     this.password = ko.observable("");
                     this.token = "";
@@ -43,15 +42,16 @@ var hj;
                             url: '/oauth/token',
                             data: {
                                 grant_type: 'password',
-                                username: _this.name(),
-                                password: _this.password()
+                                username: this.name(),
+                                password: this.password()
                             }
-                        }).done(_this.handleLogonResponse)
-                            .fail(_this.onLogonFail);
+                        }).done(this.handleLogonResponse)
+                            .fail(this.onLogonFail);
                     };
                 }
-                LogonUserViewModel.prototype.handleLogonResponse = function (data) {
+                LogonViewModel.prototype.handleLogonResponse = function (data) {
                     this.token = data.access_token;
+                    this.tokenType = data.token_type;
                     library.Application.instance.isAuthenticated(true);
                     $.ajaxSetup({
                         headers: {
@@ -59,14 +59,32 @@ var hj;
                         }
                     });
                 };
-                LogonUserViewModel.prototype.onLogonFail = function (jqXhr) {
+                LogonViewModel.prototype.onLogonFail = function (jqXhr) {
                     console.log(jqXhr);
                     alert("failed to logon, press F12, refer to console window output for more details.");
                 };
-                return LogonUserViewModel;
+                return LogonViewModel;
             }());
-            authentication.LogonUserViewModel = LogonUserViewModel;
+            authentication.LogonViewModel = LogonViewModel;
         })(authentication = library.authentication || (library.authentication = {}));
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var pages;
+        (function (pages) {
+            var UsersViewModel = (function () {
+                function UsersViewModel() {
+                    $.ajax({
+                        type: 'get',
+                    });
+                }
+                return UsersViewModel;
+            }());
+            pages.UsersViewModel = UsersViewModel;
+        })(pages = library.pages || (library.pages = {}));
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
 var hj;

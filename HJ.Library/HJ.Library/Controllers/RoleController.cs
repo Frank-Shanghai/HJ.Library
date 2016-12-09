@@ -28,7 +28,8 @@ namespace HJ.Library.Controllers
             return NotFound();
         }
 
-        [Route("", Name="GetAllRoles")]
+        [Route("", Name="GetAllRoles")]//name 是路由名称，可以用asp.net razor语法在页面中生成url，如@Url.RouteUrl("GetAllRoles"). 在这个project中客户端用不到，
+        //但在服务器端有用到， 见ModelFactory.cs, 如： Url = this.urlHelper.Link( "GetRoleById", new { id = appRole.Id } )
         public IHttpActionResult GetAllRoles()
         {
             var roles = this.AppRoleManager.Roles;

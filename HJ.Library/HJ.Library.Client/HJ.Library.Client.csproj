@@ -66,8 +66,9 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
-    <Content Include="Authentication\LogonUserView.html" />
+    <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
+    <Content Include="Pages\UsersView.html" />
     <Content Include="Scripts\App\Startup.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery-3.1.0.min.js" />
@@ -107,7 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Application.ts" />
-    <TypeScriptCompile Include="Authentication\LogonUserViewModel.ts" />
+    <TypeScriptCompile Include="Authentication\LogonViewModel.ts" />
+    <TypeScriptCompile Include="Pages\UsersViewModel.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\tests\jasmine.extensions.d.ts" />

@@ -1,5 +1,5 @@
 ﻿module hj.library.authentication {
-    export class LogonUserViewModel {
+    export class LogonViewModel {
         public name: KnockoutObservable<string> = ko.observable<string>("");
         public password: KnockoutObservable<string> = ko.observable<string>("");
         private token: string = "";
@@ -24,6 +24,7 @@
 
         private handleLogonResponse(data: any) {
             this.token = data.access_token;
+            this.tokenType = data.token_type;
             library.Application.instance.isAuthenticated(true);
             $.ajaxSetup({
                 headers: {

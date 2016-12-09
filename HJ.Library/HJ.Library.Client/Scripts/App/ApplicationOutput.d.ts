@@ -2,14 +2,14 @@ declare module hj.library {
     class Application {
         private static _instance;
         static instance: Application;
-        user: authentication.LogonUserViewModel;
+        user: authentication.LogonViewModel;
         activePage: any;
         isAuthenticated: KnockoutObservable<boolean>;
         constructor();
     }
 }
 declare module hj.library.authentication {
-    class LogonUserViewModel {
+    class LogonViewModel {
         name: KnockoutObservable<string>;
         password: KnockoutObservable<string>;
         private token;
@@ -18,6 +18,11 @@ declare module hj.library.authentication {
         logon: () => void;
         private handleLogonResponse(data);
         private onLogonFail(jqXhr);
+    }
+}
+declare module hj.library.pages {
+    class UsersViewModel {
+        constructor();
     }
 }
 declare module hj.library.authentication {
