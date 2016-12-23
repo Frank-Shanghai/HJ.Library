@@ -1,9 +1,16 @@
+declare module hj.library.pages {
+    class PageBase {
+        templateId: string;
+        isVisible: KnockoutObservable<boolean>;
+        title: KnockoutObservable<string>;
+    }
+}
 declare module hj.library {
     class Application {
         private static _instance;
         static instance: Application;
         user: authentication.LogonViewModel;
-        activePage: any;
+        activePage: KnockoutObservable<pages.PageBase>;
         isAuthenticated: KnockoutObservable<boolean>;
         constructor();
     }
@@ -21,12 +28,21 @@ declare module hj.library.authentication {
     }
 }
 declare module hj.library.pages {
-    class UsersViewModel {
+    class HomePageViewModel extends PageBase {
+        constructor();
+    }
+}
+declare module hj.library.pages {
+    class UsersViewModel extends PageBase {
         constructor();
     }
 }
 declare module hj.library.authentication {
-    var LogonUserViewId: string;
+    var LogonViewId: string;
+}
+declare module hj.library.pages {
+    var HomePageViewId: string;
+    var UsersViewId: string;
 }
 declare module hj.library.views {
     function register(): void;

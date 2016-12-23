@@ -23,8 +23,8 @@ namespace HJ.Library.Controllers
 
         [Authorize(Roles="Admin")]
         [Route( "user/{id:guid}", Name = "GetUserById" )]
-        //name 是路由名称，可以用asp.net razor语法在页面中生成url，如@Url.RouteUrl("GetUserById"). 在这个project中客户端用不到，
-        //但在服务器端有用到， 见ModelFactory.cs, 如： Url = this.urlHelper.Link( "GetRoleById", new { id = appRole.Id } )
+        //In Web API, every route has a name. Route names are useful for generating links, so that you can include a link in an HTTP response，
+        //for example, refer to ModelFactory.cs, like: Url = this.urlHelper.Link( "GetRoleById", new { id = appRole.Id } )
         public async Task<IHttpActionResult> GetUser(string Id)
         {
             var user = await this.AppUserManager.FindByIdAsync(Id);

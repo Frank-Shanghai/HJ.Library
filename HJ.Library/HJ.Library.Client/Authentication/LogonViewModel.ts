@@ -31,6 +31,8 @@
                     authorization: this.tokenType + " " + this.token
                 }
             });
+
+            library.Application.instance.activePage(new pages.HomePageViewModel());
         }
 
         private onLogonFail(jqXhr: JQueryXHR) {

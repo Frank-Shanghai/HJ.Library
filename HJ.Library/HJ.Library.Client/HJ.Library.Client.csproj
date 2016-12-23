@@ -68,6 +68,7 @@
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
+    <Content Include="Pages\HomePageView.html" />
     <Content Include="Pages\UsersView.html" />
     <Content Include="Scripts\App\Startup.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
@@ -76,6 +77,8 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\sammy-0.7.5.js" />
+    <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Style\app.css">
@@ -109,6 +112,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="Application.ts" />
     <TypeScriptCompile Include="Authentication\LogonViewModel.ts" />
+    <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
+    <TypeScriptCompile Include="Pages\PageBase.ts" />
     <TypeScriptCompile Include="Pages\UsersViewModel.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />

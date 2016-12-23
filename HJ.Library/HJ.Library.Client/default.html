@@ -5,6 +5,7 @@
 	<meta charset="utf-8" />
 
     <script type="text/javascript" src="Scripts/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="Scripts/sammy-0.7.5.min.js"></script>
     <script type="text/javascript" src="Scripts/underscore.min.js"></script>
     <script type="text/javascript" src="Scripts/knockout-3.4.0.js"></script>
     <script type="text/javascript" src="Scripts/App/ApplicationOutput.js"></script> <!-- This js file is hidden by default. Click show all file to see it. -->
@@ -12,11 +13,17 @@
 </head>
 <body>
     <!-- ko ifnot: isAuthenticated -->
-    <div data-bind="template: {name: 'hj-library-authentication-LogonUserView', data: user}"></div>
+    <div data-bind="template: {name: 'hj-library-authentication-LogonView', data: user}"></div>
     <!-- /ko -->
 
     <!-- ko if: isAuthenticated -->
-    <div>Main page here</div>
+    <div style="height: 15%; background-color:aquamarine">Header</div>
+    <nav id="navigationBar" style="background-color: #adadad; float: left; width: 28%; height: 100%; margin: 1%;">Navigation Bar</nav>
+    <section id="content" style="margin: 1%; padding: 2%; height: 100%; overflow-y: auto; text-align: top; background-color: white;">
+        <!-- ko if: activePage -->
+        <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
+        <!-- /ko -->
+    </section>
     <!-- /ko -->
 </body>
 </html>

@@ -1,4 +1,5 @@
-﻿module hj.library {
+﻿///<reference path="Pages/PageBase.ts" />
+module hj.library {
 
     export class Application {
         private static _instance: Application;
@@ -12,12 +13,12 @@
         }
 
         public user: authentication.LogonViewModel;
-        public activePage: any;
+        public activePage: KnockoutObservable<pages.PageBase> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
 
         constructor() {
             this.user = new authentication.LogonViewModel()
-            this.activePage = "page";
+            
         }        
     }
 }

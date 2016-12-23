@@ -1,10 +1,10 @@
-﻿module hj.library.pages {
-    export class UsersViewModel{
+﻿///<reference path="PageBase.ts" />
+module hj.library.pages {
+    export class UsersViewModel extends PageBase{
         constructor() {
-            $.ajax({
-                type: 'get',
-
-            });
+            super();
+            this.templateId = UsersViewId;
+            this.title("Users");
         }
     }
 }
