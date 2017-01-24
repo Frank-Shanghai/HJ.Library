@@ -12,7 +12,10 @@ declare module hj.library {
         user: authentication.LogonViewModel;
         activePage: KnockoutObservable<pages.PageBase>;
         isAuthenticated: KnockoutObservable<boolean>;
+        navigationMenus: Array<any>;
+        sammyApp: Sammy.Application;
         constructor();
+        private initializeRouters();
     }
 }
 declare module hj.library.authentication {
@@ -34,7 +37,9 @@ declare module hj.library.pages {
 }
 declare module hj.library.pages {
     class UsersViewModel extends PageBase {
+        users: KnockoutObservableArray<any>;
         constructor();
+        private initialize();
     }
 }
 declare module hj.library.authentication {

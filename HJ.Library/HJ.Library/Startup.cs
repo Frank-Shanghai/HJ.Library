@@ -52,7 +52,8 @@ namespace HJ.Library
 
         private void ConfigureOAuthTokenConsumption( IAppBuilder app )
         {
-            var issuer = "http://localhost:59845/";
+            //var issuer = "http://localhost:59845/";
+            var issuer = "http://localhost:8010/";
             string audienceId = ConfigurationManager.AppSettings[ "as:AudienceId" ];
             byte[] audienceSecret = TextEncodings.Base64Url.Decode( ConfigurationManager.AppSettings[ "as:AudienceSecret" ] );
 

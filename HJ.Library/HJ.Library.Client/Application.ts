@@ -16,9 +16,25 @@ module hj.library {
         public activePage: KnockoutObservable<pages.PageBase> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
 
+        public navigationMenus: Array<any> = [
+            { title: "Users", route: "#/Users" }
+        ];
+
+        public sammyApp: Sammy.Application = Sammy();
+
         constructor() {
-            this.user = new authentication.LogonViewModel()
-            
+            this.user = new authentication.LogonViewModel();
+            this.initializeRouters();
         }        
+
+        private initializeRouters() {
+            this.sammyApp.get("#/Welcome", (context: any) => {
+                this.activePage(new pages.HomePageViewModel());
+            });
+
+            this.sammyApp.get("#/Users", (context) => {
+                this.activePage(new pages.UsersViewModel());
+            });
+        }
     }
 }

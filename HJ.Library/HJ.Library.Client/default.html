@@ -18,7 +18,11 @@
 
     <!-- ko if: isAuthenticated -->
     <div style="height: 15%; background-color:aquamarine">Header</div>
-    <nav id="navigationBar" style="background-color: #adadad; float: left; width: 28%; height: 100%; margin: 1%;">Navigation Bar</nav>
+    <nav id="navigationBar" style="background-color: #adadad; float: left; width: 28%; height: 100%; margin: 1%;">
+        <ul data-bind="foreach: navigationMenus">
+            <li><a href="#" data-bind="text: title, attr:{href: route}"></a></li>
+        </ul>
+    </nav>
     <section id="content" style="margin: 1%; padding: 2%; height: 100%; overflow-y: auto; text-align: top; background-color: white;">
         <!-- ko if: activePage -->
         <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>

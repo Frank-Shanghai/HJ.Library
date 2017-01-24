@@ -77,6 +77,8 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout-kendo.js" />
+    <Content Include="Scripts\knockout-kendo.min.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
     <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\underscore.js" />
@@ -129,13 +131,16 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\typings\kendo\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptOutFile>Scripts\App\ApplicationOutput.js</TypeScriptOutFile>
     <TypeScriptModuleKind>System</TypeScriptModuleKind>
     <TypeScriptTarget>ES5</TypeScriptTarget>

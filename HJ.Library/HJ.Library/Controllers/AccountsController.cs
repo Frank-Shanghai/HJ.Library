@@ -64,7 +64,10 @@ namespace HJ.Library.Controllers
             var user = new ApplicationUser() 
             {
                 UserName = userModel.UserName,
-                Email=userModel.Email
+                Email=userModel.Email,
+                FirstName=userModel.FirstName,
+                LastName=userModel.LastName,
+                EmailConfirmed=true // Currently, don't consider email confirming
             };
 
             IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, userModel.Password);
@@ -73,6 +76,9 @@ namespace HJ.Library.Controllers
             {
                 return GetErrorResult(addUserResult);
             }
+
+            var newUser = this.AppUserManager.FindByName( userModel.UserName );
+            this.AppUserManager.AddToRoles( newUser.Id, userModel.RoleName.Split( ',' ) );
 
             Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
 

@@ -30,7 +30,12 @@ var hj;
             function Application() {
                 this.activePage = ko.observable(null);
                 this.isAuthenticated = ko.observable(false);
+                this.navigationMenus = [
+                    { title: "Users", route: "#/Users" }
+                ];
+                this.sammyApp = Sammy();
                 this.user = new library.authentication.LogonViewModel();
+                this.initializeRouters();
             }
             Object.defineProperty(Application, "instance", {
                 get: function () {
@@ -42,6 +47,15 @@ var hj;
                 enumerable: true,
                 configurable: true
             });
+            Application.prototype.initializeRouters = function () {
+                var _this = this;
+                this.sammyApp.get("#/Welcome", function (context) {
+                    _this.activePage(new library.pages.HomePageViewModel());
+                });
+                this.sammyApp.get("#/Users", function (context) {
+                    _this.activePage(new library.pages.UsersViewModel());
+                });
+            };
             return Application;
         }());
         library.Application = Application;
@@ -55,7 +69,6 @@ var hj;
         (function (authentication) {
             var LogonViewModel = (function () {
                 function LogonViewModel() {
-                    var _this = this;
                     this.name = ko.observable("");
                     this.password = ko.observable("");
                     this.token = "";
@@ -67,11 +80,11 @@ var hj;
                             url: '/oauth/token',
                             data: {
                                 grant_type: 'password',
-                                username: _this.name(),
-                                password: _this.password()
+                                username: this.name(),
+                                password: this.password()
                             }
-                        }).done(_this.handleLogonResponse)
-                            .fail(_this.onLogonFail);
+                        }).done(this.handleLogonResponse)
+                            .fail(this.onLogonFail);
                     };
                 }
                 LogonViewModel.prototype.handleLogonResponse = function (data) {
@@ -83,7 +96,8 @@ var hj;
                             authorization: this.tokenType + " " + this.token
                         }
                     });
-                    library.Application.instance.activePage(new library.pages.HomePageViewModel());
+                    //library.Application.instance.activePage(new pages.HomePageViewModel());
+                    library.Application.instance.sammyApp.run("#/Welcome");
                 };
                 LogonViewModel.prototype.onLogonFail = function (jqXhr) {
                     console.log(jqXhr);
@@ -125,9 +139,22 @@ var hj;
                 __extends(UsersViewModel, _super);
                 function UsersViewModel() {
                     _super.call(this);
+                    this.users = ko.observableArray([]);
                     this.templateId = pages.UsersViewId;
                     this.title("Users");
+                    this.initialize();
                 }
+                UsersViewModel.prototype.initialize = function () {
+                    var _this = this;
+                    $.ajax({
+                        type: 'get',
+                        accepts: "application/json",
+                        url: '/api/accounts/users'
+                    }).done(function (data) {
+                        _this.users(data);
+                    })
+                        .fail(function () { });
+                };
                 return UsersViewModel;
             }(pages.PageBase));
             pages.UsersViewModel = UsersViewModel;
