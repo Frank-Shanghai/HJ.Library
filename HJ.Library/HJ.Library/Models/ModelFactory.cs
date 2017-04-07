@@ -27,7 +27,7 @@ namespace HJ.Library.Models
                 Url = this.urlHelper.Link("GetUserById", new { id = appUser.Id }),
                 Id = appUser.Id,
                 FirstName = appUser.FirstName,
-                Lastname = appUser.LastName,
+                LastName = appUser.LastName,
                 UserName = appUser.UserName,
                 Email = appUser.Email,
                 EmailConfirmed = appUser.EmailConfirmed,
@@ -51,7 +51,7 @@ namespace HJ.Library.Models
         public string Url { get; set; }
         public string Id { get; set; }
         public string FirstName { get; set; }
-        public string Lastname { get; set; }
+        public string LastName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }

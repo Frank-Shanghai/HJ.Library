@@ -6,7 +6,7 @@ using System.Web;
 
 namespace HJ.Library.Models
 {
-    public class ChangePasswordBindingModel
+    public class ChangePasswordDto
     {
         [Required]
         [DataType( DataType.Password )]

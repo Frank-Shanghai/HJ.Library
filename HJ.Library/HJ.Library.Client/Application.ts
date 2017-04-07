@@ -17,7 +17,9 @@ module hj.library {
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
 
         public navigationMenus: Array<any> = [
-            { title: "Users", route: "#/Users" }
+            { title: "Home", route: "#/Welcome", isActive: true },
+            { title: "Users", route: "#/Users", isActive: false }, 
+            { title: "Books", route: "#/Books", isActive: false }
         ];
 
         public sammyApp: Sammy.Application = Sammy();
@@ -35,6 +37,14 @@ module hj.library {
             this.sammyApp.get("#/Users", (context) => {
                 this.activePage(new pages.UsersViewModel());
             });
+
+            this.sammyApp.get("#/Books", (context) => {
+                this.activePage(new pages.HomePageViewModel());
+            });
+        }
+
+        private updateActive= (data: any) => {
+            data.isActive(!data.isActive());
         }
     }
 }

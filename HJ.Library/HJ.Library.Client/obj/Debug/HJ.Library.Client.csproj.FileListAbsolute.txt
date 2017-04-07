@@ -7,6 +7,10 @@ C:\Users\franks\Documents\Frank-Projects\GitHub\HJ.Library\HJ.Library\HJ.Library
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\HJ.Library.Client.dll.config
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\HJ.Library.Client.dll
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\HJ.Library.Client.pdb
-D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.dll
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.pdb
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\TypeLite.dll
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\TypeLite.Net4.dll
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\TypeLite.pdb
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\TypeLite.Net4.pdb

@@ -142,10 +142,11 @@
       <DependentUpon>201604161617001_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ChangePasswordBindingModel.cs" />
+    <Compile Include="Models\ChangePasswordDto.cs" />
     <Compile Include="Models\ModelFactory.cs" />
-    <Compile Include="Models\RoleBindingModels.cs" />
-    <Compile Include="Models\UserBindingModel.cs" />
+    <Compile Include="Models\RoleDto.cs" />
+    <Compile Include="Models\CreatingUserDto.cs" />
+    <Compile Include="Models\UpdatingUserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomJwtFormat.cs" />
     <Compile Include="Providers\CustomOAuthProvider.cs" />

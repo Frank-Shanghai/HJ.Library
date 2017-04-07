@@ -1,7 +1,7 @@
 ﻿module hj.library.authentication {
     export class LogonViewModel {
-        public name: KnockoutObservable<string> = ko.observable<string>("");
-        public password: KnockoutObservable<string> = ko.observable<string>("");
+        public name: KnockoutObservable<string> = ko.observable<string>("SuperFrank");
+        public password: KnockoutObservable<string> = ko.observable<string>("Abc_1234");
         private token: string = "";
         private tokenType: string = "";
 

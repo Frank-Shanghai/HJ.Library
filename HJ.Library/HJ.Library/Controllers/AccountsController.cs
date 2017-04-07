@@ -52,9 +52,33 @@ namespace HJ.Library.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles="Admin")]
+        [Route( "user" )]
+        public async Task<IHttpActionResult> PutUser( UpdatingUserDto userModel )
+        {
+            var appUser = await this.AppUserManager.FindByIdAsync( userModel.Id );
+
+            if ( appUser != null )
+            {
+                appUser.FirstName = userModel.FirstName;
+                appUser.LastName = userModel.LastName;
+
+                IdentityResult updateUserResult = await this.AppUserManager.UpdateAsync( appUser );
+                if ( !updateUserResult.Succeeded )
+                {
+                    return GetErrorResult( updateUserResult );
+                }
+
+                IHttpActionResult assignRolesResult = await this.AssignRolesToUser( userModel.Id, userModel.RoleName.Split(',') );
+                return assignRolesResult;
+            }
+
+            return NotFound();
+        }
+
         [AllowAnonymous]
         [Route("create")]
-        public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel userModel)
+        public async Task<IHttpActionResult> CreateUser(CreatingUserDto userModel)
         {
             if (!ModelState.IsValid)
             {
@@ -87,13 +111,14 @@ namespace HJ.Library.Controllers
 
         [Authorize]
         [Route("ChangePassword")]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordDto model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            // Logged on user can update its password, so we can use the 'User' here to get the user id. -- User.Identity.GetUserId()
             IdentityResult result = await this.AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
 
             if (!result.Succeeded)

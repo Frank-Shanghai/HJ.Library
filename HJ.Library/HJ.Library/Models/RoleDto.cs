@@ -6,7 +6,7 @@ using System.Web;
 
 namespace HJ.Library.Models
 {
-    public class CreateRoleBindingModel
+    public class RoleDto
     {
         [Required]
         [StringLength(256, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength=2)]

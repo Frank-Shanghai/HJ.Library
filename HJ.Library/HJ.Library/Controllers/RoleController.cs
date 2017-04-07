@@ -37,7 +37,7 @@ namespace HJ.Library.Controllers
         }
 
         [Route("create")]
-        public async Task<IHttpActionResult> Create( CreateRoleBindingModel model )
+        public async Task<IHttpActionResult> Create( RoleDto model )
         {
             if ( !ModelState.IsValid )
             {
