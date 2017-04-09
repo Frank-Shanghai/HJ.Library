@@ -28,16 +28,46 @@ var hj;
     (function (library) {
         var Application = (function () {
             function Application() {
+                var _this = this;
                 this.activePage = ko.observable(null);
                 this.isAuthenticated = ko.observable(false);
+                this.sessionUser = ko.observable(null); // type return user
+                this.userFullName = ko.computed(function () {
+                    if (_this.sessionUser()) {
+                        return _this.sessionUser().firstName + ' ' + _this.sessionUser().lastName;
+                    }
+                });
+                this.oldPassword = ko.observable('');
+                this.newPassword = ko.observable('');
+                this.confirmPassword = ko.observable('');
                 this.navigationMenus = [
                     { title: "Home", route: "#/Welcome", isActive: true },
                     { title: "Users", route: "#/Users", isActive: false },
                     { title: "Books", route: "#/Books", isActive: false }
                 ];
                 this.sammyApp = Sammy();
-                this.updateActive = function (data) {
-                    data.isActive(!data.isActive());
+                this.changePassword = function () {
+                    if (_this.newPassword() !== _this.confirmPassword()) {
+                        alert('The new password and confirm password should be identical.');
+                        return;
+                    }
+                    $.ajax({
+                        type: 'post',
+                        contentType: 'application/json',
+                        url: '/api/accounts/changepassword',
+                        data: JSON.stringify({
+                            OldPassword: _this.oldPassword(),
+                            NewPassword: _this.newPassword()
+                        })
+                    }).done(function () {
+                        $('div#changePassword').modal('hide');
+                        alert("Password changed sucessfully.");
+                        _this.oldPassword('');
+                        _this.newPassword('');
+                        _this.confirmPassword('');
+                    }).fail(function (jqXhr, textStatus, err) {
+                        alert(err.message);
+                    });
                 };
                 this.user = new library.authentication.LogonViewModel();
                 this.initializeRouters();
@@ -95,19 +125,28 @@ var hj;
                         }).done(_this.handleLogonResponse)
                             .fail(_this.onLogonFail);
                     };
+                    this.handleLogonResponse = function (data) {
+                        _this.token = data.access_token;
+                        _this.tokenType = data.token_type;
+                        library.Application.instance.isAuthenticated(true);
+                        $.ajaxSetup({
+                            headers: {
+                                authorization: _this.tokenType + " " + _this.token
+                            }
+                        });
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: '/api/accounts/user/' + _this.name()
+                        }).done(function (data) {
+                            library.Application.instance.sessionUser(data);
+                        }).fail(function (jqXhr, textStatus, err) {
+                            alert(err.message);
+                        });
+                        //library.Application.instance.activePage(new pages.HomePageViewModel());
+                        library.Application.instance.sammyApp.run("#/Welcome");
+                    };
                 }
-                LogonViewModel.prototype.handleLogonResponse = function (data) {
-                    this.token = data.access_token;
-                    this.tokenType = data.token_type;
-                    library.Application.instance.isAuthenticated(true);
-                    $.ajaxSetup({
-                        headers: {
-                            authorization: this.tokenType + " " + this.token
-                        }
-                    });
-                    //library.Application.instance.activePage(new pages.HomePageViewModel());
-                    library.Application.instance.sammyApp.run("#/Welcome");
-                };
                 LogonViewModel.prototype.onLogonFail = function (jqXhr) {
                     console.log(jqXhr);
                     alert("failed to logon, press F12, refer to console window output for more details.");
@@ -452,6 +491,20 @@ var hj;
     (function (library) {
         var pages;
         (function (pages) {
+            var modaldialogs;
+            (function (modaldialogs) {
+                modaldialogs.changePasswordViewId = "hj-library-pages-modaldialogs-changePasswordView";
+                modaldialogs.UserProfileViewId = "hj-library-pages-modaldialogs-UserProfileView";
+            })(modaldialogs = pages.modaldialogs || (pages.modaldialogs = {}));
+        })(pages = library.pages || (library.pages = {}));
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var pages;
+        (function (pages) {
             var users;
             (function (users) {
                 users.EditUserViewId = "hj-library-pages-users-EditUserView";
@@ -470,6 +523,8 @@ var hj;
                 var bodyElement = $('body');
                 bodyElement.append('<script type="text/html" id="hj-library-authentication-LogonView">\u003cdiv\u003e\r\n    Name: \r\n    \u003cinput type=\"text\" data-bind=\"value: name\" /\u003e\r\n    \u003cbr /\u003e\r\n    Password: \r\n    \u003cinput type=\"password\" data-bind=\"value: password\" /\u003e\r\n    \u003cbr /\u003e\r\n    \u003cbutton data-bind=\"click: logon\"\u003eLogon\u003c/button\u003e\r\n\u003c/div\u003e</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-HomePageView">\u003cdiv\u003e\r\n    \u003ch1\u003eWelcome!\u003c/h1\u003e\r\n\u003c/div\u003e\r\n</script>');
+                bodyElement.append('<script type="text/html" id="hj-library-pages-modaldialogs-changePasswordView">\u003cdiv id=\"changePassword\" class=\"modal fade\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eChange Password\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- ko if: sessionUser--\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eOld Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"old password\" data-bind=\"value: oldPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eNew Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"new password\" data-bind=\"value: newPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eConfirm Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"confirm password\" data-bind=\"value: confirmPassword\" /\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- /ko --\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv style=\"float: right\"\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eClose\u003c/button\u003e\r\n                    \u003c!-- ko if: sessionUser --\u003e\r\n                    \u003cbutton class=\"btn btn-default\" style=\"margin-left: 10px\" data-bind=\"click: changePassword\"\u003eChange\u003c/button\u003e\r\n                    \u003c!-- /ko --\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n</script>');
+                bodyElement.append('<script type="text/html" id="hj-library-pages-modaldialogs-UserProfileView">\u003cdiv id=\"userProfile\" class=\"modal fade\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eUser Profile\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- ko if: sessionUser --\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eFirst Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().firstName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eLast Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().lastName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eLogon Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().userName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eEmail: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().email\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eRoles: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().roles.toString()\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- /ko --\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv style=\"float: right\"\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eOK\u003c/button\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-EditUserView">\u003ch3 data-bind=\"text: title\"\u003e\u003c/h3\u003e\r\n\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eEmail\u003c/label\u003e\r\n    \u003cinput type=\"email\" class=\"form-control\" placeholder=\"email address\" data-bind=\"value: email, enable: !isEditingMode()\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eLogin Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Login Name\" data-bind=\"value: userName, enable: !isEditingMode()\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eFirst Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"First Name\" data-bind=\"value: firstName\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eLast Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Last Name\" data-bind=\"value: lastName\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eRoles\u003c/label\u003e\r\n    \u003cdiv class=\"panel panel-default\"\u003e\r\n        \u003cdiv class=\"panel-body\"\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"User\" data-bind=\"checked: selectedRoles\" /\u003eUser\u003c/label\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"Admin\" data-bind=\"checked: selectedRoles\" /\u003eAdmin\u003c/label\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"SuperAdmin\" data-bind=\"checked: selectedRoles\" /\u003eSuperAdmin\u003c/label\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\" data-bind=\"visible: !isEditingMode()\"\u003e\r\n    \u003clabel\u003ePassword\u003c/label\u003e\r\n    \u003cinput type=\"text\"class=\"form-control\" placeholder=\"Password\" data-bind=\"value: password\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\" data-bind=\"visible: !isEditingMode()\"\u003e\r\n    \u003clabel\u003eConfirm Password\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Confirm Password\" data-bind=\"value: confirmPassword\" /\u003e\r\n\u003c/div\u003e\r\n\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: createUser, visible: !isEditingMode()\"\u003eCreate\u003c/button\u003e\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: updateUser, visible: isEditingMode\"\u003eSave\u003c/button\u003e</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-UsersView">\u003ch3 data-bind=\"text: title\"\u003e\u003c/h3\u003e\r\n\u003cdiv id=\"users-toolbar\" style=\"margin: 10px\"\u003e\r\n    \u003cbutton id=\"users-add\" class=\"btn btn-default\" data-bind=\"click: add\"\u003e\r\n        \u003ci class=\"glyphicon glyphicon-plus\"\u003e\u003c/i\u003eAdd\r\n    \u003c/button\u003e\r\n    \u003cbutton id=\"users-edit\" class=\"btn btn-default\" data-bind=\"click: edit, enable: selectedUsers().length === 1 ? true : false\"\u003e\r\n        \u003ci class=\"glyphicon glyphicon-edit\" style=\"margin-right: 5px\"\u003e\u003c/i\u003eEdit\r\n    \u003c/button\u003e\r\n    \u003cbutton id=\"users-remove\" class=\"btn btn-danger\" data-bind=\"click: remove, enable: selectedUsers().length \u003e 0 ? true : false\"\u003e\r\n        \u003ci class=\"glyphicon glyphicon-remove\" style=\"margin-right: 5px\"\u003e\u003c/i\u003eDelete\r\n    \u003c/button\u003e\r\n\u003c/div\u003e\r\n\u003ctable id=\"users\" data-bind=\"grid: {options: gridOptions, selectionChanged: refreshSelection}\"\u003e\u003c/table\u003e\r\n</script>');
             }

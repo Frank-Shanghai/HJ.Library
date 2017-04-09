@@ -90,6 +90,8 @@
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
     <Content Include="Pages\HomePageView.html" />
+    <Content Include="Pages\ModalDialogs\ChangePasswordView.html" />
+    <Content Include="Pages\ModalDialogs\UserProfileView.html" />
     <Content Include="Pages\Users\EditUserView.html" />
     <Content Include="Pages\Users\UsersView.html" />
     <Content Include="Resource\books.jpg" />

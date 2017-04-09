@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>HighJump Library</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
 
     <script type="text/javascript" src="Scripts/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="Scripts/sammy-0.7.5.min.js"></script>
@@ -13,27 +13,50 @@
     <link rel="stylesheet" href="Content/bootstrap.css" />
     <link rel="stylesheet" href="Scripts/bootstrap-table/bootstrap-table.css" />
     <script type="text/javascript" src="Scripts/App/ApplicationOutput.js"></script> <!-- This js file is hidden by default. Click show all file to see it. -->
-    <script type="text/javascript" src="Scripts/App/Startup.js"></script>    
+    <script type="text/javascript" src="Scripts/App/Startup.js"></script>
 </head>
 <body>
-    <!-- ko ifnot: isAuthenticated -->
+    <!-- Logon Page -->
+    <!-- ko ifnot: sessionUser -->
     <div data-bind="template: {name: 'hj-library-authentication-LogonView', data: user}" style="padding: 20px"></div>
     <!-- /ko -->
 
-    <!-- ko if: isAuthenticated -->
+    
+    <!-- ko if: sessionUser -->
+    <!-- ==== Header View ==== -->
     <div style="height: 80px; background-color: white; border-bottom: solid 2px cadetblue">
-        <a href="#/Welcome" ><img src="Resource/books.jpg" alt="Home" style="height:78px; margin-left: 15px" /></a>
+        <a href="#/Welcome"><img src="Resource/books.jpg" alt="Home" style="height:78px; margin-left: 15px" /></a>
+        <div style="float: right; height: 48px; line-height: 48px; margin-top: 30px; position:relative">
+            <span style="font-size: 25px" data-bind="text: userFullName"></span>
+            <a href="#" style="margin: 0 2px 0 5px" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-user" style="font-size: 42px; border: solid"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="#" data-toggle="modal" data-target="#userProfile">View Profile</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#changePassword">Change Password</a></li>
+            </ul>
+        </div>
     </div>
+
+    <!-- ==== Navigation Bar ==== -->
     <nav id="navigationBar" style="float: left; width: 28%;">
         <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus">
             <li style="border-bottom: 1px solid gray"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>
         </ul>
     </nav>
+
+    <!-- ==== Content View / Main Screen ==== -->
     <section id="content" style="margin: 1%; padding: 2%; height: 100%; overflow-y: auto; text-align: top; background-color: white;">
         <!-- ko if: activePage -->
         <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
         <!-- /ko -->
     </section>
     <!-- /ko -->
+
+    <!-- User Profile Modal Dialog-->
+    <div data-bind="template: {name: 'hj-library-pages-modaldialogs-UserProfileView', data: hj.library.Application.instance}"></div>
+
+    <!-- Change Password Modal Dialog -->
+    <div data-bind="template: {name: 'hj-library-pages-modaldialogs-changePasswordView', data: hj.library.Application.instance}"></div>
 </body>
 </html>

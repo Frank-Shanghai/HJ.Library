@@ -22,7 +22,7 @@
                 .fail(this.onLogonFail);
         }
 
-        private handleLogonResponse(data: any) {
+        private handleLogonResponse = (data: any) => {
             this.token = data.access_token;
             this.tokenType = data.token_type;
             library.Application.instance.isAuthenticated(true);
@@ -32,6 +32,15 @@
                 }
             });
 
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/api/accounts/user/' + this.name()
+            }).done((data) => {
+                Application.instance.sessionUser(data);
+            }).fail((jqXhr: any, textStatus: any, err: any) => {
+                alert(err.message);
+            });
             //library.Application.instance.activePage(new pages.HomePageViewModel());
             library.Application.instance.sammyApp.run("#/Welcome");
         }

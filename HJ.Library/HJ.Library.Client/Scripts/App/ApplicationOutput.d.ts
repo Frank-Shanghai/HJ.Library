@@ -12,11 +12,16 @@ declare module hj.library {
         user: authentication.LogonViewModel;
         activePage: KnockoutObservable<pages.PageBase>;
         isAuthenticated: KnockoutObservable<boolean>;
+        sessionUser: KnockoutObservable<any>;
+        userFullName: KnockoutComputed<string>;
+        oldPassword: KnockoutObservable<string>;
+        newPassword: KnockoutObservable<string>;
+        confirmPassword: KnockoutObservable<string>;
         navigationMenus: Array<any>;
         sammyApp: Sammy.Application;
         constructor();
         private initializeRouters();
-        private updateActive;
+        private changePassword;
     }
 }
 declare module hj.library.authentication {
@@ -27,7 +32,7 @@ declare module hj.library.authentication {
         private tokenType;
         constructor();
         logon: () => void;
-        private handleLogonResponse(data);
+        private handleLogonResponse;
         private onLogonFail(jqXhr);
     }
 }
@@ -86,6 +91,10 @@ declare module hj.library.authentication {
 }
 declare module hj.library.pages {
     var HomePageViewId: string;
+}
+declare module hj.library.pages.modaldialogs {
+    var changePasswordViewId: string;
+    var UserProfileViewId: string;
 }
 declare module hj.library.pages.users {
     var EditUserViewId: string;
