@@ -145,6 +145,7 @@
     <TypeScriptCompile Include="Authentication\LogonViewModel.ts" />
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\MenuStateBinding.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />
     <TypeScriptCompile Include="Pages\Users\EditUserViewModel.ts" />

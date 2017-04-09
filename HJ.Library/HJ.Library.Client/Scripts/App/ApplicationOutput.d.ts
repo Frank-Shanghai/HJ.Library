@@ -46,6 +46,11 @@ declare module hj.library {
         update(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
     }
 }
+declare module hj.library {
+    class MenuStatusBinding implements KnockoutBindingHandler {
+        init(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
+    }
+}
 declare module hj.library.pages {
     class HomePageViewModel extends PageBase {
         constructor();

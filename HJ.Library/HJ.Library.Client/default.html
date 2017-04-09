@@ -40,8 +40,8 @@
 
     <!-- ==== Navigation Bar ==== -->
     <nav id="navigationBar" style="float: left; width: 28%;">
-        <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus">
-            <li style="border-bottom: 1px solid gray"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>
+        <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus, menuState: {}">
+            <li style="border-bottom: 1px solid gray" data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>
         </ul>
     </nav>
 

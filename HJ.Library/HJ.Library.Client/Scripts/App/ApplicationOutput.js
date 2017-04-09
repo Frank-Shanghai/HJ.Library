@@ -257,6 +257,27 @@ var hj;
         library.Bindings.registerCustomBinding("grid", new GridBinding());
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
+///<reference path="Bindings.ts" />
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var MenuStatusBinding = (function () {
+            function MenuStatusBinding() {
+            }
+            MenuStatusBinding.prototype.init = function (element, valueAccessor, allowBindingAccessor, viewModel, bindingContext) {
+                var ul = $(element);
+                ul.children("li").on("click", function () {
+                    $(this).siblings().removeClass("active");
+                    $(this).addClass("active");
+                });
+            };
+            return MenuStatusBinding;
+        }());
+        library.MenuStatusBinding = MenuStatusBinding;
+        library.Bindings.registerCustomBinding("menuState", new MenuStatusBinding());
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
 ///<reference path="PageBase.ts" />
 var hj;
 (function (hj) {
