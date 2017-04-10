@@ -22,6 +22,11 @@
                 .fail(this.onLogonFail);
         }
 
+        private reset = () => {
+            this.name('');
+            this.password('');
+        }
+
         private handleLogonResponse = (data: any) => {
             this.token = data.access_token;
             this.tokenType = data.token_type;

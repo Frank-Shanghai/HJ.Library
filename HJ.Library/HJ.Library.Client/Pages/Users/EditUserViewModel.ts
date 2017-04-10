@@ -84,6 +84,10 @@ module hj.library.pages {
                 alert(err.message);
             });
         }
+
+        private cancel = () => {
+            Application.instance.activePage(new UsersViewModel());
+        }
     }
 
 }

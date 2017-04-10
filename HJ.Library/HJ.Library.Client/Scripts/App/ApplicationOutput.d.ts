@@ -32,6 +32,7 @@ declare module hj.library.authentication {
         private tokenType;
         constructor();
         logon: () => void;
+        private reset;
         private handleLogonResponse;
         private onLogonFail(jqXhr);
     }
@@ -75,6 +76,7 @@ declare module hj.library.pages {
         private initialize(user);
         private createUser;
         private updateUser;
+        private cancel;
     }
 }
 declare module hj.library.pages {
