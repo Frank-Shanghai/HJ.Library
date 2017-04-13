@@ -11,8 +11,13 @@ using System.Web.Http;
 namespace HJ.Library.Controllers
 {
     [RoutePrefix("api/accounts")]
+    [Authorize]// Require authenticated requests
     public class AccountsController: BaseApiController
     {
+        //About roles
+        //[Authorize( Roles = "Enabled" )]
+        //[Authorize( Roles = "Editor,Admin" )] //内部是or 的关系，两个Authorize Attribute之间是与的关系
+
         [Authorize(Roles="Admin")]
         [Route("users")]
         public IHttpActionResult GetUsers()
@@ -76,7 +81,7 @@ namespace HJ.Library.Controllers
             return NotFound();
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CreatingUserDto userModel)
         {
@@ -109,7 +114,6 @@ namespace HJ.Library.Controllers
             return Created(locationHeader, TheModelFactory.Create(user));
         }
 
-        [Authorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordDto model)
         {

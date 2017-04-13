@@ -131,4 +131,5 @@ D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.Migrati
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.csproj.GenerateResource.Cache
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.dll
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.pdb
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.Migrations.AddBook.resources
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library\obj\Debug\HJ.Library.csprojResolveAssemblyReference.cache
