@@ -46,7 +46,8 @@
     </nav>
 
     <!-- ==== Content View / Main Screen ==== -->
-    <section id="content" style="margin: 1%; padding: 2%; height: 100%; overflow-y: auto; text-align: top; background-color: white;">
+    <section id="content" style="margin: 1%; padding: 2%; padding-top: 0; height: 100%; overflow-y: auto; text-align: top; background-color: white;">
+        <h2 data-bind="text: activePage().title"></h2>
         <!-- ko if: activePage -->
         <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
         <!-- /ko -->

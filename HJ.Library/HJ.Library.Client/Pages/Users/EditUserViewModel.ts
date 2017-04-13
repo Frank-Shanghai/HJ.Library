@@ -21,7 +21,7 @@ module hj.library.pages {
 
         constructor(user?: any) {
             super();
-            this.title('Edit User');
+            this.title('Create User');
             this.templateId = users.EditUserViewId;
             this.initialize(user);
         }
@@ -29,6 +29,7 @@ module hj.library.pages {
         private initialize(user: any) {
             if (user) {
                 this.isEditingMode(true);
+                this.title('Edit User');
 
                 $.ajax({
                     type: 'get',
