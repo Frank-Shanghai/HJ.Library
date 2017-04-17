@@ -1,15 +1,23 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+﻿<#
+//=================================================================================================
+//      Copyright HighJump Software Inc.
+//      All Rights Reserved.
+//
+//      For a complete copyright notice, see "HighJump Copyright.pdf" in the Dev folder.
+//=================================================================================================
+#>
+
+<#@ template language="C#" hostspecific="true" #>
 <#@ assembly name="System" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Web" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
 <#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text" #>
 <#@ import namespace="System.Web" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ output extension=".ts" #>
-
 <#
 
 var rootModuleName = "hj.library";
@@ -44,9 +52,9 @@ foreach (string file in Directory.EnumerateFiles(templatesDirectoryPath, "*View.
 
 	currentFolder.Views.Add(new View{
 		Name = templateFileName,
-		FullName = moduleName.Replace(".", "-") + "-" + templateFileName,
-		Content = templateFileContent,
-		IsComponentView = templateFileName.EndsWith("ComponentView", StringComparison.OrdinalIgnoreCase)
+		FullId = moduleName.Replace(".", "-") + "-" + templateFileName,
+		FullPropertyName = moduleName + "." + templateFileName,
+		Content = templateFileContent
 	});
 	
 }#>
@@ -70,12 +78,8 @@ public class ViewFolder:Dictionary<string,ViewFolder>{
 			builder.AppendFormat("module {0} {{", ModuleName).AppendLine();
 			foreach (var view in Views){
 				allViews.Add(view);
-				if ( view.IsComponentView ){
-					builder.AppendFormat("\texport var {0}:string = \"{1}\";", view.Name, view.Content).AppendLine();
-				}
-				else{
-					builder.AppendFormat("\texport var {0}Id:string = \"{1}\";", view.Name, view.FullName).AppendLine();
-				}
+				builder.AppendFormat("\texport var {0}:string = \"{1}\";", view.Name, view.Content).AppendLine();				
+				builder.AppendFormat("\texport var {0}Id:string = \"{1}\";", view.Name, view.FullId).AppendLine();
 			}
 			builder.AppendLine("}");
 		}
@@ -88,8 +92,8 @@ public class ViewFolder:Dictionary<string,ViewFolder>{
 		builder.AppendFormat("module {0}.views {{",ModuleName).AppendLine()
 			.AppendLine("\texport function register(){")
 			.AppendLine("\t\tvar bodyElement = $('body');");
-		foreach(var view in allViews.Where(v => !v.IsComponentView)){
-			builder.AppendFormat("\t\tbodyElement.append('<script type=\"text/html\" id=\"{0}\">{1}</script>');", view.FullName, view.Content).AppendLine();
+		foreach(var view in allViews){
+			builder.AppendFormat("\t\tbodyElement.append('<script type=\"text/html\" id=\"{0}\">' + {1} + '</script>');", view.FullId, view.FullPropertyName).AppendLine();
 		}
 		builder.AppendLine("\t}")
 			.AppendLine("}");
@@ -98,8 +102,8 @@ public class ViewFolder:Dictionary<string,ViewFolder>{
 
 public class View { 
 	public string Name;
-	public string FullName;
+	public string FullId;
+	public string FullPropertyName;
 	public string Content;
-	public bool IsComponentView;
 }
 #>

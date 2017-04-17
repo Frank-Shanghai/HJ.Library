@@ -89,6 +89,8 @@
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
+    <Content Include="Pages\Books\BookDetailsView.html" />
+    <Content Include="Pages\Books\BooksView.html" />
     <Content Include="Pages\HomePageView.html" />
     <Content Include="Pages\ModalDialogs\ChangePasswordView.html" />
     <Content Include="Pages\ModalDialogs\UserProfileView.html" />
@@ -108,6 +110,10 @@
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\knockout-kendo.js" />
     <Content Include="Scripts\knockout-kendo.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
     <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\underscore.js" />
@@ -146,6 +152,7 @@
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuStateBinding.ts" />
+    <TypeScriptCompile Include="Pages\Books\BooksViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />
     <TypeScriptCompile Include="Pages\Users\EditUserViewModel.ts" />
@@ -153,6 +160,7 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\tests\jasmine.extensions.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\sammyjs\sammyjs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="View.ts">

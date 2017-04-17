@@ -151,6 +151,10 @@
     <Compile Include="Migrations\201704130150373_AddBook.Designer.cs">
       <DependentUpon>201704130150373_AddBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704160213287_UpdateBook.cs" />
+    <Compile Include="Migrations\201704160213287_UpdateBook.Designer.cs">
+      <DependentUpon>201704160213287_UpdateBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChangePasswordDto.cs" />
     <Compile Include="Models\ModelFactory.cs" />
@@ -177,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704130150373_AddBook.resx">
       <DependentUpon>201704130150373_AddBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704160213287_UpdateBook.resx">
+      <DependentUpon>201704160213287_UpdateBook.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

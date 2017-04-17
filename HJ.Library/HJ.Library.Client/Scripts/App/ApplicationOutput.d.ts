@@ -53,6 +53,16 @@ declare module hj.library {
     }
 }
 declare module hj.library.pages {
+    class BooksViewModel extends PageBase {
+        gridOptions: KnockoutObservable<any>;
+        selectedBooks: KnockoutObservableArray<any>;
+        constructor();
+        private refreshSelection;
+        private detailFormatter;
+        private initialize();
+    }
+}
+declare module hj.library.pages {
     class HomePageViewModel extends PageBase {
         constructor();
     }
@@ -94,17 +104,29 @@ declare module hj.library.pages {
     }
 }
 declare module hj.library.authentication {
+    var LogonView: string;
     var LogonViewId: string;
 }
 declare module hj.library.pages {
+    var HomePageView: string;
     var HomePageViewId: string;
 }
+declare module hj.library.pages.books {
+    var BookDetailsView: string;
+    var BookDetailsViewId: string;
+    var BooksView: string;
+    var BooksViewId: string;
+}
 declare module hj.library.pages.modaldialogs {
+    var changePasswordView: string;
     var changePasswordViewId: string;
+    var UserProfileView: string;
     var UserProfileViewId: string;
 }
 declare module hj.library.pages.users {
+    var EditUserView: string;
     var EditUserViewId: string;
+    var UsersView: string;
     var UsersViewId: string;
 }
 declare module hj.library.views {

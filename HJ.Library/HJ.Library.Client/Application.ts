@@ -49,7 +49,7 @@ module hj.library {
             });
 
             this.sammyApp.get("#/Books", (context) => {
-                this.activePage(new pages.HomePageViewModel());
+                this.activePage(new pages.BooksViewModel());
             });
         }
 
