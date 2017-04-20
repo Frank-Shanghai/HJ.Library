@@ -43,6 +43,7 @@ namespace HJ.Library.Controllers
         // PUT: api/Books/5
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(void))]
+        [Route( "{id:guid}", Name = "UpdateBook" )]
         public async Task<IHttpActionResult> PutBook(Guid id, Book book)
         {
             if (!ModelState.IsValid)
@@ -87,6 +88,8 @@ namespace HJ.Library.Controllers
                 return BadRequest(ModelState);
             }
 
+            book.BookId = System.Guid.NewGuid();
+
             db.Books.Add(book);
 
             try
@@ -112,6 +115,7 @@ namespace HJ.Library.Controllers
         // DELETE: api/Books/5
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Book))]
+        [Route("{id:guid}", Name = "DeleteBook")]
         public async Task<IHttpActionResult> DeleteBook(Guid id)
         {
             Book book = await db.Books.FindAsync(id);

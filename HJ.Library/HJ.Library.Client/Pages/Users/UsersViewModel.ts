@@ -80,6 +80,7 @@ module hj.library.pages {
             //TODO: 
             // 1. Confirmation dialog
             // 2. Check if it has any books not returned or owned any books, handl these things first and then delete it
+            // 3. Remove multiple records at once
             $.ajax({
                 type: 'delete',
                 url: '/api/accounts/user/' + this.selectedUsers()[0].id

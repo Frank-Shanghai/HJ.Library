@@ -73,10 +73,13 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\bootstrap-1.1.0.css" />
+    <Content Include="Content\bootstrap-1.1.0.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\moment-datepicker\datepicker.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -89,8 +92,9 @@
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
-    <Content Include="Pages\Books\BookDetailsView.html" />
+    <Content Include="Pages\Books\BookDetailsTemplateView.html" />
     <Content Include="Pages\Books\BooksView.html" />
+    <Content Include="Pages\Books\EditBookView.html" />
     <Content Include="Pages\HomePageView.html" />
     <Content Include="Pages\ModalDialogs\ChangePasswordView.html" />
     <Content Include="Pages\ModalDialogs\UserProfileView.html" />
@@ -110,6 +114,9 @@
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\knockout-kendo.js" />
     <Content Include="Scripts\knockout-kendo.min.js" />
+    <Content Include="Scripts\moment-datepicker-ko.js" />
+    <Content Include="Scripts\moment-datepicker.js" />
+    <Content Include="Scripts\moment-datepicker.min.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -153,10 +160,12 @@
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuStateBinding.ts" />
     <TypeScriptCompile Include="Pages\Books\BooksViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Books\EditBookViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />
     <TypeScriptCompile Include="Pages\Users\EditUserViewModel.ts" />
     <TypeScriptCompile Include="Pages\Users\UsersViewModel.ts" />
+    <TypeScriptCompile Include="Scripts\moment-datepicker.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\tests\jasmine.extensions.d.ts" />

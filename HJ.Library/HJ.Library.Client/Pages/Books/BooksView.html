@@ -1,1 +1,12 @@
-﻿<table data-bind="grid: {options: gridOptions, selectionChanged: refreshSelection}"></table>
+﻿<div id="books-toolbar" style="margin: 10px 10px 10px 0">
+    <button id="books-add" class="btn btn-default" data-bind="click: add">
+        <i class="glyphicon glyphicon-plus"></i>Add
+    </button>
+    <button id="books-edit" class="btn btn-default" data-bind="click: edit, enable: selectedBooks().length === 1 ? true : false">
+        <i class="glyphicon glyphicon-edit" style="margin-right: 5px"></i>Edit
+    </button>
+    <button id="books-remove" class="btn btn-danger" data-bind="click: remove, enable: selectedBooks().length > 0 ? true : false">
+        <i class="glyphicon glyphicon-remove" style="margin-right: 5px"></i>Delete
+    </button>
+</div>
+<table data-bind="grid: {options: gridOptions, selectionChanged: refreshSelection}"></table>

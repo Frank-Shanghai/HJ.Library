@@ -17,7 +17,7 @@ module hj.library.pages {
         }
 
         private detailFormatter = (index, row, element: JQuery) => {
-            element.html(books.BookDetailsView);
+            element.html(books.BookDetailsTemplateView);
             ko.applyBindings(row, element.get(0));
         }
 
@@ -66,6 +66,33 @@ module hj.library.pages {
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
             });
+        }
+
+        private add = () => {
+            Application.instance.activePage(new EditBook());
+        }
+
+        private edit = (bookId: string) => {
+            Application.instance.activePage(new EditBook(this.selectedBooks()[0].bookId));
+        }
+
+        private remove = () => {
+            //TODO: 
+            // 1. Confirmation dialog
+            // 2. Check if it is borrowed by any users/readers, handle these things first and then delete it
+            // 3. Remove multiple records at once
+            $.ajax({
+                type: 'delete',
+                url: '/api/books/' + this.selectedBooks()[0].bookId
+            }).done((data: any, textStatus: any, jqXhr: JQueryXHR) => {
+                this.refresh();
+            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                alert(err.message);
+            });
+        }
+
+        private refresh = () => {
+            Application.instance.activePage(new BooksViewModel());
         }
     }
 }

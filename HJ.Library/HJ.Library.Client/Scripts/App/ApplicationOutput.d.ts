@@ -60,6 +60,30 @@ declare module hj.library.pages {
         private refreshSelection;
         private detailFormatter;
         private initialize();
+        private add;
+        private edit;
+        private remove;
+        private refresh;
+    }
+}
+declare module hj.library.pages {
+    class EditBook extends PageBase {
+        private bookId;
+        isEditingMode: KnockoutObservable<boolean>;
+        isbn: KnockoutObservable<string>;
+        bookTitle: KnockoutObservable<string>;
+        author: KnockoutObservable<string>;
+        publisher: KnockoutObservable<string>;
+        publicationDate: KnockoutObservable<Date>;
+        pages: KnockoutObservable<number>;
+        copies: KnockoutObservable<any>;
+        owner: KnockoutObservable<string>;
+        comment: KnockoutObservable<string>;
+        constructor(bookId?: string);
+        private initialize(bookId?);
+        private create;
+        private update;
+        private cancel;
     }
 }
 declare module hj.library.pages {
@@ -112,10 +136,12 @@ declare module hj.library.pages {
     var HomePageViewId: string;
 }
 declare module hj.library.pages.books {
-    var BookDetailsView: string;
-    var BookDetailsViewId: string;
+    var BookDetailsTemplateView: string;
+    var BookDetailsTemplateViewId: string;
     var BooksView: string;
     var BooksViewId: string;
+    var EditBookView: string;
+    var EditBookViewId: string;
 }
 declare module hj.library.pages.modaldialogs {
     var changePasswordView: string;

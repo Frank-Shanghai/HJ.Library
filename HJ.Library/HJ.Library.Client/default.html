@@ -6,13 +6,16 @@
 
     <script type="text/javascript" src="Scripts/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="Scripts/sammy-0.7.5.min.js"></script>
-    <script type="text/javascript" src="Scripts/underscore.min.js"></script>
-    <script type="text/javascript" src="Scripts/moment.js"></script>
-    <script type="text/javascript" src="Scripts/knockout-3.4.0.js"></script>
+    <script type="text/javascript" src="Scripts/underscore.min.js"></script>        
+    <script type="text/javascript" src="Scripts/knockout-3.4.0.js"></script>    
     <script type="text/javascript" src="Scripts/bootstrap.js"></script>
     <script type="text/javascript" src="Scripts/bootstrap-table/bootstrap-table.js"></script>
+    <script type="text/javascript" src="Scripts/moment.js"></script>
+    <script type="text/javascript" src="Scripts/moment-datepicker.js"></script>
+    <script type="text/javascript" src="Scripts/moment-datepicker-ko.js"></script>
     <link rel="stylesheet" href="Content/bootstrap.css" />
     <link rel="stylesheet" href="Scripts/bootstrap-table/bootstrap-table.css" />
+    <link rel="stylesheet" href="Content/moment-datepicker/datepicker.css" />
     <script type="text/javascript" src="Scripts/App/ApplicationOutput.js"></script> <!-- This js file is hidden by default. Click show all file to see it. -->
     <script type="text/javascript" src="Scripts/App/Startup.js"></script>
 </head>
@@ -50,7 +53,9 @@
     <section id="content" style="margin: 1%; padding: 2%; padding-top: 0; height: 100%; overflow-y: auto; text-align: top; background-color: white;">
         <h2 data-bind="text: activePage().title"></h2>
         <!-- ko if: activePage -->
-        <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
+        <div style="overflow: auto">
+            <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
+        </div>
         <!-- /ko -->
     </section>
     <!-- /ko -->
