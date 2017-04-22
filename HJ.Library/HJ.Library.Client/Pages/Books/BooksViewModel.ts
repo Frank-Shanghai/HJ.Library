@@ -80,11 +80,17 @@ module hj.library.pages {
             //TODO: 
             // 1. Confirmation dialog
             // 2. Check if it is borrowed by any users/readers, handle these things first and then delete it
-            // 3. Remove multiple records at once
-            $.ajax({
-                type: 'delete',
-                url: '/api/books/' + this.selectedBooks()[0].bookId
-            }).done((data: any, textStatus: any, jqXhr: JQueryXHR) => {
+            var promises = [];
+            for (var i = 0; i < this.selectedBooks().length; i++) {
+                var promise = $.ajax({
+                    type: 'delete',
+                    url: '/api/books/' + this.selectedBooks()[i].bookId
+                })
+
+                promises.push(promise);
+            }
+
+            $.when.apply($, promises).done((data) => {
                 this.refresh();
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);

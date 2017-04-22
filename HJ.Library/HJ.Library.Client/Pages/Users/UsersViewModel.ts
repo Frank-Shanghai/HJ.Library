@@ -80,13 +80,19 @@ module hj.library.pages {
             //TODO: 
             // 1. Confirmation dialog
             // 2. Check if it has any books not returned or owned any books, handl these things first and then delete it
-            // 3. Remove multiple records at once
-            $.ajax({
-                type: 'delete',
-                url: '/api/accounts/user/' + this.selectedUsers()[0].id
-            }).done(() => {
+            var promises = [];
+            for (var i = 0; i < this.selectedUsers().length; i++) {
+                var promise = $.ajax({
+                    type: 'delete',
+                    url: '/api/accounts/user/' + this.selectedUsers()[i].id
+                });
+
+                promises.push(promise);
+            }
+
+            $.when.apply($, promises).done(() => {
                 this.refresh();
-            }).fail((jqXhr: any, textStatus: any, err: any) => {
+            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);
             });
         }
