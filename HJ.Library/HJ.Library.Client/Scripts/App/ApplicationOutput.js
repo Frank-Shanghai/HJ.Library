@@ -33,7 +33,7 @@ var hj;
                 this.isAuthenticated = ko.observable(false);
                 this.sessionUser = ko.observable(null); // type return user
                 this.userFullName = ko.computed(function () {
-                    if (_this.sessionUser()) {
+                    if (this.sessionUser()) {
                         return _this.sessionUser().firstName + ' ' + _this.sessionUser().lastName;
                     }
                 });
@@ -119,11 +119,11 @@ var hj;
                             url: '/oauth/token',
                             data: {
                                 grant_type: 'password',
-                                username: _this.name(),
-                                password: _this.password()
+                                username: this.name(),
+                                password: this.password()
                             }
-                        }).done(_this.handleLogonResponse)
-                            .fail(_this.onLogonFail);
+                        }).done(this.handleLogonResponse)
+                            .fail(this.onLogonFail);
                     };
                     this.reset = function () {
                         _this.name('');
@@ -313,11 +313,15 @@ var hj;
                         //TODO: 
                         // 1. Confirmation dialog
                         // 2. Check if it is borrowed by any users/readers, handle these things first and then delete it
-                        // 3. Remove multiple records at once
-                        $.ajax({
-                            type: 'delete',
-                            url: '/api/books/' + _this.selectedBooks()[0].bookId
-                        }).done(function (data, textStatus, jqXhr) {
+                        var promises = [];
+                        for (var i = 0; i < _this.selectedBooks().length; i++) {
+                            var promise = $.ajax({
+                                type: 'delete',
+                                url: '/api/books/' + _this.selectedBooks()[i].bookId
+                            });
+                            promises.push(promise);
+                        }
+                        $.when.apply($, promises).done(function (data) {
                             _this.refresh();
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
@@ -633,11 +637,15 @@ var hj;
                         //TODO: 
                         // 1. Confirmation dialog
                         // 2. Check if it has any books not returned or owned any books, handl these things first and then delete it
-                        // 3. Remove multiple records at once
-                        $.ajax({
-                            type: 'delete',
-                            url: '/api/accounts/user/' + _this.selectedUsers()[0].id
-                        }).done(function () {
+                        var promises = [];
+                        for (var i = 0; i < _this.selectedUsers().length; i++) {
+                            var promise = $.ajax({
+                                type: 'delete',
+                                url: '/api/accounts/user/' + _this.selectedUsers()[i].id
+                            });
+                            promises.push(promise);
+                        }
+                        $.when.apply($, promises).done(function () {
                             _this.refresh();
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
