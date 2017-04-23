@@ -97,6 +97,7 @@
     <Content Include="Pages\Books\EditBookView.html" />
     <Content Include="Pages\HomePageView.html" />
     <Content Include="Pages\ModalDialogs\ChangePasswordView.html" />
+    <Content Include="Pages\ModalDialogs\InformationDialogView.html" />
     <Content Include="Pages\ModalDialogs\UserProfileView.html" />
     <Content Include="Pages\Users\EditUserView.html" />
     <Content Include="Pages\Users\UsersView.html" />

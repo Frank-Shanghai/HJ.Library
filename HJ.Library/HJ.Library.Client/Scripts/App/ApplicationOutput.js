@@ -33,7 +33,7 @@ var hj;
                 this.isAuthenticated = ko.observable(false);
                 this.sessionUser = ko.observable(null); // type return user
                 this.userFullName = ko.computed(function () {
-                    if (this.sessionUser()) {
+                    if (_this.sessionUser()) {
                         return _this.sessionUser().firstName + ' ' + _this.sessionUser().lastName;
                     }
                 });
@@ -119,11 +119,11 @@ var hj;
                             url: '/oauth/token',
                             data: {
                                 grant_type: 'password',
-                                username: this.name(),
-                                password: this.password()
+                                username: _this.name(),
+                                password: _this.password()
                             }
-                        }).done(this.handleLogonResponse)
-                            .fail(this.onLogonFail);
+                        }).done(_this.handleLogonResponse)
+                            .fail(_this.onLogonFail);
                     };
                     this.reset = function () {
                         _this.name('');
@@ -766,6 +766,8 @@ var hj;
             (function (modaldialogs) {
                 modaldialogs.changePasswordView = "\u003cdiv id=\"changePassword\" class=\"modal fade\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eChange Password\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- ko if: sessionUser--\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eOld Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"old password\" data-bind=\"value: oldPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eNew Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"new password\" data-bind=\"value: newPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eConfirm Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"confirm password\" data-bind=\"value: confirmPassword\" /\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- /ko --\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv style=\"float: right\"\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eClose\u003c/button\u003e\r\n                    \u003c!-- ko if: sessionUser --\u003e\r\n                    \u003cbutton class=\"btn btn-default\" style=\"margin-left: 10px\" data-bind=\"click: changePassword\"\u003eChange\u003c/button\u003e\r\n                    \u003c!-- /ko --\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
                 modaldialogs.changePasswordViewId = "hj-library-pages-modaldialogs-changePasswordView";
+                modaldialogs.InformationDialogView = "\u003cdiv style=\"z-index: 10; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba( 43, 83, 109, 0.75); display: flex; justify-content: center; align-items: center;\"\u003e\r\n    \u003cdiv style=\"width: 500px; height: 350px; background-color: white; padding: 0; border-radius: 3px; margin: 10px\"\u003e\r\n        \u003cdiv\u003eHeader\u003c/div\u003e\r\n        \u003cdiv\u003e\r\n            \u003cspan\u003eMessage header\u003c/span\u003e\r\n            \u003cdiv\u003eMessage content\u003c/div\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv\u003eFooter\u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
+                modaldialogs.InformationDialogViewId = "hj-library-pages-modaldialogs-InformationDialogView";
                 modaldialogs.UserProfileView = "\u003cdiv id=\"userProfile\" class=\"modal fade\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eUser Profile\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- ko if: sessionUser --\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eFirst Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().firstName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eLast Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().lastName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eLogon Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().userName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eEmail: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().email\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan style=\"font-weight: 700\"\u003eRoles: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: sessionUser().roles.toString()\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003c!-- /ko --\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv style=\"float: right\"\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eOK\u003c/button\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
                 modaldialogs.UserProfileViewId = "hj-library-pages-modaldialogs-UserProfileView";
             })(modaldialogs = pages.modaldialogs || (pages.modaldialogs = {}));
@@ -802,6 +804,7 @@ var hj;
                 bodyElement.append('<script type="text/html" id="hj-library-pages-books-BooksView">' + hj.library.pages.books.BooksView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-books-EditBookView">' + hj.library.pages.books.EditBookView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-modaldialogs-changePasswordView">' + hj.library.pages.modaldialogs.changePasswordView + '</script>');
+                bodyElement.append('<script type="text/html" id="hj-library-pages-modaldialogs-InformationDialogView">' + hj.library.pages.modaldialogs.InformationDialogView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-modaldialogs-UserProfileView">' + hj.library.pages.modaldialogs.UserProfileView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-EditUserView">' + hj.library.pages.users.EditUserView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-UsersView">' + hj.library.pages.users.UsersView + '</script>');
