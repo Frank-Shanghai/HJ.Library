@@ -1,12 +1,12 @@
-﻿<div id="users-toolbar" style="margin: 10px 10px 10px 0">
+﻿<div id="users-toolbar" class="grid-toolbar">
     <button id="users-add" class="btn btn-default" data-bind="click: add">
         <i class="glyphicon glyphicon-plus"></i>Add
     </button>
     <button id="users-edit" class="btn btn-default" data-bind="click: edit, enable: selectedUsers().length === 1 ? true : false">
-        <i class="glyphicon glyphicon-edit" style="margin-right: 5px"></i>Edit
+        <i class="glyphicon glyphicon-edit"></i>Edit
     </button>
     <button id="users-remove" class="btn btn-danger" data-bind="click: remove, enable: selectedUsers().length > 0 ? true : false">
-        <i class="glyphicon glyphicon-remove" style="margin-right: 5px"></i>Delete
+        <i class="glyphicon glyphicon-remove"></i>Delete
     </button>
 </div>
 <table id="users" data-bind="grid: {options: gridOptions, selectionChanged: refreshSelection}"></table>

@@ -6,8 +6,8 @@
 
     <script type="text/javascript" src="Scripts/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="Scripts/sammy-0.7.5.min.js"></script>
-    <script type="text/javascript" src="Scripts/underscore.min.js"></script>        
-    <script type="text/javascript" src="Scripts/knockout-3.4.0.js"></script>    
+    <script type="text/javascript" src="Scripts/underscore.min.js"></script>
+    <script type="text/javascript" src="Scripts/knockout-3.4.0.js"></script>
     <script type="text/javascript" src="Scripts/bootstrap.js"></script>
     <script type="text/javascript" src="Scripts/bootstrap-table/bootstrap-table.js"></script>
     <script type="text/javascript" src="Scripts/moment.js"></script>
@@ -18,22 +18,21 @@
     <link rel="stylesheet" href="Content/moment-datepicker/datepicker.css" />
     <script type="text/javascript" src="Scripts/App/ApplicationOutput.js"></script> <!-- This js file is hidden by default. Click show all file to see it. -->
     <script type="text/javascript" src="Scripts/App/Startup.js"></script>
+    <link rel="stylesheet" href="Style/app.css" />
 </head>
 <body>
     <!-- Logon Page -->
     <!-- ko ifnot: sessionUser -->
-    <div data-bind="template: {name: 'hj-library-authentication-LogonView', data: user}" style="padding: 20px"></div>
+    <div data-bind="template: {name: 'hj-library-authentication-LogonView', data: user}"></div>
     <!-- /ko -->
-
-    
     <!-- ko if: sessionUser -->
     <!-- ==== Header View ==== -->
-    <div style="height: 80px; background-color: white; border-bottom: solid 2px cadetblue">
-        <a href="#/Welcome"><img src="Resource/books.jpg" alt="Home" style="height:78px; margin-left: 15px" /></a>
-        <div style="float: right; height: 48px; line-height: 48px; margin-top: 30px; position:relative">
-            <span style="font-size: 25px" data-bind="text: userFullName"></span>
-            <a href="#" style="margin: 0 2px 0 5px" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-user" style="font-size: 42px; border: solid"></i>
+    <div class="app-header">
+        <a href="#/Welcome" class="logo"><img src="Resource/books.jpg" alt="Home" /></a>
+        <div class="account">
+            <span data-bind="text: userFullName"></span>
+            <a href="#" class="profile-icon dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-user"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="#" data-toggle="modal" data-target="#userProfile">View Profile</a></li>
@@ -43,17 +42,17 @@
     </div>
 
     <!-- ==== Navigation Bar ==== -->
-    <nav id="navigationBar" style="float: left; width: 28%;">
+    <nav id="navigationBar" class="app-navigation-bar">
         <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus, menuState: {}">
-            <li style="border-bottom: 1px solid gray" data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>
+            <li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>
         </ul>
     </nav>
 
     <!-- ==== Content View / Main Screen ==== -->
-    <section id="content" style="margin: 1%; padding: 2%; padding-top: 0; height: 100%; overflow-y: auto; text-align: top; background-color: white;">
+    <section id="content" class="app-main-screen">
         <h2 data-bind="text: activePage().title"></h2>
         <!-- ko if: activePage -->
-        <div style="overflow: auto">
+        <div class="active-page">
             <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
         </div>
         <!-- /ko -->
@@ -64,6 +63,6 @@
     <div data-bind="template: {name: 'hj-library-pages-modaldialogs-UserProfileView', data: hj.library.Application.instance}"></div>
 
     <!-- Change Password Modal Dialog -->
-    <div data-bind="template: {name: 'hj-library-pages-modaldialogs-changePasswordView', data: hj.library.Application.instance}"></div>
+    <div data-bind="template: {name: 'hj-library-pages-modaldialogs-ChangePasswordView', data: hj.library.Application.instance}"></div>
 </body>
 </html>

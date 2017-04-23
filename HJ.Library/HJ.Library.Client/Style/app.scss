@@ -1,2 +1,7 @@
-﻿body {
-}
+﻿@import "_base.scss";
+
+// Logon View
+@import "../Authentication/_logon.scss";
+
+// modal dialogs view
+@import "../Pages/ModalDialogs/_modal.scss";
