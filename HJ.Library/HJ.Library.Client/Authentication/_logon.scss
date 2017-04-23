@@ -1,0 +1,17 @@
+﻿.logon {
+    .header {
+        padding: 10px; 
+        text-align: center;
+
+        > span {
+            font-size: 30px;
+        }
+    }
+
+    .footer {
+        float: right;
+        > button {
+            margin: 0 10px 0 10px;
+        }
+    }
+}

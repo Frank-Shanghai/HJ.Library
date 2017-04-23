@@ -144,8 +144,8 @@ declare module hj.library.pages.books {
     var EditBookViewId: string;
 }
 declare module hj.library.pages.modaldialogs {
-    var changePasswordView: string;
-    var changePasswordViewId: string;
+    var ChangePasswordView: string;
+    var ChangePasswordViewId: string;
     var UserProfileView: string;
     var UserProfileViewId: string;
 }
