@@ -81,11 +81,61 @@
   justify-content: center;
   align-items: center; }
 
-.dialog-container {
+.dialog-container, .dialog-container-large {
   width: 500px;
   height: 350px;
   background-color: white;
   padding: 0;
   border-radius: 3px;
-  margin: 10px; }
+  margin: 10px;
+  position: relative; }
+
+.dialog-container-large {
+  width: 800px;
+  height: 500px; }
+
+.dialog-header {
+  border-bottom: solid #cccccc 1px;
+  margin: 20px 40px;
+  padding-bottom: 20px; }
+
+.dialog-page-title {
+  margin: 0;
+  font-size: 20px;
+  color: #0c2931; }
+
+.dialog-content {
+  position: absolute;
+  top: 89px;
+  left: 0;
+  right: 0;
+  bottom: 75px;
+  margin: 0 40px 0 40px;
+  overflow-y: auto; }
+
+.dialog-header-message {
+  font-weight: bold;
+  font-size: 17px;
+  padding: 0 0 10px 0;
+  text-align: left;
+  white-space: pre-wrap;
+  max-height: 100px; }
+
+.dialog-message {
+  color: #666666;
+  white-space: pre-wrap; }
+
+.dialog-footer {
+  padding: 20px 35px;
+  height: 75px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.dialog-button {
+  margin-left: 5px;
+  margin-right: 5px; }
+  .dialog-button button {
+    min-width: 105px; }
 
