@@ -91,6 +91,15 @@ declare module hj.library.pages {
         constructor();
     }
 }
+declare module hj.library.dialogs {
+    class ChangePasswordViewModel {
+        private oldPassword;
+        private newPassword;
+        private confirmPassword;
+        constructor();
+        private changePassword;
+    }
+}
 declare module hj.library.pages {
     class EditUserViewModel extends PageBase {
         private userId;
@@ -143,13 +152,13 @@ declare module hj.library.pages.books {
     var EditBookView: string;
     var EditBookViewId: string;
 }
-declare module hj.library.pages.modaldialogs {
-    var changePasswordView: string;
-    var changePasswordViewId: string;
+declare module hj.library.pages.dialogs {
+    var ChangePasswordDialogView: string;
+    var ChangePasswordDialogViewId: string;
     var InformationDialogView: string;
     var InformationDialogViewId: string;
-    var UserProfileView: string;
-    var UserProfileViewId: string;
+    var UserProfileDialogView: string;
+    var UserProfileDialogViewId: string;
 }
 declare module hj.library.pages.users {
     var EditUserView: string;

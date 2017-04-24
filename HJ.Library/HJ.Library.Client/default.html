@@ -57,12 +57,16 @@
         </div>
         <!-- /ko -->
     </section>
-    <!-- /ko -->
 
     <!-- User Profile Modal Dialog-->
-    <div data-bind="template: {name: 'hj-library-pages-modaldialogs-UserProfileView', data: hj.library.Application.instance}"></div>
+    <div data-bind="template: {name: 'hj-library-pages-dialogs-UserProfileDialogView', data: sessionUser}"></div>
 
     <!-- Change Password Modal Dialog -->
-    <div data-bind="template: {name: 'hj-library-pages-modaldialogs-ChangePasswordView', data: hj.library.Application.instance}"></div>
+    <div data-bind="template: {name: 'hj-library-pages-dialogs-ChangePasswordDialogView', data: hj.library.Application.instance}"></div>
+
+    <!-- Information Dialog -->
+    <div data-bind="template: {name: 'hj-library-pages-dialogs-InformationDialogView', data: hj.library.Application.instance}"></div>
+
+    <!-- /ko -->
 </body>
 </html>
