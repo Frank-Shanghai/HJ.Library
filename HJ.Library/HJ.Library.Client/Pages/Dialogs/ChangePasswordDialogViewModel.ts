@@ -22,6 +22,9 @@
                 })
             }).done(() => {
                 alert("Password changed sucessfully.");
+                this.oldPassword('');
+                this.newPassword('');
+                this.confirmPassword('');
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);
             });

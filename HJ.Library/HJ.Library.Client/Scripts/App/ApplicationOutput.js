@@ -29,6 +29,8 @@ var hj;
         var Application = (function () {
             function Application() {
                 var _this = this;
+                this.changePasswordDialog = new library.dialogs.ChangePasswordViewModel();
+                this.informationDialog = ko.observable(null);
                 this.activePage = ko.observable(null);
                 this.isAuthenticated = ko.observable(false);
                 this.sessionUser = ko.observable(null); // type return user
@@ -37,38 +39,12 @@ var hj;
                         return _this.sessionUser().firstName + ' ' + _this.sessionUser().lastName;
                     }
                 });
-                this.oldPassword = ko.observable('');
-                this.newPassword = ko.observable('');
-                this.confirmPassword = ko.observable('');
                 this.navigationMenus = [
                     { title: "Home", route: "#/Welcome", isActive: true },
                     { title: "Users", route: "#/Users", isActive: false },
                     { title: "Books", route: "#/Books", isActive: false }
                 ];
                 this.sammyApp = Sammy();
-                this.changePassword = function () {
-                    if (_this.newPassword() !== _this.confirmPassword()) {
-                        alert('The new password and confirm password should be identical.');
-                        return;
-                    }
-                    $.ajax({
-                        type: 'post',
-                        contentType: 'application/json',
-                        url: '/api/accounts/changepassword',
-                        data: JSON.stringify({
-                            OldPassword: _this.oldPassword(),
-                            NewPassword: _this.newPassword()
-                        })
-                    }).done(function () {
-                        $('div#changePassword').modal('hide');
-                        alert("Password changed sucessfully.");
-                        _this.oldPassword('');
-                        _this.newPassword('');
-                        _this.confirmPassword('');
-                    }).fail(function (jqXhr, textStatus, err) {
-                        alert(err.message);
-                    });
-                };
                 this.user = new library.authentication.LogonViewModel();
                 this.initializeRouters();
             }
@@ -159,6 +135,24 @@ var hj;
             }());
             authentication.LogonViewModel = LogonViewModel;
         })(authentication = library.authentication || (library.authentication = {}));
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var ComponentRegistry = (function () {
+            function ComponentRegistry() {
+            }
+            ComponentRegistry.register = function () {
+                // Register hj-information-dialog
+                ko.components.register("hj-information-dialog", {
+                    viewModel: library.dialogs.InformationDialogComponentViewModel, template: library.pages.dialogs.InformationDialogComponentView, synchronous: true
+                });
+            };
+            return ComponentRegistry;
+        }());
+        library.ComponentRegistry = ComponentRegistry;
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
 var hj;
@@ -282,6 +276,32 @@ var hj;
         library.Bindings.registerCustomBinding("menuState", new MenuStatusBinding());
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var InformationHandler = (function () {
+            function InformationHandler() {
+            }
+            /**
+            * Displays an information dialog
+            */
+            InformationHandler.report = function (dialogParameters) {
+                // TODO: Currently, the information dialog is only for application level, can refactored the code to allow the pages have their own information dialog
+                var originalCloseAction = dialogParameters.onClose;
+                dialogParameters.onClose = function () {
+                    if (originalCloseAction) {
+                        originalCloseAction();
+                    }
+                    library.Application.instance.informationDialog(null);
+                };
+                library.Application.instance.informationDialog(dialogParameters);
+            };
+            return InformationHandler;
+        }());
+        library.InformationHandler = InformationHandler;
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
 ///<reference path="../PageBase.ts" />
 var hj;
 (function (hj) {
@@ -311,21 +331,34 @@ var hj;
                     };
                     this.remove = function () {
                         //TODO: 
-                        // 1. Confirmation dialog
                         // 2. Check if it is borrowed by any users/readers, handle these things first and then delete it
-                        var promises = [];
-                        for (var i = 0; i < _this.selectedBooks().length; i++) {
-                            var promise = $.ajax({
-                                type: 'delete',
-                                url: '/api/books/' + _this.selectedBooks()[i].bookId
-                            });
-                            promises.push(promise);
-                        }
-                        $.when.apply($, promises).done(function (data) {
-                            _this.refresh();
-                        }).fail(function (jqXhr, textStatus, err) {
-                            alert(err.message);
+                        library.InformationHandler.report({
+                            title: "Delete",
+                            header: "Please Confirm",
+                            message: "Are you sure you want to delete the selected record(s)?",
+                            isOKButtonVisible: true,
+                            okButtonText: "Delete",
+                            isCancelButtonVisible: true,
+                            cancelButtonText: "Cancel",
+                            onConfirm: function () {
+                                removeHandler();
+                            }
                         });
+                        var removeHandler = function () {
+                            var promises = [];
+                            for (var i = 0; i < _this.selectedBooks().length; i++) {
+                                var promise = $.ajax({
+                                    type: 'delete',
+                                    url: '/api/books/' + _this.selectedBooks()[i].bookId
+                                });
+                                promises.push(promise);
+                            }
+                            $.when.apply($, promises).done(function (data) {
+                                _this.refresh();
+                            }).fail(function (jqXhr, textStatus, err) {
+                                alert(err.message);
+                            });
+                        };
                     };
                     this.refresh = function () {
                         library.Application.instance.activePage(new BooksViewModel());
@@ -495,6 +528,59 @@ var hj;
         })(pages = library.pages || (library.pages = {}));
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var dialogs;
+        (function (dialogs) {
+            var InformationDialogComponentViewModel = (function () {
+                function InformationDialogComponentViewModel(parameters) {
+                    var _this = this;
+                    this.confirmClick = function () {
+                        if (_this._onClose) {
+                            _this._onClose();
+                        }
+                        if (_this._onConfirm) {
+                            _this._onConfirm();
+                        }
+                    };
+                    this.cancelClick = function () {
+                        if (_this._onClose) {
+                            _this._onClose();
+                        }
+                        if (_this._onCancel) {
+                            _this._onCancel();
+                        }
+                    };
+                    parameters = ko.unwrap(parameters.context || parameters);
+                    this._title = parameters.title;
+                    this._header = parameters.header;
+                    this._message = parameters.message;
+                    this._okButtonText = parameters.okButtonText;
+                    this._cancelButtonText = parameters.cancelButtonText;
+                    this._onConfirm = parameters.onConfirm;
+                    this._onCancel = parameters.onCancel;
+                    this._onClose = parameters.onClose;
+                    if (parameters.isOKButtonVisible === true || parameters.isOKButtonVisible === false) {
+                        this._isOKButtonVisible = parameters.isOKButtonVisible;
+                    }
+                    else {
+                        this._isOKButtonVisible = true; // By default, OK button is visible.
+                    }
+                    if (parameters.isCancelButtonVisible === true || parameters.isCancelButtonVisible === false) {
+                        this._isCancelButtonVisible = parameters.isCancelButtonVisible;
+                    }
+                    else {
+                        this._isCancelButtonVisible = true; // By default, Cancel button is visible.
+                    }
+                }
+                return InformationDialogComponentViewModel;
+            }());
+            dialogs.InformationDialogComponentViewModel = InformationDialogComponentViewModel;
+        })(dialogs = library.dialogs || (library.dialogs = {}));
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
 ///<reference path="PageBase.ts" />
 var hj;
 (function (hj) {
@@ -542,6 +628,9 @@ var hj;
                             })
                         }).done(function () {
                             alert("Password changed sucessfully.");
+                            _this.oldPassword('');
+                            _this.newPassword('');
+                            _this.confirmPassword('');
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
                         });
@@ -673,21 +762,34 @@ var hj;
                     };
                     this.remove = function () {
                         //TODO: 
-                        // 1. Confirmation dialog
                         // 2. Check if it has any books not returned or owned any books, handl these things first and then delete it
-                        var promises = [];
-                        for (var i = 0; i < _this.selectedUsers().length; i++) {
-                            var promise = $.ajax({
-                                type: 'delete',
-                                url: '/api/accounts/user/' + _this.selectedUsers()[i].id
-                            });
-                            promises.push(promise);
-                        }
-                        $.when.apply($, promises).done(function () {
-                            _this.refresh();
-                        }).fail(function (jqXhr, textStatus, err) {
-                            alert(err.message);
+                        library.InformationHandler.report({
+                            title: "Delete",
+                            header: "Please Confirm",
+                            message: "Are you sure you want to delete the selected record(s)?",
+                            isOKButtonVisible: true,
+                            okButtonText: "Delete",
+                            isCancelButtonVisible: true,
+                            cancelButtonText: "Cancel",
+                            onConfirm: function () {
+                                removeHandler();
+                            }
                         });
+                        var removeHandler = function () {
+                            var promises = [];
+                            for (var i = 0; i < _this.selectedUsers().length; i++) {
+                                var promise = $.ajax({
+                                    type: 'delete',
+                                    url: '/api/accounts/user/' + _this.selectedUsers()[i].id
+                                });
+                                promises.push(promise);
+                            }
+                            $.when.apply($, promises).done(function () {
+                                _this.refresh();
+                            }).fail(function (jqXhr, textStatus, err) {
+                                alert(err.message);
+                            });
+                        };
                     };
                     this.refresh = function () {
                         library.Application.instance.activePage(new UsersViewModel());
@@ -802,10 +904,10 @@ var hj;
         (function (pages) {
             var dialogs;
             (function (dialogs) {
-                dialogs.ChangePasswordDialogView = "\u003cdiv id=\"changePassword\" class=\"modal fade change-password\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eChange Password\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eOld Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"old password\" data-bind=\"value: oldPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eNew Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"new password\" data-bind=\"value: newPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eConfirm Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"confirm password\" data-bind=\"value: confirmPassword\" /\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eClose\u003c/button\u003e\r\n                    \u003cbutton class=\"btn btn-default change-button\" data-bind=\"click: changePassword\"\u003eChange\u003c/button\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
+                dialogs.ChangePasswordDialogView = "\u003cdiv id=\"changePassword\" class=\"modal fade change-password\" data-backdrop=\"static\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eChange Password\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eOld Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"old password\" data-bind=\"value: oldPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eNew Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"new password\" data-bind=\"value: newPassword\" /\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"form-group\"\u003e\r\n                    \u003clabel\u003eConfirm Password\u003c/label\u003e\r\n                    \u003cinput class=\"form-control\" type=\"password\" placeholder=\"confirm password\" data-bind=\"value: confirmPassword\" /\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eClose\u003c/button\u003e\r\n                    \u003cbutton class=\"btn btn-default change-button\" data-dismiss=\"modal\" data-bind=\"click: changePassword\"\u003eChange\u003c/button\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
                 dialogs.ChangePasswordDialogViewId = "hj-library-pages-dialogs-ChangePasswordDialogView";
-                dialogs.InformationDialogView = "\u003cdiv class=\"dialog-overlay-layer\"\u003e\r\n    \u003cdiv class=\"dialog-container\"\u003e\r\n        \u003cdiv class=\"dialog-header\"\u003e\r\n            \u003cspan class=\"dialog-page-title\"\u003eHeader\u003c/span\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv class=\"dialog-content\"\u003e\r\n            \u003cspan class=\"dialog-header-message\"\u003eMessage header\u003c/span\u003e\r\n            \u003cdiv class=\"dialog-message\"\u003eMessage content n the description part, it said \"Add an option that can be configured in the Workspace\", so, does that mean the configuration stuff should be implemented in the Silverlight Workspace? If so, is it part of this story, or that should be another story because it\u0027s Silverlight Workspace stuff?\r\nOr, does it mean we need to add the configuration UI to the HJ1 Platform? If so, what should this configuration UI look like?\r\nThe UI to render the logo is simple,n the description part, it said \"Add an option that can be configured in the Workspace\", so, does that mean the configuration stuff should be implemented in the Silverlight Workspace? If so, is it part of this story, or that should be another story because it\u0027s Silverlight Workspace stuff?\r\nOr, does it mean we need to add the configuration UI to the HJ1 Platform? If so, what should this configuration UI look like?\r\nThe UI to render the logo is simple, which looks like: which looks like:\u003c/div\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv class=\"dialog-footer\"\u003e\r\n            \u003cbutton class=\"btn btn-default\"\u003eOK\u003c/button\u003e\r\n            \u003cbutton class=\"btn btn-default\"\u003eCancel\u003c/button\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
-                dialogs.InformationDialogViewId = "hj-library-pages-dialogs-InformationDialogView";
+                dialogs.InformationDialogComponentView = "\u003cdiv class=\"dialog-overlay-layer\"\u003e\r\n    \u003cdiv class=\"dialog-container\"\u003e\r\n        \u003cdiv class=\"dialog-header\"\u003e\r\n            \u003cspan class=\"dialog-page-title\" data-bind=\"text: _title\"\u003e\u003c/span\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv class=\"dialog-content\"\u003e\r\n            \u003cspan class=\"dialog-header-message\" data-bind=\"text: _header\"\u003e\u003c/span\u003e\r\n            \u003cdiv class=\"dialog-message\" data-bind=\"text: _message\"\u003e\u003c/div\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv class=\"dialog-footer\"\u003e\r\n            \u003c!-- ko if: _isOKButtonVisible --\u003e\r\n            \u003cbutton class=\"btn btn-default\" data-bind=\"text: _okButtonText, click: confirmClick\"\u003e\u003c/button\u003e\r\n            \u003c!-- /ko --\u003e\r\n            \u003c!-- ko if: _isCancelButtonVisible --\u003e\r\n            \u003cbutton class=\"btn btn-default\" data-bind=\"text: _cancelButtonText, click: cancelClick\"\u003e\u003c/button\u003e\r\n            \u003c!-- /ko --\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
+                dialogs.InformationDialogComponentViewId = "hj-library-pages-dialogs-InformationDialogComponentView";
                 dialogs.UserProfileDialogView = "\u003cdiv id=\"userProfile\" class=\"modal fade user-profile\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eUser Profile\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eFirst Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: firstName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eLast Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: lastName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eLogon Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: userName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eEmail: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: email\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eRoles: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: roles.toString()\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eOK\u003c/button\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
                 dialogs.UserProfileDialogViewId = "hj-library-pages-dialogs-UserProfileDialogView";
             })(dialogs = pages.dialogs || (pages.dialogs = {}));
@@ -820,7 +922,7 @@ var hj;
         (function (pages) {
             var users;
             (function (users) {
-                users.EditUserView = "\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eEmail\u003c/label\u003e\r\n    \u003cinput type=\"email\" class=\"form-control\" placeholder=\"email address\" data-bind=\"value: email, enable: !isEditingMode()\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eLogin Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Login Name\" data-bind=\"value: userName, enable: !isEditingMode()\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eFirst Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"First Name\" data-bind=\"value: firstName\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eLast Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Last Name\" data-bind=\"value: lastName\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eRoles\u003c/label\u003e\r\n    \u003cdiv class=\"panel panel-default\"\u003e\r\n        \u003cdiv class=\"panel-body\"\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"User\" data-bind=\"checked: selectedRoles\" /\u003eUser\u003c/label\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"Admin\" data-bind=\"checked: selectedRoles\" /\u003eAdmin\u003c/label\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"SuperAdmin\" data-bind=\"checked: selectedRoles\" /\u003eSuperAdmin\u003c/label\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\" data-bind=\"visible: !isEditingMode()\"\u003e\r\n    \u003clabel\u003ePassword\u003c/label\u003e\r\n    \u003cinput type=\"text\"class=\"form-control\" placeholder=\"Password\" data-bind=\"value: password\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\" data-bind=\"visible: !isEditingMode()\"\u003e\r\n    \u003clabel\u003eConfirm Password\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Confirm Password\" data-bind=\"value: confirmPassword\" /\u003e\r\n\u003c/div\u003e\r\n\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: createUser, visible: !isEditingMode()\"\u003eCreate\u003c/button\u003e\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: updateUser, visible: isEditingMode\"\u003eSave\u003c/button\u003e\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: cancel\"\u003eCancel\u003c/button\u003e";
+                users.EditUserView = "\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eEmail\u003c/label\u003e\r\n    \u003cinput type=\"email\" class=\"form-control\" placeholder=\"email address\" data-bind=\"value: email, enable: !isEditingMode()\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eLogin Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Login Name\" data-bind=\"value: userName, enable: !isEditingMode()\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eFirst Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"First Name\" data-bind=\"value: firstName\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eLast Name\u003c/label\u003e\r\n    \u003cinput type=\"text\" class=\"form-control\" placeholder=\"Last Name\" data-bind=\"value: lastName\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\"\u003e\r\n    \u003clabel\u003eRoles\u003c/label\u003e\r\n    \u003cdiv class=\"panel panel-default\"\u003e\r\n        \u003cdiv class=\"panel-body\"\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"User\" data-bind=\"checked: selectedRoles\" /\u003eUser\u003c/label\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"Admin\" data-bind=\"checked: selectedRoles\" /\u003eAdmin\u003c/label\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"checkbox\"\u003e\r\n                \u003clabel\u003e\u003cinput type=\"checkbox\" value=\"SuperAdmin\" data-bind=\"checked: selectedRoles\" /\u003eSuperAdmin\u003c/label\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n\u003c!-- TODO: Add the option to use default password --\u003e\r\n\u003cdiv class=\"form-group\" data-bind=\"visible: !isEditingMode()\"\u003e\r\n    \u003clabel\u003ePassword\u003c/label\u003e\r\n    \u003cinput type=\"password\"class=\"form-control\" placeholder=\"Password\" data-bind=\"value: password\" /\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"form-group\" data-bind=\"visible: !isEditingMode()\"\u003e\r\n    \u003clabel\u003eConfirm Password\u003c/label\u003e\r\n    \u003cinput type=\"password\" class=\"form-control\" placeholder=\"Confirm Password\" data-bind=\"value: confirmPassword\" /\u003e\r\n\u003c/div\u003e\r\n\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: createUser, visible: !isEditingMode()\"\u003eCreate\u003c/button\u003e\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: updateUser, visible: isEditingMode\"\u003eSave\u003c/button\u003e\r\n\u003cbutton class=\"btn btn-default\" data-bind=\"click: cancel\"\u003eCancel\u003c/button\u003e";
                 users.EditUserViewId = "hj-library-pages-users-EditUserView";
                 users.UsersView = "\u003cdiv id=\"users-toolbar\" class=\"grid-toolbar\"\u003e\r\n    \u003cbutton id=\"users-add\" class=\"btn btn-default\" data-bind=\"click: add\"\u003e\r\n        \u003ci class=\"glyphicon glyphicon-plus\"\u003e\u003c/i\u003eAdd\r\n    \u003c/button\u003e\r\n    \u003cbutton id=\"users-edit\" class=\"btn btn-default\" data-bind=\"click: edit, enable: selectedUsers().length === 1 ? true : false\"\u003e\r\n        \u003ci class=\"glyphicon glyphicon-edit\"\u003e\u003c/i\u003eEdit\r\n    \u003c/button\u003e\r\n    \u003cbutton id=\"users-remove\" class=\"btn btn-danger\" data-bind=\"click: remove, enable: selectedUsers().length \u003e 0 ? true : false\"\u003e\r\n        \u003ci class=\"glyphicon glyphicon-remove\"\u003e\u003c/i\u003eDelete\r\n    \u003c/button\u003e\r\n\u003c/div\u003e\r\n\u003ctable id=\"users\" data-bind=\"grid: {options: gridOptions, selectionChanged: refreshSelection}\"\u003e\u003c/table\u003e\r\n";
                 users.UsersViewId = "hj-library-pages-users-UsersView";
@@ -842,7 +944,7 @@ var hj;
                 bodyElement.append('<script type="text/html" id="hj-library-pages-books-BooksView">' + hj.library.pages.books.BooksView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-books-EditBookView">' + hj.library.pages.books.EditBookView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-ChangePasswordDialogView">' + hj.library.pages.dialogs.ChangePasswordDialogView + '</script>');
-                bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-InformationDialogView">' + hj.library.pages.dialogs.InformationDialogView + '</script>');
+                bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-InformationDialogComponentView">' + hj.library.pages.dialogs.InformationDialogComponentView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-UserProfileDialogView">' + hj.library.pages.dialogs.UserProfileDialogView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-EditUserView">' + hj.library.pages.users.EditUserView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-UsersView">' + hj.library.pages.users.UsersView + '</script>');

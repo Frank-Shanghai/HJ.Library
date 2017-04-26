@@ -10,18 +10,16 @@ declare module hj.library {
         private static _instance;
         static instance: Application;
         user: authentication.LogonViewModel;
+        changePasswordDialog: dialogs.ChangePasswordViewModel;
+        informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters>;
         activePage: KnockoutObservable<pages.PageBase>;
         isAuthenticated: KnockoutObservable<boolean>;
         sessionUser: KnockoutObservable<any>;
         userFullName: KnockoutComputed<string>;
-        oldPassword: KnockoutObservable<string>;
-        newPassword: KnockoutObservable<string>;
-        confirmPassword: KnockoutObservable<string>;
         navigationMenus: Array<any>;
         sammyApp: Sammy.Application;
         constructor();
         private initializeRouters();
-        private changePassword;
     }
 }
 declare module hj.library.authentication {
@@ -38,6 +36,11 @@ declare module hj.library.authentication {
     }
 }
 declare module hj.library {
+    class ComponentRegistry {
+        static register(): void;
+    }
+}
+declare module hj.library {
     class Bindings {
         static registerCustomBinding(name: string, binding: KnockoutBindingHandler, allowVirtualElements?: boolean): void;
     }
@@ -50,6 +53,14 @@ declare module hj.library {
 declare module hj.library {
     class MenuStatusBinding implements KnockoutBindingHandler {
         init(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
+    }
+}
+declare module hj.library {
+    class InformationHandler {
+        /**
+        * Displays an information dialog
+        */
+        static report(dialogParameters: dialogs.IInformationDialogComponentParameters): void;
     }
 }
 declare module hj.library.pages {
@@ -84,6 +95,38 @@ declare module hj.library.pages {
         private create;
         private update;
         private cancel;
+    }
+}
+declare module hj.library.dialogs {
+    interface IInformationDialogComponentParameters {
+        context?: IInformationDialogComponentParameters;
+        title: string | KnockoutObservable<string>;
+        header: string | KnockoutObservable<string>;
+        message: string | KnockoutObservable<string>;
+        okButtonText: string | KnockoutObservable<string>;
+        cancelButtonText: string | KnockoutObservable<string>;
+        onConfirm?: () => void;
+        onCancel?: () => void;
+        onClose?: () => void;
+        isOKButtonVisible?: boolean | KnockoutObservable<boolean>;
+        isCancelButtonVisible?: boolean | KnockoutObservable<boolean>;
+    }
+}
+declare module hj.library.dialogs {
+    class InformationDialogComponentViewModel {
+        private _title;
+        private _header;
+        private _message;
+        private _okButtonText;
+        private _cancelButtonText;
+        private _onConfirm;
+        private _onCancel;
+        private _onClose;
+        private _isOKButtonVisible;
+        private _isCancelButtonVisible;
+        constructor(parameters: IInformationDialogComponentParameters);
+        confirmClick: () => void;
+        cancelClick: () => void;
     }
 }
 declare module hj.library.pages {
@@ -155,8 +198,8 @@ declare module hj.library.pages.books {
 declare module hj.library.pages.dialogs {
     var ChangePasswordDialogView: string;
     var ChangePasswordDialogViewId: string;
-    var InformationDialogView: string;
-    var InformationDialogViewId: string;
+    var InformationDialogComponentView: string;
+    var InformationDialogComponentViewId: string;
     var UserProfileDialogView: string;
     var UserProfileDialogViewId: string;
 }

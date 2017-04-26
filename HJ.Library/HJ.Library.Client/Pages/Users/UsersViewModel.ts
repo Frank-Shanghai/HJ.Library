@@ -78,23 +78,37 @@ module hj.library.pages {
 
         private remove = () => {
             //TODO: 
-            // 1. Confirmation dialog
             // 2. Check if it has any books not returned or owned any books, handl these things first and then delete it
-            var promises = [];
-            for (var i = 0; i < this.selectedUsers().length; i++) {
-                var promise = $.ajax({
-                    type: 'delete',
-                    url: '/api/accounts/user/' + this.selectedUsers()[i].id
-                });
-
-                promises.push(promise);
-            }
-
-            $.when.apply($, promises).done(() => {
-                this.refresh();
-            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                alert(err.message);
+            InformationHandler.report({
+                title: "Delete",
+                header: "Please Confirm",
+                message: "Are you sure you want to delete the selected record(s)?",
+                isOKButtonVisible: true,
+                okButtonText: "Delete",
+                isCancelButtonVisible: true,
+                cancelButtonText: "Cancel",
+                onConfirm: () => {
+                    removeHandler();
+                }
             });
+
+            var removeHandler = () => {
+                var promises = [];
+                for (var i = 0; i < this.selectedUsers().length; i++) {
+                    var promise = $.ajax({
+                        type: 'delete',
+                        url: '/api/accounts/user/' + this.selectedUsers()[i].id
+                    });
+
+                    promises.push(promise);
+                }
+
+                $.when.apply($, promises).done(() => {
+                    this.refresh();
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    alert(err.message);
+                });
+            }
         }
 
         private refresh = () => {
