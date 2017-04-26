@@ -1,0 +1,19 @@
+﻿<div class="dialog-overlay-layer">
+    <div class="dialog-container">
+        <div class="dialog-header">
+            <span class="dialog-page-title" data-bind="text: _title"></span>
+        </div>
+        <div class="dialog-content">
+            <span class="dialog-header-message" data-bind="text: _header"></span>
+            <div class="dialog-message" data-bind="text: _message"></div>
+        </div>
+        <div class="dialog-footer">
+            <!-- ko if: _isOKButtonVisible -->
+            <button class="btn btn-default" data-bind="text: _okButtonText, click: confirmClick"></button>
+            <!-- /ko -->
+            <!-- ko if: _isCancelButtonVisible -->
+            <button class="btn btn-default" data-bind="text: _cancelButtonText, click: cancelClick"></button>
+            <!-- /ko -->
+        </div>
+    </div>
+</div>

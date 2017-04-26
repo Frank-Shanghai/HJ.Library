@@ -1,35 +1,32 @@
-﻿<div id="userProfile" class="modal fade user-profile">
+﻿<div id="userProfile" class="modal fade user-profile" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title">User Profile</h3>
             </div>
-            <!-- Timming issue here, until the sessionUser is not null, apply the bindings -->
-            <!-- ko if: sessionUser -->
             <div class="modal-body">
                 <div>
                     <span class="field-name">First Name: </span>
-                    <span data-bind="text: sessionUser().firstName"></span>
+                    <span data-bind="text: firstName"></span>
                 </div>
                 <div>
                     <span class="field-name">Last Name: </span>
-                    <span data-bind="text: sessionUser().lastName"></span>
+                    <span data-bind="text: lastName"></span>
                 </div>
                 <div>
                     <span class="field-name">Logon Name: </span>
-                    <span data-bind="text: sessionUser().userName"></span>
+                    <span data-bind="text: userName"></span>
                 </div>
                 <div>
                     <span class="field-name">Email: </span>
-                    <span data-bind="text: sessionUser().email"></span>
+                    <span data-bind="text: email"></span>
                 </div>
                 <div>
                     <span class="field-name">Roles: </span>
-                    <span data-bind="text: sessionUser().roles.toString()"></span>
+                    <span data-bind="text: roles.toString()"></span>
                 </div>
             </div>
-            <!-- /ko -->
             <div class="modal-footer">
                 <div>
                     <button class="btn btn-default" data-dismiss="modal">OK</button>

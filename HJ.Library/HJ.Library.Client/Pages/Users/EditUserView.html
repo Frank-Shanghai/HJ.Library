@@ -30,13 +30,14 @@
         </div>
     </div>
 </div>
+<!-- TODO: Add the option to use default password -->
 <div class="form-group" data-bind="visible: !isEditingMode()">
     <label>Password</label>
-    <input type="text"class="form-control" placeholder="Password" data-bind="value: password" />
+    <input type="password"class="form-control" placeholder="Password" data-bind="value: password" />
 </div>
 <div class="form-group" data-bind="visible: !isEditingMode()">
     <label>Confirm Password</label>
-    <input type="text" class="form-control" placeholder="Confirm Password" data-bind="value: confirmPassword" />
+    <input type="password" class="form-control" placeholder="Confirm Password" data-bind="value: confirmPassword" />
 </div>
 
 <button class="btn btn-default" data-bind="click: createUser, visible: !isEditingMode()">Create</button>

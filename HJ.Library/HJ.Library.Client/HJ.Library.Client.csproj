@@ -90,7 +90,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Pages\ModalDialogs\_modal.scss" />
+    <Content Include="Pages\Dialogs\_dialog.scss" />
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
@@ -98,8 +98,9 @@
     <Content Include="Pages\Books\BooksView.html" />
     <Content Include="Pages\Books\EditBookView.html" />
     <Content Include="Pages\HomePageView.html" />
-    <Content Include="Pages\ModalDialogs\ChangePasswordView.html" />
-    <Content Include="Pages\ModalDialogs\UserProfileView.html" />
+    <Content Include="Pages\Dialogs\ChangePasswordDialogView.html" />
+    <Content Include="Pages\Dialogs\InformationDialogComponentView.html" />
+    <Content Include="Pages\Dialogs\UserProfileDialogView.html" />
     <Content Include="Pages\Users\EditUserView.html" />
     <Content Include="Pages\Users\UsersView.html" />
     <Content Include="Resource\books.jpg" />
@@ -159,12 +160,17 @@
   <ItemGroup>
     <TypeScriptCompile Include="Application.ts" />
     <TypeScriptCompile Include="Authentication\LogonViewModel.ts" />
+    <TypeScriptCompile Include="ComponentRegistry.ts" />
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuStateBinding.ts" />
+    <TypeScriptCompile Include="InformationHandler.ts" />
     <TypeScriptCompile Include="Pages\Books\BooksViewModel.ts" />
     <TypeScriptCompile Include="Pages\Books\EditBookViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Dialogs\IInformationDialogComponentParameters.ts" />
+    <TypeScriptCompile Include="Pages\Dialogs\InformationDialogComponentViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Dialogs\ChangePasswordDialogViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />
     <TypeScriptCompile Include="Pages\Users\EditUserViewModel.ts" />
     <TypeScriptCompile Include="Pages\Users\UsersViewModel.ts" />

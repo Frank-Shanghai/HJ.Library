@@ -13,6 +13,8 @@ module hj.library {
         }
 
         public user: authentication.LogonViewModel;
+        public changePasswordDialog: dialogs.ChangePasswordViewModel = new dialogs.ChangePasswordViewModel();
+        public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
         public activePage: KnockoutObservable<pages.PageBase> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
         public sessionUser = ko.observable(null); // type return user
@@ -21,10 +23,6 @@ module hj.library {
                 return this.sessionUser().firstName + ' ' + this.sessionUser().lastName;
             }
         });
-
-        public oldPassword = ko.observable('');
-        public newPassword = ko.observable('');
-        public confirmPassword = ko.observable('');
 
         public navigationMenus: Array<any> = [
             { title: "Home", route: "#/Welcome", isActive: true },
@@ -50,31 +48,6 @@ module hj.library {
 
             this.sammyApp.get("#/Books", (context) => {
                 this.activePage(new pages.BooksViewModel());
-            });
-        }
-
-        private changePassword = () => {
-            if (this.newPassword() !== this.confirmPassword()) {
-                alert('The new password and confirm password should be identical.');
-                return;
-            }
-
-            $.ajax({
-                type: 'post',
-                contentType: 'application/json',
-                url: '/api/accounts/changepassword',
-                data: JSON.stringify({
-                    OldPassword: this.oldPassword(),
-                    NewPassword: this.newPassword()
-                })
-            }).done(() => {
-                (<any>$('div#changePassword')).modal('hide');
-                alert("Password changed sucessfully.");
-                this.oldPassword('');
-                this.newPassword('');
-                this.confirmPassword('');
-            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                alert(err.message);
             });
         }
     }
