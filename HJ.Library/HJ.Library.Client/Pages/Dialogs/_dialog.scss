@@ -100,4 +100,11 @@ $dialog-height-large: 500px;
     }
 }
 
+.progress-bar-dialog {
+    width: 30%;
+    .progress-bar {
+        width: 100%;
+    }
+}
+
 

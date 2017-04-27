@@ -139,3 +139,8 @@
   .dialog-button button {
     min-width: 105px; }
 
+.progress-bar-dialog {
+  width: 30%; }
+  .progress-bar-dialog .progress-bar {
+    width: 100%; }
+

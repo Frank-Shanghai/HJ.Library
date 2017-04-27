@@ -1,0 +1,3 @@
+﻿1. About Progress Bar
+If you want to display the progress bar only when the operation takes longer than 500ms(0.5 second). Use showProgressingIndicator and hideProgressingIndicator function, inside of the function,
+update the count. And use setTimeout to call showProgressingIndicator after 500ms, or add count after 500ms in the showProgressIndictor (seems better) function.

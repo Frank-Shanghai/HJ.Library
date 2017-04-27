@@ -31,6 +31,7 @@ module hj.library.pages {
                 this.isEditingMode(true);
                 this.title('Edit User');
 
+                this.isProcessing(true);
                 $.ajax({
                     type: 'get',
                     accepts: "application/json",
@@ -42,12 +43,15 @@ module hj.library.pages {
                     this.firstName(user.firstName);
                     this.lastName(user.lastName);
                     this.selectedRoles(user.roles);
-                })
-                    .fail(() => { });
+                }).fail(() => {
+                }).always(() => {
+                    this.isProcessing(false);
+                });
             }
         }
 
         private createUser = () => {
+            this.isProcessing(true);
             $.ajax({
                 type: 'post',
                 contentType: 'application/json',
@@ -65,10 +69,13 @@ module hj.library.pages {
                 Application.instance.activePage(new UsersViewModel());
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
+            }).always(() => {
+                this.isProcessing(false);
             });
         }
 
         private updateUser = () => {
+            this.isProcessing(true);
             $.ajax({
                 type: 'put',
                 contentType: 'application/json',
@@ -83,6 +90,8 @@ module hj.library.pages {
                 Application.instance.activePage(new UsersViewModel());
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
+            }).always(() => {
+                this.isProcessing(false);
             });
         }
 

@@ -13,6 +13,7 @@ module hj.library.pages {
         }
 
         private initialize() {
+            this.isProcessing(true);
             $.ajax({
                 type: 'get',
                 accepts: "application/json",
@@ -61,7 +62,10 @@ module hj.library.pages {
                     clickToSelect: true
                 });
             })
-                .fail(() => { });
+                .fail(() => { })
+                .always(() => {
+                    this.isProcessing(false);
+                });
         }
 
         private refreshSelection = (selectedRows: any) => {
@@ -93,6 +97,7 @@ module hj.library.pages {
             });
 
             var removeHandler = () => {
+                this.isProcessing(true);
                 var promises = [];
                 for (var i = 0; i < this.selectedUsers().length; i++) {
                     var promise = $.ajax({
@@ -107,6 +112,8 @@ module hj.library.pages {
                     this.refresh();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                     alert(err.message);
+                }).always(() => {
+                    this.isProcessing(false);
                 });
             }
         }
