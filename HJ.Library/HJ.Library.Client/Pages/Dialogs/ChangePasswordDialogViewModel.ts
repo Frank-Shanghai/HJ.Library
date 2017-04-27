@@ -12,6 +12,7 @@
                 return;
             }
 
+            Application.instance.isProcessing(true);
             $.ajax({
                 type: 'post',
                 contentType: 'application/json',
@@ -27,6 +28,8 @@
                 this.confirmPassword('');
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);
+            }).always(() => {
+                Application.instance.isProcessing(false);
             });
         }
     }

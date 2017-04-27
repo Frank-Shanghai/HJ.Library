@@ -22,6 +22,8 @@
             if (bookId) {
                 this.isEditingMode(true);
                 this.title('Edit Book');
+
+                this.isProcessing(true);
                 $.ajax({
                     type: 'get',
                     accepts: 'application/json',
@@ -38,6 +40,8 @@
                     this.comment(book.comment);
                 }).fail((jqXHR: JQueryXHR, textStatus: any, err: any) => {
                     alert(err.message);
+                }).always(() => {
+                    this.isProcessing(false);
                 });
             }
             else {
@@ -47,6 +51,7 @@
         }
 
         private create = () => {
+            this.isProcessing(true);
             $.ajax({
                 type: 'post',
                 contentType: 'application/json',
@@ -67,10 +72,13 @@
                 Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);
+            }).always(() => {
+                this.isProcessing(false);
             });
         }
 
         private update = () => {
+            this.isProcessing(true);
             $.ajax({
                 type: 'put',
                 contentType: 'application/json',
@@ -91,6 +99,8 @@
                 Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);
+            }).always(() => {
+                this.isProcessing(false);
             });
         }
 

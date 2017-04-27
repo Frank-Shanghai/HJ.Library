@@ -17,6 +17,7 @@ module hj.library {
         public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
         public activePage: KnockoutObservable<pages.PageBase> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
+        public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public sessionUser = ko.observable(null); // type return user
         public userFullName = ko.computed(() => {
             if (this.sessionUser()) {

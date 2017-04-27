@@ -54,8 +54,11 @@
         <!-- ko if: activePage -->
         <div class="active-page">
             <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
+            <!-- ko if: isProcessing -->
+            <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>
+            <!-- /ko -->
         </div>
-        <!-- /ko -->
+        <!-- /ko -->        
     </section>
 
     <!-- User Profile Modal Dialog-->
@@ -69,5 +72,11 @@
     <hj-information-dialog params="context: informationDialog"></hj-information-dialog>
     <!-- /ko -->
     <!-- /ko -->
+
+    <!-- Progress Bar -->
+    <!-- ko if: isProcessing -->
+    <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView'}"></div>
+    <!-- /ko -->
+
 </body>
 </html>

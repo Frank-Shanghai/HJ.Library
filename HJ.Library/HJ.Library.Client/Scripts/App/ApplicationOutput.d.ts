@@ -3,6 +3,7 @@ declare module hj.library.pages {
         templateId: string;
         isVisible: KnockoutObservable<boolean>;
         title: KnockoutObservable<string>;
+        isProcessing: KnockoutObservable<boolean>;
     }
 }
 declare module hj.library {
@@ -14,6 +15,7 @@ declare module hj.library {
         informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters>;
         activePage: KnockoutObservable<pages.PageBase>;
         isAuthenticated: KnockoutObservable<boolean>;
+        isProcessing: KnockoutObservable<boolean>;
         sessionUser: KnockoutObservable<any>;
         userFullName: KnockoutComputed<string>;
         navigationMenus: Array<any>;
@@ -200,6 +202,8 @@ declare module hj.library.pages.dialogs {
     var ChangePasswordDialogViewId: string;
     var InformationDialogComponentView: string;
     var InformationDialogComponentViewId: string;
+    var ProgressBarView: string;
+    var ProgressBarViewId: string;
     var UserProfileDialogView: string;
     var UserProfileDialogViewId: string;
 }

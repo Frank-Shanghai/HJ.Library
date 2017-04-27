@@ -22,6 +22,7 @@ module hj.library.pages {
         }
 
         private initialize() {
+            this.isProcessing(true);
             $.ajax({
                 type: 'get',
                 accepts: 'application/json',
@@ -65,6 +66,8 @@ module hj.library.pages {
                 });
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
+            }).always(() => {
+                this.isProcessing(false);
             });
         }
 
@@ -93,6 +96,7 @@ module hj.library.pages {
             });
 
             var removeHandler = () => {
+                this.isProcessing(true);
                 var promises = [];
                 for (var i = 0; i < this.selectedBooks().length; i++) {
                     var promise = $.ajax({
@@ -107,6 +111,8 @@ module hj.library.pages {
                     this.refresh();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                     alert(err.message);
+                }).always(() => {
+                    this.isProcessing(false);
                 });
             }
         }

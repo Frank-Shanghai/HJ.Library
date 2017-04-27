@@ -9,6 +9,7 @@
         { }
 
         public logon = () => {
+            Application.instance.isProcessing(true);
             $.ajax({
                 type: 'post',
                 contentType: "application/x-www-form-urlencoded",
@@ -19,7 +20,10 @@
                     password: this.password()
                 }
             }).done(this.handleLogonResponse)
-                .fail(this.onLogonFail);
+                .fail(this.onLogonFail)
+                .always(() => {
+                    Application.instance.isProcessing(false);
+                });
         }
 
         private reset = () => {

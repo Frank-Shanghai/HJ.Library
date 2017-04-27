@@ -14,6 +14,8 @@ var hj;
                     this.templateId = "";
                     this.isVisible = ko.observable(false);
                     this.title = ko.observable('');
+                    //TODO: Move this property to space when space is implemented.
+                    this.isProcessing = ko.observable(false);
                 }
                 return PageBase;
             }());
@@ -33,6 +35,7 @@ var hj;
                 this.informationDialog = ko.observable(null);
                 this.activePage = ko.observable(null);
                 this.isAuthenticated = ko.observable(false);
+                this.isProcessing = ko.observable(false);
                 this.sessionUser = ko.observable(null); // type return user
                 this.userFullName = ko.computed(function () {
                     if (_this.sessionUser()) {
@@ -89,6 +92,7 @@ var hj;
                     this.token = "";
                     this.tokenType = "";
                     this.logon = function () {
+                        library.Application.instance.isProcessing(true);
                         $.ajax({
                             type: 'post',
                             contentType: "application/x-www-form-urlencoded",
@@ -99,7 +103,10 @@ var hj;
                                 password: _this.password()
                             }
                         }).done(_this.handleLogonResponse)
-                            .fail(_this.onLogonFail);
+                            .fail(_this.onLogonFail)
+                            .always(function () {
+                            library.Application.instance.isProcessing(false);
+                        });
                     };
                     this.reset = function () {
                         _this.name('');
@@ -345,6 +352,7 @@ var hj;
                             }
                         });
                         var removeHandler = function () {
+                            _this.isProcessing(true);
                             var promises = [];
                             for (var i = 0; i < _this.selectedBooks().length; i++) {
                                 var promise = $.ajax({
@@ -357,6 +365,8 @@ var hj;
                                 _this.refresh();
                             }).fail(function (jqXhr, textStatus, err) {
                                 alert(err.message);
+                            }).always(function () {
+                                _this.isProcessing(false);
                             });
                         };
                     };
@@ -369,6 +379,7 @@ var hj;
                 }
                 BooksViewModel.prototype.initialize = function () {
                     var _this = this;
+                    this.isProcessing(true);
                     $.ajax({
                         type: 'get',
                         accepts: 'application/json',
@@ -412,6 +423,8 @@ var hj;
                         });
                     }).fail(function (jqXhr, textStatus, err) {
                         alert(err.message);
+                    }).always(function () {
+                        _this.isProcessing(false);
                     });
                 };
                 return BooksViewModel;
@@ -443,6 +456,7 @@ var hj;
                     this.owner = ko.observable('');
                     this.comment = ko.observable('');
                     this.create = function () {
+                        _this.isProcessing(true);
                         $.ajax({
                             type: 'post',
                             contentType: 'application/json',
@@ -463,9 +477,12 @@ var hj;
                             library.Application.instance.activePage(new pages.BooksViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
+                        }).always(function () {
+                            _this.isProcessing(false);
                         });
                     };
                     this.update = function () {
+                        _this.isProcessing(true);
                         $.ajax({
                             type: 'put',
                             contentType: 'application/json',
@@ -486,6 +503,8 @@ var hj;
                             library.Application.instance.activePage(new pages.BooksViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
+                        }).always(function () {
+                            _this.isProcessing(false);
                         });
                     };
                     this.cancel = function () {
@@ -499,6 +518,7 @@ var hj;
                     if (bookId) {
                         this.isEditingMode(true);
                         this.title('Edit Book');
+                        this.isProcessing(true);
                         $.ajax({
                             type: 'get',
                             accepts: 'application/json',
@@ -515,6 +535,8 @@ var hj;
                             _this.comment(book.comment);
                         }).fail(function (jqXHR, textStatus, err) {
                             alert(err.message);
+                        }).always(function () {
+                            _this.isProcessing(false);
                         });
                     }
                     else {
@@ -618,6 +640,7 @@ var hj;
                             alert('The new password and confirm password should be identical.');
                             return;
                         }
+                        library.Application.instance.isProcessing(true);
                         $.ajax({
                             type: 'post',
                             contentType: 'application/json',
@@ -633,6 +656,8 @@ var hj;
                             _this.confirmPassword('');
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
+                        }).always(function () {
+                            library.Application.instance.isProcessing(false);
                         });
                     };
                 }
@@ -667,6 +692,7 @@ var hj;
                     this.selectedRoles = ko.observableArray([]);
                     this.isEditingMode = ko.observable(false);
                     this.createUser = function () {
+                        _this.isProcessing(true);
                         $.ajax({
                             type: 'post',
                             contentType: 'application/json',
@@ -684,9 +710,12 @@ var hj;
                             library.Application.instance.activePage(new pages.UsersViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
+                        }).always(function () {
+                            _this.isProcessing(false);
                         });
                     };
                     this.updateUser = function () {
+                        _this.isProcessing(true);
                         $.ajax({
                             type: 'put',
                             contentType: 'application/json',
@@ -701,6 +730,8 @@ var hj;
                             library.Application.instance.activePage(new pages.UsersViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
+                        }).always(function () {
+                            _this.isProcessing(false);
                         });
                     };
                     this.cancel = function () {
@@ -715,6 +746,7 @@ var hj;
                     if (user) {
                         this.isEditingMode(true);
                         this.title('Edit User');
+                        this.isProcessing(true);
                         $.ajax({
                             type: 'get',
                             accepts: "application/json",
@@ -726,8 +758,10 @@ var hj;
                             _this.firstName(user.firstName);
                             _this.lastName(user.lastName);
                             _this.selectedRoles(user.roles);
-                        })
-                            .fail(function () { });
+                        }).fail(function () {
+                        }).always(function () {
+                            _this.isProcessing(false);
+                        });
                     }
                 };
                 return EditUserViewModel;
@@ -776,6 +810,7 @@ var hj;
                             }
                         });
                         var removeHandler = function () {
+                            _this.isProcessing(true);
                             var promises = [];
                             for (var i = 0; i < _this.selectedUsers().length; i++) {
                                 var promise = $.ajax({
@@ -788,6 +823,8 @@ var hj;
                                 _this.refresh();
                             }).fail(function (jqXhr, textStatus, err) {
                                 alert(err.message);
+                            }).always(function () {
+                                _this.isProcessing(false);
                             });
                         };
                     };
@@ -800,6 +837,7 @@ var hj;
                 }
                 UsersViewModel.prototype.initialize = function () {
                     var _this = this;
+                    this.isProcessing(true);
                     $.ajax({
                         type: 'get',
                         accepts: "application/json",
@@ -848,7 +886,10 @@ var hj;
                             clickToSelect: true
                         });
                     })
-                        .fail(function () { });
+                        .fail(function () { })
+                        .always(function () {
+                        _this.isProcessing(false);
+                    });
                 };
                 return UsersViewModel;
             }(pages.PageBase));
@@ -908,6 +949,8 @@ var hj;
                 dialogs.ChangePasswordDialogViewId = "hj-library-pages-dialogs-ChangePasswordDialogView";
                 dialogs.InformationDialogComponentView = "\u003cdiv class=\"dialog-overlay-layer\"\u003e\r\n    \u003cdiv class=\"dialog-container\"\u003e\r\n        \u003cdiv class=\"dialog-header\"\u003e\r\n            \u003cspan class=\"dialog-page-title\" data-bind=\"text: _title\"\u003e\u003c/span\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv class=\"dialog-content\"\u003e\r\n            \u003cspan class=\"dialog-header-message\" data-bind=\"text: _header\"\u003e\u003c/span\u003e\r\n            \u003cdiv class=\"dialog-message\" data-bind=\"text: _message\"\u003e\u003c/div\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv class=\"dialog-footer\"\u003e\r\n            \u003c!-- ko if: _isOKButtonVisible --\u003e\r\n            \u003cbutton class=\"btn btn-default\" data-bind=\"text: _okButtonText, click: confirmClick\"\u003e\u003c/button\u003e\r\n            \u003c!-- /ko --\u003e\r\n            \u003c!-- ko if: _isCancelButtonVisible --\u003e\r\n            \u003cbutton class=\"btn btn-default\" data-bind=\"text: _cancelButtonText, click: cancelClick\"\u003e\u003c/button\u003e\r\n            \u003c!-- /ko --\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
                 dialogs.InformationDialogComponentViewId = "hj-library-pages-dialogs-InformationDialogComponentView";
+                dialogs.ProgressBarView = "\u003cdiv class=\"dialog-overlay-layer\"\u003e\r\n    \u003cdiv class=\"progress progress-striped active progress-bar-dialog\"\u003e\r\n        \u003cdiv class=\"progress-bar progress-bar-info\"\u003e\u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
+                dialogs.ProgressBarViewId = "hj-library-pages-dialogs-ProgressBarView";
                 dialogs.UserProfileDialogView = "\u003cdiv id=\"userProfile\" class=\"modal fade user-profile\" data-backdrop=\"static\"\u003e\r\n    \u003cdiv class=\"modal-dialog\"\u003e\r\n        \u003cdiv class=\"modal-content\"\u003e\r\n            \u003cdiv class=\"modal-header\"\u003e\r\n                \u003cbutton class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"\u003e\u0026times;\u003c/button\u003e\r\n                \u003ch3 class=\"modal-title\"\u003eUser Profile\u003c/h3\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-body\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eFirst Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: firstName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eLast Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: lastName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eLogon Name: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: userName\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eEmail: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: email\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cspan class=\"field-name\"\u003eRoles: \u003c/span\u003e\r\n                    \u003cspan data-bind=\"text: roles.toString()\"\u003e\u003c/span\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"modal-footer\"\u003e\r\n                \u003cdiv\u003e\r\n                    \u003cbutton class=\"btn btn-default\" data-dismiss=\"modal\"\u003eOK\u003c/button\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e\r\n";
                 dialogs.UserProfileDialogViewId = "hj-library-pages-dialogs-UserProfileDialogView";
             })(dialogs = pages.dialogs || (pages.dialogs = {}));
@@ -945,6 +988,7 @@ var hj;
                 bodyElement.append('<script type="text/html" id="hj-library-pages-books-EditBookView">' + hj.library.pages.books.EditBookView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-ChangePasswordDialogView">' + hj.library.pages.dialogs.ChangePasswordDialogView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-InformationDialogComponentView">' + hj.library.pages.dialogs.InformationDialogComponentView + '</script>');
+                bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-ProgressBarView">' + hj.library.pages.dialogs.ProgressBarView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-dialogs-UserProfileDialogView">' + hj.library.pages.dialogs.UserProfileDialogView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-EditUserView">' + hj.library.pages.users.EditUserView + '</script>');
                 bodyElement.append('<script type="text/html" id="hj-library-pages-users-UsersView">' + hj.library.pages.users.UsersView + '</script>');
