@@ -32,6 +32,10 @@
   overflow: auto; }
   .app-navigation-bar > ul > li {
     border-bottom: 1px solid gray; }
+  .app-navigation-bar .nav-stacked > li + li {
+    margin-top: unset; }
+  .app-navigation-bar .nav-pills > li > a {
+    border-radius: unset; }
 
 .app-main-screen {
   position: absolute;

@@ -26,30 +26,45 @@ module hj.library {
         });
 
         public navigationMenus: Array<any> = [
-            { title: "Home", route: "#/Welcome", isActive: true },
-            { title: "Users", route: "#/Users", isActive: false }, 
-            { title: "Books", route: "#/Books", isActive: false }
+            {
+                title: "Home", route: "#/Welcome", isActive: true,
+                navigateHandler: () => {
+                    this.activePage(new pages.HomePageViewModel());
+                }
+             },
+            {
+                title: "Users", route: "#/Users", isActive: false,
+                navigateHandler: () => {
+                    this.activePage(new pages.UsersViewModel());
+                }
+            }, 
+            {
+                title: "Books", route: "#/Books", isActive: false,
+                navigateHandler: () => {
+                    this.activePage(new pages.BooksViewModel());
+                }
+            }
         ];
 
         public sammyApp: Sammy.Application = Sammy();
 
         constructor() {
             this.user = new authentication.LogonViewModel();
-            this.initializeRouters();
+            //this.initializeRouters();
         }        
 
-        private initializeRouters() {
-            this.sammyApp.get("#/Welcome", (context: any) => {
-                this.activePage(new pages.HomePageViewModel());
-            });
+        //private initializeRouters() {
+        //    this.sammyApp.get("#/Welcome", (context: any) => {
+        //        this.activePage(new pages.HomePageViewModel());
+        //    });
 
-            this.sammyApp.get("#/Users", (context) => {
-                this.activePage(new pages.UsersViewModel());
-            });
+        //    this.sammyApp.get("#/Users", (context) => {
+        //        this.activePage(new pages.UsersViewModel());
+        //    });
 
-            this.sammyApp.get("#/Books", (context) => {
-                this.activePage(new pages.BooksViewModel());
-            });
-        }
+        //    this.sammyApp.get("#/Books", (context) => {
+        //        this.activePage(new pages.BooksViewModel());
+        //    });
+        //}
     }
 }

@@ -21,7 +21,6 @@ declare module hj.library {
         navigationMenus: Array<any>;
         sammyApp: Sammy.Application;
         constructor();
-        private initializeRouters();
     }
 }
 declare module hj.library.authentication {

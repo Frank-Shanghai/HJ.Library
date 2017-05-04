@@ -46,6 +46,10 @@
     > ul > li {
         border-bottom: 1px solid gray;
     }
+
+    .nav-stacked > li + li { margin-top: unset; }
+
+    .nav-pills > li > a { border-radius: unset;}
 }
 
 .app-main-screen {

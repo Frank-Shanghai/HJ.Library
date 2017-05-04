@@ -43,13 +43,28 @@ var hj;
                     }
                 });
                 this.navigationMenus = [
-                    { title: "Home", route: "#/Welcome", isActive: true },
-                    { title: "Users", route: "#/Users", isActive: false },
-                    { title: "Books", route: "#/Books", isActive: false }
+                    {
+                        title: "Home", route: "#/Welcome", isActive: true,
+                        navigateHandler: function () {
+                            _this.activePage(new library.pages.HomePageViewModel());
+                        }
+                    },
+                    {
+                        title: "Users", route: "#/Users", isActive: false,
+                        navigateHandler: function () {
+                            _this.activePage(new library.pages.UsersViewModel());
+                        }
+                    },
+                    {
+                        title: "Books", route: "#/Books", isActive: false,
+                        navigateHandler: function () {
+                            _this.activePage(new library.pages.BooksViewModel());
+                        }
+                    }
                 ];
                 this.sammyApp = Sammy();
                 this.user = new library.authentication.LogonViewModel();
-                this.initializeRouters();
+                //this.initializeRouters();
             }
             Object.defineProperty(Application, "instance", {
                 get: function () {
@@ -61,18 +76,6 @@ var hj;
                 enumerable: true,
                 configurable: true
             });
-            Application.prototype.initializeRouters = function () {
-                var _this = this;
-                this.sammyApp.get("#/Welcome", function (context) {
-                    _this.activePage(new library.pages.HomePageViewModel());
-                });
-                this.sammyApp.get("#/Users", function (context) {
-                    _this.activePage(new library.pages.UsersViewModel());
-                });
-                this.sammyApp.get("#/Books", function (context) {
-                    _this.activePage(new library.pages.BooksViewModel());
-                });
-            };
             return Application;
         }());
         library.Application = Application;
@@ -130,8 +133,8 @@ var hj;
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
                         });
-                        //library.Application.instance.activePage(new pages.HomePageViewModel());
-                        library.Application.instance.sammyApp.run("#/Welcome");
+                        library.Application.instance.activePage(new library.pages.HomePageViewModel());
+                        //library.Application.instance.sammyApp.run("#/Welcome");
                     };
                 }
                 LogonViewModel.prototype.onLogonFail = function (jqXhr) {

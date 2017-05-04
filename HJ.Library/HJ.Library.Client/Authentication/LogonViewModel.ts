@@ -50,8 +50,8 @@
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
             });
-            //library.Application.instance.activePage(new pages.HomePageViewModel());
-            library.Application.instance.sammyApp.run("#/Welcome");
+            library.Application.instance.activePage(new pages.HomePageViewModel());
+            //library.Application.instance.sammyApp.run("#/Welcome");
         }
 
         private onLogonFail(jqXhr: JQueryXHR) {

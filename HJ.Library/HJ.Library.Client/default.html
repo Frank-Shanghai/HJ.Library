@@ -43,8 +43,10 @@
 
     <!-- ==== Navigation Bar ==== -->
     <nav id="navigationBar" class="app-navigation-bar">
+        <!-- custome binding handler menuState is used to update menu style in runtime -->
         <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus, menuState: {}">
-            <li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>
+            <!--<li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>-->
+            <li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, click: navigateHandler"></a></li>
         </ul>
     </nav>
 
