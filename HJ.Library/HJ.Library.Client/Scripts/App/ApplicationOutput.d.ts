@@ -1,15 +1,22 @@
 declare module hj.library.pages {
     class PageBase {
+        pageId: string;
         templateId: string;
         isVisible: KnockoutObservable<boolean>;
         title: KnockoutObservable<string>;
+        space: Space;
+        parameters: KnockoutObservable<any>;
         isProcessing: KnockoutObservable<boolean>;
+        onBeforeNavigateAway(navigate: () => void, cancel?: () => void): void;
+        equals(page: PageBase): boolean;
+        dispose(): void;
     }
 }
 declare module hj.library {
     class Application {
         private static _instance;
         static instance: Application;
+        activeSpace: KnockoutObservable<Space>;
         user: authentication.LogonViewModel;
         changePasswordDialog: dialogs.ChangePasswordViewModel;
         informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters>;
@@ -47,6 +54,11 @@ declare module hj.library {
     }
 }
 declare module hj.library {
+    class CloseOverlayBinding implements KnockoutBindingHandler {
+        init(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
+    }
+}
+declare module hj.library {
     class GridBinding implements KnockoutBindingHandler {
         update(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
     }
@@ -79,7 +91,7 @@ declare module hj.library.pages {
     }
 }
 declare module hj.library.pages {
-    class EditBook extends PageBase {
+    class EditBookViewModel extends PageBase {
         private bookId;
         isEditingMode: KnockoutObservable<boolean>;
         isbn: KnockoutObservable<string>;
@@ -96,6 +108,15 @@ declare module hj.library.pages {
         private create;
         private update;
         private cancel;
+    }
+}
+declare module hj.library.dialogs {
+    class ChangePasswordViewModel {
+        private oldPassword;
+        private newPassword;
+        private confirmPassword;
+        constructor();
+        private changePassword;
     }
 }
 declare module hj.library.dialogs {
@@ -135,15 +156,6 @@ declare module hj.library.pages {
         constructor();
     }
 }
-declare module hj.library.dialogs {
-    class ChangePasswordViewModel {
-        private oldPassword;
-        private newPassword;
-        private confirmPassword;
-        constructor();
-        private changePassword;
-    }
-}
 declare module hj.library.pages {
     class EditUserViewModel extends PageBase {
         private userId;
@@ -178,6 +190,41 @@ declare module hj.library.pages {
         private add;
         private remove;
         private refresh;
+    }
+}
+declare module hj.library {
+    interface BeforeAddPageHandler {
+        (page: pages.PageBase, space: Space, proceed: () => void, cancel: () => void): void;
+    }
+    class Space {
+        private _onBeforeAddPage;
+        id: string;
+        isSinglePageSpace: boolean;
+        title: KnockoutObservable<string>;
+        pages: KnockoutObservableArray<pages.PageBase>;
+        activePage: KnockoutObservable<pages.PageBase>;
+        isProcessing: KnockoutObservable<boolean>;
+        isActive: KnockoutObservable<boolean>;
+        canClose: boolean;
+        constructor(title: string);
+        isPreviousButtonEnabled: KnockoutComputed<boolean>;
+        isNextButtonEnabled: KnockoutComputed<boolean>;
+        isPagesButtonEnabled: KnockoutComputed<boolean>;
+        goToPreviousPage: () => void;
+        private doGoToPreviousPage;
+        goToNextPage: () => void;
+        private doGoToNextPage;
+        goToPage: (page: pages.PageBase) => void;
+        addPage(page: pages.PageBase, parameters: any, removeForwardPages?: boolean): void;
+        removePage(page: pages.PageBase): void;
+        onBeforeAddPage(onBeforeAddPage: BeforeAddPageHandler): void;
+        private setActivePage;
+        private removeAllPagesAfterActive();
+    }
+}
+declare module hj.library {
+    class Utils {
+        static guid(): string;
     }
 }
 declare module hj.library.authentication {

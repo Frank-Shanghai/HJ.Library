@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="Content/moment-datepicker/datepicker.css" />
     <script type="text/javascript" src="Scripts/App/ApplicationOutput.js"></script> <!-- This js file is hidden by default. Click show all file to see it. -->
     <script type="text/javascript" src="Scripts/App/Startup.js"></script>
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
     <link rel="stylesheet" href="Style/app.css" />
 </head>
 <body>
@@ -39,20 +40,50 @@
                 <li><a href="#" data-toggle="modal" data-target="#changePassword">Change Password</a></li>
             </ul>
         </div>
+        <div class="space-title">
+            <span data-bind="text: activeSpace().title"></span>
+        </div>
     </div>
 
     <!-- ==== Navigation Bar ==== -->
     <nav id="navigationBar" class="app-navigation-bar">
         <!-- custome binding handler menuState is used to update menu style in runtime -->
         <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus, menuState: {}">
-            <!--<li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>-->
-            <li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, click: navigateHandler"></a></li>
+            <!--<li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>--><!-- Old Sammy navigation code -->
+            <li data-bind="css: {'active': isActive}"><a href="#" data-bind="text: title, click: navigateHandler"></a></li>
         </ul>
     </nav>
 
     <!-- ==== Content View / Main Screen ==== -->
     <section id="content" class="app-main-screen">
-        <h2 data-bind="text: activePage().title"></h2>
+        <!-- ko with: activeSpace -->
+        <div class="page-title">
+            <div class="navigation-button">
+                <a href="#" data-hj-test-id="active-thread-previous-button" data-bind="css: { 'disabled': !isPreviousButtonEnabled() }, click: goToPreviousPage">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-angle-left fa-stack-1x"></i>
+                    </span>
+                </a>
+                <a href="#" data-hj-test-id="active-thread-next-button" data-bind="css: { 'disabled': !isNextButtonEnabled() }, click: goToNextPage">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-angle-right fa-stack-1x"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="dropdown page-history">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-bind="css: { 'disabled': !isPagesButtonEnabled() }">
+                    <span data-hj-test-id="hj-active-page-title" data-bind="text: activePage().title()"></span>
+                    <i class="fa fa-angle-down"></i>
+                    <i class="fa fa-angle-up"></i>
+                </a>
+                <ul class="dropdown-menu" data-bind="foreach: pages">
+                    <li data-toggle="collapse" data-target=".in" data-bind="css: { 'active': isVisible }"><a href="#" data-bind="text: title, click: $parent.goToPage"></a></li>
+                </ul>
+            </div>
+        </div>
+
         <!-- ko if: activePage -->
         <div class="active-page">
             <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
@@ -60,7 +91,8 @@
             <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>
             <!-- /ko -->
         </div>
-        <!-- /ko -->        
+        <!-- /ko -->
+        <!-- /ko -->
     </section>
 
     <!-- User Profile Modal Dialog-->
@@ -74,7 +106,6 @@
     <hj-information-dialog params="context: informationDialog"></hj-information-dialog>
     <!-- /ko -->
     <!-- /ko -->
-
     <!-- Progress Bar -->
     <!-- ko if: isProcessing -->
     <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView'}"></div>

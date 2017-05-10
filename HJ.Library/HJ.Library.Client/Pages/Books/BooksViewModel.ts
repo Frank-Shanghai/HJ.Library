@@ -72,11 +72,13 @@ module hj.library.pages {
         }
 
         private add = () => {
-            Application.instance.activePage(new EditBook());
+            this.space.addPage(new EditBookViewModel(), null);
+            //Application.instance.activePage(new EditBook());
         }
 
         private edit = (bookId: string) => {
-            Application.instance.activePage(new EditBook(this.selectedBooks()[0].bookId));
+            this.space.addPage(new EditBookViewModel(this.selectedBooks()[0].bookId), null);
+            //Application.instance.activePage(new EditBook(this.selectedBooks()[0].bookId));
         }
 
         private remove = () => {
@@ -118,7 +120,8 @@ module hj.library.pages {
         }
 
         private refresh = () => {
-            Application.instance.activePage(new BooksViewModel());
+            this.space.addPage(new BooksViewModel(), null);
+            //Application.instance.activePage(new BooksViewModel());
         }
     }
 }

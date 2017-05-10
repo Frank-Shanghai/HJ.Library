@@ -1,22 +1,36 @@
-﻿body {
+﻿@charset "UTF-8";
+body {
   height: 100%;
   width: 100%; }
 
 .app-header {
-  height: 80px;
+  height: 50px;
   background-color: white;
-  border-bottom: solid 2px cadetblue; }
+  border-bottom: solid 2px cadetblue;
+  position: relative; }
   .app-header .logo > img {
-    height: 78px;
-    margin-left: 15px; }
+    height: 48px;
+    border-right: solid 1px #cccccc; }
+  .app-header .space-title {
+    position: absolute;
+    background: #f5f5f6;
+    top: 0;
+    left: 65px;
+    right: 160px;
+    padding-left: 10px;
+    border-right: solid 1px #cccccc;
+    height: 100%; }
+    .app-header .space-title > span {
+      line-height: 50px;
+      font-size: 25px;
+      color: #12759f; }
   .app-header .account {
     float: right;
     height: 48px;
     line-height: 48px;
-    margin-top: 30px;
     position: relative; }
     .app-header .account > span {
-      font-size: 25px; }
+      font-size: 20px; }
     .app-header .account .profile-icon {
       margin: 0 2px 0 5px; }
       .app-header .account .profile-icon > i {
@@ -25,7 +39,7 @@
 
 .app-navigation-bar {
   position: absolute;
-  top: 80px;
+  top: 50px;
   left: 0;
   bottom: 0;
   width: 28%;
@@ -39,7 +53,7 @@
 
 .app-main-screen {
   position: absolute;
-  top: 80px;
+  top: 50px;
   left: 28%;
   right: 0;
   bottom: 0;
@@ -50,6 +64,46 @@
   background: white; }
   .app-main-screen .active-page {
     overflow: auto; }
+  .app-main-screen .page-title {
+    margin: 0 0 10px 0; }
+    .app-main-screen .page-title .navigation-button {
+      float: left;
+      margin-right: 20px; }
+      .app-main-screen .page-title .navigation-button a {
+        color: #b3b3b3; }
+      .app-main-screen .page-title .navigation-button > a + a {
+        margin-left: 10px; }
+      .app-main-screen .page-title .navigation-button a:hover, .app-main-screen .page-title .navigation-button a:focus {
+        text-decoration: none; }
+      .app-main-screen .page-title .navigation-button a.disabled {
+        cursor: default;
+        opacity: 0.5;
+        pointer-events: none; }
+    .app-main-screen .page-title .page-history {
+      margin-left: 110px; }
+      .app-main-screen .page-title .page-history .dropdown-toggle .fa-angle-up {
+        display: none; }
+      .app-main-screen .page-title .page-history > a {
+        font-size: 30px;
+        color: #0c2931; }
+      .app-main-screen .page-title .page-history a:hover, .app-main-screen .page-title .page-history a:focus {
+        text-decoration: none; }
+      .app-main-screen .page-title .page-history a.disabled {
+        cursor: default;
+        opacity: 0.5;
+        pointer-events: none; }
+      .app-main-screen .page-title .page-history > ul {
+        font-size: 20px;
+        color: #0c2931; }
+    .app-main-screen .page-title .dropdown.page-history.open .dropdown-toggle .fa-angle-up {
+      /*
+                * css多类选择器
+                * 中间无空格的几个类写在一起，代表这个元素同时具有这几个样式类
+                * 中间有空格隔开的话，代表类间的层级关系
+            */
+      display: inline-block; }
+    .app-main-screen .page-title .dropdown.page-history.open .dropdown-toggle .fa-angle-down {
+      display: none; }
 
 .grid-toolbar {
   margin: 10px 10px 10px 0; }

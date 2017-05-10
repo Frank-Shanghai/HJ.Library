@@ -66,7 +66,8 @@ module hj.library.pages {
                     Password: this.password()
                 })
             }).done(() => {
-                Application.instance.activePage(new UsersViewModel());
+                this.space.addPage(new UsersViewModel(), null);
+                //Application.instance.activePage(new UsersViewModel());
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
             }).always(() => {
@@ -87,7 +88,8 @@ module hj.library.pages {
                     RoleName: this.selectedRoles().toString()
                 })
             }).done(() => {
-                Application.instance.activePage(new UsersViewModel());
+                this.space.addPage(new UsersViewModel(), null);
+                //Application.instance.activePage(new UsersViewModel());
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
             }).always(() => {

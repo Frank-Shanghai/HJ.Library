@@ -1,8 +1,11 @@
 ﻿module hj.library.pages {
     export class PageBase {
+        public pageId: string;
         public templateId: string = "";
         public isVisible: KnockoutObservable<boolean> = ko.observable<boolean>(false);
         public title = ko.observable('');
+        public space: Space;
+        public parameters = ko.observable<any>();
 
         //TODO: Move this property to space when space is implemented.
         public isProcessing = ko.observable(false);
@@ -14,5 +17,20 @@
 
         // TODO: Page information dialog
         //public informationDialog = ko.observable<IInformationDialogParameters>(null);
+
+        public onBeforeNavigateAway(navigate: () => void, cancel?: () => void) {
+            if (navigate) {
+                navigate();
+            }
+        }
+
+        public equals(page: PageBase): boolean {
+            //TODO: what is the base logic for pages equlity? page id/tag/name and parameters?
+            // Answer: here we recognize 2 pages as equal pages if they have the same template id
+            return page.templateId === this.templateId;
+        }
+
+        public dispose() {
+        }
     }
 }

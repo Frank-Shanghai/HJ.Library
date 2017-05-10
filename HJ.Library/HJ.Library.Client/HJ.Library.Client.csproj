@@ -80,7 +80,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\moment-datepicker\datepicker.css" />
+    <Content Include="css\font-awesome.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="fonts\font-awesome.css" />
+    <Content Include="fonts\font-awesome.min.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -93,6 +100,11 @@
     <Content Include="Note.txt" />
     <Content Include="Pages\Dialogs\ProgressBarView.html" />
     <Content Include="Pages\Dialogs\_dialog.scss" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
@@ -106,6 +118,8 @@
     <Content Include="Pages\Users\EditUserView.html" />
     <Content Include="Pages\Users\UsersView.html" />
     <Content Include="Resource\books.jpg" />
+    <Content Include="Resource\books2.jpg" />
+    <Content Include="Resource\books1.jpg" />
     <Content Include="Scripts\App\Startup.js" />
     <Content Include="Scripts\bootstrap-table\bootstrap-table.css" />
     <Content Include="Scripts\bootstrap-table\bootstrap-table.js" />
@@ -164,6 +178,7 @@
     <TypeScriptCompile Include="Authentication\LogonViewModel.ts" />
     <TypeScriptCompile Include="ComponentRegistry.ts" />
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
+    <TypeScriptCompile Include="CustomBindings\CloseOverlayBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuStateBinding.ts" />
     <TypeScriptCompile Include="InformationHandler.ts" />
@@ -183,6 +198,8 @@
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\sammyjs\sammyjs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="Spaces\Space.ts" />
+    <TypeScriptCompile Include="Utils.ts" />
     <TypeScriptCompile Include="View.ts">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

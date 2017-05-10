@@ -12,6 +12,8 @@ module hj.library {
             return Application._instance;
         }
 
+        public activeSpace: KnockoutObservable<Space> = ko.observable(null);
+
         public user: authentication.LogonViewModel;
         public changePasswordDialog: dialogs.ChangePasswordViewModel = new dialogs.ChangePasswordViewModel();
         public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
@@ -29,19 +31,28 @@ module hj.library {
             {
                 title: "Home", route: "#/Welcome", isActive: true,
                 navigateHandler: () => {
-                    this.activePage(new pages.HomePageViewModel());
+                    this.activeSpace().title("Home");
+                    this.activeSpace().pages([]);
+                    this.activeSpace().addPage(new pages.HomePageViewModel(), null);
+                    //this.activePage(new pages.HomePageViewModel());
                 }
              },
             {
                 title: "Users", route: "#/Users", isActive: false,
                 navigateHandler: () => {
-                    this.activePage(new pages.UsersViewModel());
+                    this.activeSpace().title("Users");
+                    this.activeSpace().pages([]);
+                    this.activeSpace().addPage(new pages.UsersViewModel(), null);
+                    //this.activePage(new pages.UsersViewModel());
                 }
             }, 
             {
                 title: "Books", route: "#/Books", isActive: false,
                 navigateHandler: () => {
-                    this.activePage(new pages.BooksViewModel());
+                    this.activeSpace().title("Books");
+                    this.activeSpace().pages([]);
+                    this.activeSpace().addPage(new pages.BooksViewModel(), null);
+                    //this.activePage(new pages.BooksViewModel());
                 }
             }
         ];
