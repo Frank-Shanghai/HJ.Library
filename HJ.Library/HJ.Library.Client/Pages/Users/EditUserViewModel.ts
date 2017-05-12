@@ -98,7 +98,9 @@ module hj.library.pages {
         }
 
         private cancel = () => {
-            Application.instance.activePage(new UsersViewModel());
+            // By calling addPage, it will check the template id first, if they are the same, the old page will be replaced with the new page.
+            this.space.addPage(new UsersViewModel(), null);
+            //Application.instance.activePage(new UsersViewModel());
         }
     }
 

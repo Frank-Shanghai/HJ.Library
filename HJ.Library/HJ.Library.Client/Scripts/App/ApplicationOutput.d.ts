@@ -14,20 +14,21 @@ declare module hj.library.pages {
 }
 declare module hj.library {
     class Application {
+        private homePageSpace;
         private static _instance;
         static instance: Application;
-        activeSpace: KnockoutObservable<Space>;
+        spaceList: SpaceList;
         user: authentication.LogonViewModel;
         changePasswordDialog: dialogs.ChangePasswordViewModel;
         informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters>;
-        activePage: KnockoutObservable<pages.PageBase>;
         isAuthenticated: KnockoutObservable<boolean>;
         isProcessing: KnockoutObservable<boolean>;
         sessionUser: KnockoutObservable<any>;
         userFullName: KnockoutComputed<string>;
         navigationMenus: Array<any>;
-        sammyApp: Sammy.Application;
         constructor();
+        openHomePageSpace: () => void;
+        sammyApp: Sammy.Application;
     }
 }
 declare module hj.library.authentication {
@@ -206,7 +207,7 @@ declare module hj.library {
         isProcessing: KnockoutObservable<boolean>;
         isActive: KnockoutObservable<boolean>;
         canClose: boolean;
-        constructor(title: string);
+        constructor(title: string, isSinglePageSpace?: boolean, canClose?: boolean);
         isPreviousButtonEnabled: KnockoutComputed<boolean>;
         isNextButtonEnabled: KnockoutComputed<boolean>;
         isPagesButtonEnabled: KnockoutComputed<boolean>;
@@ -220,6 +221,27 @@ declare module hj.library {
         onBeforeAddPage(onBeforeAddPage: BeforeAddPageHandler): void;
         private setActivePage;
         private removeAllPagesAfterActive();
+    }
+}
+declare module hj.library {
+    interface BeforeCloseSpaceHandler {
+        (space: Space, proceed: () => void): void;
+    }
+    interface AfterCloseSpaceHandler {
+        (): void;
+    }
+    class SpaceList {
+        private _onBeforeAddPage;
+        private _onBeforeCloseSpace;
+        private _onAfterCloseSpace;
+        spaces: KnockoutObservableArray<Space>;
+        activeSpace: KnockoutObservable<Space>;
+        activePage: KnockoutObservable<pages.PageBase>;
+        openNew(space: Space, insertAtBeginning?: boolean): void;
+        open: (space: Space) => void;
+        replaceActive(space: Space): void;
+        closeAll: (except?: Space) => void;
+        close: (space: Space) => void;
     }
 }
 declare module hj.library {

@@ -107,7 +107,8 @@
         }
 
         private cancel = () => {
-            Application.instance.activePage(new BooksViewModel());
+            this.space.addPage(new BooksViewModel(), null);
+            //Application.instance.activePage(new BooksViewModel());
         }
     }
 }

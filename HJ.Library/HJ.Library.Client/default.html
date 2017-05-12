@@ -41,7 +41,7 @@
             </ul>
         </div>
         <div class="space-title">
-            <span data-bind="text: activeSpace().title"></span>
+            <span data-bind="text: spaceList.activeSpace().title"></span>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
 
     <!-- ==== Content View / Main Screen ==== -->
     <section id="content" class="app-main-screen">
-        <!-- ko with: activeSpace -->
+        <!-- ko with: spaceList.activeSpace() -->
         <div class="page-title">
             <div class="navigation-button">
                 <a href="#" data-hj-test-id="active-thread-previous-button" data-bind="css: { 'disabled': !isPreviousButtonEnabled() }, click: goToPreviousPage">
@@ -93,6 +93,11 @@
         </div>
         <!-- /ko -->
         <!-- /ko -->
+
+        <!-- testing purpose -->
+        <ul data-bind="foreach: spaceList.spaces">
+            <li><a href="#" data-bind="text: title, click: hj.library.Application.instance.spaceList.open"></a></li>
+        </ul>
     </section>
 
     <!-- User Profile Modal Dialog-->

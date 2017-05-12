@@ -46,8 +46,7 @@
                 dataType: 'json',
                 url: '/api/accounts/user/' + this.name()
             }).done((data) => {
-                library.Application.instance.activeSpace(new Space("Home"));
-                library.Application.instance.activeSpace().addPage(new pages.HomePageViewModel(), null);
+                library.Application.instance.openHomePageSpace();
                 Application.instance.sessionUser(data);
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);

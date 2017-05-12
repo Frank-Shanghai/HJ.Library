@@ -7,7 +7,6 @@
         public space: Space;
         public parameters = ko.observable<any>();
 
-        //TODO: Move this property to space when space is implemented.
         public isProcessing = ko.observable(false);
 
         //public navigator: Services.INavigator;
@@ -19,6 +18,8 @@
         //public informationDialog = ko.observable<IInformationDialogParameters>(null);
 
         public onBeforeNavigateAway(navigate: () => void, cancel?: () => void) {
+            // Do anything you want to do here
+
             if (navigate) {
                 navigate();
             }

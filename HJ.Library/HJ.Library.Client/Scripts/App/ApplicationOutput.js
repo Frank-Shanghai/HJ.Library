@@ -15,7 +15,6 @@ var hj;
                     this.isVisible = ko.observable(false);
                     this.title = ko.observable('');
                     this.parameters = ko.observable();
-                    //TODO: Move this property to space when space is implemented.
                     this.isProcessing = ko.observable(false);
                 }
                 //public navigator: Services.INavigator;
@@ -24,6 +23,7 @@ var hj;
                 // TODO: Page information dialog
                 //public informationDialog = ko.observable<IInformationDialogParameters>(null);
                 PageBase.prototype.onBeforeNavigateAway = function (navigate, cancel) {
+                    // Do anything you want to do here
                     if (navigate) {
                         navigate();
                     }
@@ -49,15 +49,13 @@ var hj;
         var Application = (function () {
             function Application() {
                 var _this = this;
-                this.activeSpace = ko.observable(null);
                 this.changePasswordDialog = new library.dialogs.ChangePasswordViewModel();
                 this.informationDialog = ko.observable(null);
-                this.activePage = ko.observable(null);
                 this.isAuthenticated = ko.observable(false);
                 this.isProcessing = ko.observable(false);
                 this.sessionUser = ko.observable(null); // type return user
                 this.userFullName = ko.computed(function () {
-                    if (this.sessionUser()) {
+                    if (_this.sessionUser()) {
                         return _this.sessionUser().firstName + ' ' + _this.sessionUser().lastName;
                     }
                 });
@@ -65,32 +63,42 @@ var hj;
                     {
                         title: "Home", route: "#/Welcome", isActive: true,
                         navigateHandler: function () {
-                            _this.activeSpace().title("Home");
-                            _this.activeSpace().pages([]);
-                            _this.activeSpace().addPage(new library.pages.HomePageViewModel(), null);
+                            _this.openHomePageSpace();
                             //this.activePage(new pages.HomePageViewModel());
                         }
                     },
                     {
                         title: "Users", route: "#/Users", isActive: false,
                         navigateHandler: function () {
-                            _this.activeSpace().title("Users");
-                            _this.activeSpace().pages([]);
-                            _this.activeSpace().addPage(new library.pages.UsersViewModel(), null);
-                            //this.activePage(new pages.UsersViewModel());
+                            var space = new library.Space("Users");
+                            space.addPage(new library.pages.UsersViewModel(), null);
+                            // By default, replace can closed active space
+                            _this.spaceList.replaceActive(space);
                         }
                     },
                     {
                         title: "Books", route: "#/Books", isActive: false,
                         navigateHandler: function () {
-                            _this.activeSpace().title("Books");
-                            _this.activeSpace().pages([]);
-                            _this.activeSpace().addPage(new library.pages.BooksViewModel(), null);
+                            var space = new library.Space("Books");
+                            space.addPage(new library.pages.BooksViewModel(), null);
+                            // By default, replace can closed active space
+                            _this.spaceList.replaceActive(space);
                             //this.activePage(new pages.BooksViewModel());
                         }
                     }
                 ];
+                this.openHomePageSpace = function () {
+                    if (!_this.homePageSpace) {
+                        _this.homePageSpace = new library.Space("Home", true, false);
+                        _this.spaceList.openNew(_this.homePageSpace, true);
+                        _this.homePageSpace.addPage(new library.pages.HomePageViewModel(), null);
+                    }
+                    else {
+                        _this.spaceList.open(_this.homePageSpace);
+                    }
+                };
                 this.sammyApp = Sammy();
+                this.spaceList = new library.SpaceList();
                 this.user = new library.authentication.LogonViewModel();
                 //this.initializeRouters();
             }
@@ -130,11 +138,11 @@ var hj;
                             url: '/oauth/token',
                             data: {
                                 grant_type: 'password',
-                                username: this.name(),
-                                password: this.password()
+                                username: _this.name(),
+                                password: _this.password()
                             }
-                        }).done(this.handleLogonResponse)
-                            .fail(this.onLogonFail)
+                        }).done(_this.handleLogonResponse)
+                            .fail(_this.onLogonFail)
                             .always(function () {
                             library.Application.instance.isProcessing(false);
                         });
@@ -157,8 +165,7 @@ var hj;
                             dataType: 'json',
                             url: '/api/accounts/user/' + _this.name()
                         }).done(function (data) {
-                            library.Application.instance.activeSpace(new library.Space("Home"));
-                            library.Application.instance.activeSpace().addPage(new library.pages.HomePageViewModel(), null);
+                            library.Application.instance.openHomePageSpace();
                             library.Application.instance.sessionUser(data);
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
@@ -575,7 +582,8 @@ var hj;
                         });
                     };
                     this.cancel = function () {
-                        library.Application.instance.activePage(new pages.BooksViewModel());
+                        _this.space.addPage(new pages.BooksViewModel(), null);
+                        //Application.instance.activePage(new BooksViewModel());
                     };
                     this.templateId = pages.books.EditBookViewId;
                     this.initialize(bookId);
@@ -669,20 +677,21 @@ var hj;
         (function (dialogs) {
             var InformationDialogComponentViewModel = (function () {
                 function InformationDialogComponentViewModel(parameters) {
+                    var _this = this;
                     this.confirmClick = function () {
-                        if (this._onClose) {
-                            this._onClose();
+                        if (_this._onClose) {
+                            _this._onClose();
                         }
-                        if (this._onConfirm) {
-                            this._onConfirm();
+                        if (_this._onConfirm) {
+                            _this._onConfirm();
                         }
                     };
                     this.cancelClick = function () {
-                        if (this._onClose) {
-                            this._onClose();
+                        if (_this._onClose) {
+                            _this._onClose();
                         }
-                        if (this._onCancel) {
-                            this._onCancel();
+                        if (_this._onCancel) {
+                            _this._onCancel();
                         }
                     };
                     parameters = ko.unwrap(parameters.context || parameters);
@@ -803,7 +812,9 @@ var hj;
                         });
                     };
                     this.cancel = function () {
-                        library.Application.instance.activePage(new pages.UsersViewModel());
+                        // By calling addPage, it will check the template id first, if they are the same, the old page will be replaced with the new page.
+                        _this.space.addPage(new pages.UsersViewModel(), null);
+                        //Application.instance.activePage(new UsersViewModel());
                     };
                     this.title('Create User');
                     this.templateId = pages.users.EditUserViewId;
@@ -973,8 +984,10 @@ var hj;
     var library;
     (function (library) {
         var Space = (function () {
-            function Space(title) {
+            function Space(title, isSinglePageSpace, canClose) {
                 var _this = this;
+                if (isSinglePageSpace === void 0) { isSinglePageSpace = false; }
+                if (canClose === void 0) { canClose = true; }
                 this.pages = ko.observableArray([]);
                 this.activePage = ko.observable(null);
                 this.isProcessing = ko.observable(false);
@@ -1024,6 +1037,8 @@ var hj;
                 };
                 this.id = library.Utils.guid();
                 this.title = ko.observable(title);
+                this.isSinglePageSpace = isSinglePageSpace;
+                this.canClose = canClose;
             }
             Space.prototype.addPage = function (page, parameters, removeForwardPages) {
                 var _this = this;
@@ -1084,6 +1099,107 @@ var hj;
             return Space;
         }());
         library.Space = Space;
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var SpaceList = (function () {
+            function SpaceList() {
+                var _this = this;
+                this.spaces = ko.observableArray([]);
+                this.activeSpace = ko.observable(null);
+                this.activePage = ko.pureComputed(function () {
+                    return _this.activeSpace() ? _this.activeSpace().activePage() : null;
+                });
+                this.open = function (space) {
+                    if (space === _this.activeSpace())
+                        return;
+                    if (_this.spaces.indexOf(space) < 0)
+                        return;
+                    if (_this.activeSpace()) {
+                        _this.activeSpace().isActive(false);
+                    }
+                    space.isActive(true);
+                    _this.activeSpace(space);
+                };
+                this.closeAll = function (except) {
+                    if (except === void 0) { except = null; }
+                    var spacesToRemove = [];
+                    _this.spaces().forEach(function (space) {
+                        if (space.canClose === true && space !== except) {
+                            spacesToRemove.push(space);
+                        }
+                    });
+                    spacesToRemove.forEach(function (space) {
+                        space.pages().forEach(function (page) { return page.dispose(); });
+                        _this.spaces.remove(space);
+                    });
+                    if (_this.spaces().length === 0) {
+                        _this.activeSpace(null);
+                    }
+                    else {
+                        _this.activeSpace(except || _this.spaces()[0]);
+                        _this.activeSpace().isActive(true);
+                    }
+                };
+                this.close = function (space) {
+                    var closeSpaceHandler = function () {
+                        space.pages().forEach(function (page) { return page.dispose(); });
+                        _this.spaces.remove(space);
+                        if (_this.activeSpace() === space) {
+                            if (_this.spaces().length > 0) {
+                                _this.activeSpace(_this.spaces()[_this.spaces().length - 1]);
+                            }
+                            else {
+                                _this.activeSpace(null);
+                            }
+                        }
+                        if (_this._onAfterCloseSpace) {
+                            _this._onAfterCloseSpace();
+                        }
+                    };
+                    if (_this._onBeforeCloseSpace) {
+                        _this._onBeforeCloseSpace(space, closeSpaceHandler);
+                    }
+                    else {
+                        closeSpaceHandler();
+                    }
+                };
+            }
+            SpaceList.prototype.openNew = function (space, insertAtBeginning) {
+                space.onBeforeAddPage(this._onBeforeAddPage); // space list's _onBeforeAddPage has higher priority than space's _onBeforeAddPage
+                if (insertAtBeginning) {
+                    this.spaces.unshift(space);
+                }
+                else {
+                    this.spaces.push(space);
+                }
+                this.open(space);
+            };
+            SpaceList.prototype.replaceActive = function (space) {
+                space.onBeforeAddPage(this._onBeforeAddPage);
+                if (this.spaces().length > 0) {
+                    var activeSpace = this.activeSpace();
+                    if (activeSpace.canClose) {
+                        var index = this.spaces.indexOf(activeSpace);
+                        activeSpace.pages().forEach(function (page) { page.dispose(); });
+                        this.spaces.remove(activeSpace);
+                        this.spaces.splice(index, 0, space);
+                    }
+                    else {
+                        this.spaces.push(space);
+                    }
+                }
+                else {
+                    this.spaces.push(space);
+                }
+                this.open(space);
+            };
+            return SpaceList;
+        }());
+        library.SpaceList = SpaceList;
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
 var hj;

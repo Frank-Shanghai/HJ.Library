@@ -15,9 +15,11 @@
         public isActive: KnockoutObservable<boolean> = ko.observable(true);
         public canClose: boolean; // Home space cannot be closed and should be a single page space
 
-        constructor(title: string) {
+        constructor(title: string, isSinglePageSpace: boolean = false, canClose: boolean = true) {
             this.id = Utils.guid();
             this.title = ko.observable(title);
+            this.isSinglePageSpace = isSinglePageSpace;
+            this.canClose = canClose;
         }
 
         public isPreviousButtonEnabled = ko.computed<boolean>(() => {
