@@ -1,5 +1,5 @@
 ﻿module hj.library.pages {
-    export class EditBook extends PageBase {
+    export class EditBookViewModel extends PageBase {
         public isEditingMode: KnockoutObservable<boolean> = ko.observable(false);
 
         public isbn: KnockoutObservable<string> = ko.observable('');
@@ -69,7 +69,8 @@
                     Comment: this.comment()
                 })
             }).done(() => {
-                Application.instance.activePage(new BooksViewModel());
+                this.space.addPage(new BooksViewModel(), null);
+                //Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);
             }).always(() => {
@@ -96,7 +97,8 @@
                     Comment: this.comment()
                 })
             }).done((data: any, textStatus: any, jqXHR: any) => {
-                Application.instance.activePage(new BooksViewModel());
+                this.space.addPage(new BooksViewModel(), null);
+                //Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 alert(err.message);
             }).always(() => {
@@ -105,7 +107,8 @@
         }
 
         private cancel = () => {
-            Application.instance.activePage(new BooksViewModel());
+            this.space.addPage(new BooksViewModel(), null);
+            //Application.instance.activePage(new BooksViewModel());
         }
     }
 }

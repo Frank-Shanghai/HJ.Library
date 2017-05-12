@@ -66,7 +66,8 @@ module hj.library.pages {
                     Password: this.password()
                 })
             }).done(() => {
-                Application.instance.activePage(new UsersViewModel());
+                this.space.addPage(new UsersViewModel(), null);
+                //Application.instance.activePage(new UsersViewModel());
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
             }).always(() => {
@@ -87,7 +88,8 @@ module hj.library.pages {
                     RoleName: this.selectedRoles().toString()
                 })
             }).done(() => {
-                Application.instance.activePage(new UsersViewModel());
+                this.space.addPage(new UsersViewModel(), null);
+                //Application.instance.activePage(new UsersViewModel());
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
             }).always(() => {
@@ -96,7 +98,9 @@ module hj.library.pages {
         }
 
         private cancel = () => {
-            Application.instance.activePage(new UsersViewModel());
+            // By calling addPage, it will check the template id first, if they are the same, the old page will be replaced with the new page.
+            this.space.addPage(new UsersViewModel(), null);
+            //Application.instance.activePage(new UsersViewModel());
         }
     }
 

@@ -2,6 +2,8 @@
 module hj.library {
 
     export class Application {
+        private homePageSpace: Space;
+
         private static _instance: Application;
 
         public static get instance(): Application {
@@ -12,10 +14,10 @@ module hj.library {
             return Application._instance;
         }
 
+        public spaceList: SpaceList;
         public user: authentication.LogonViewModel;
         public changePasswordDialog: dialogs.ChangePasswordViewModel = new dialogs.ChangePasswordViewModel();
         public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
-        public activePage: KnockoutObservable<pages.PageBase> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public sessionUser = ko.observable(null); // type return user
@@ -29,29 +31,49 @@ module hj.library {
             {
                 title: "Home", route: "#/Welcome", isActive: true,
                 navigateHandler: () => {
-                    this.activePage(new pages.HomePageViewModel());
+                    this.openHomePageSpace();
+                    //this.activePage(new pages.HomePageViewModel());
                 }
              },
             {
                 title: "Users", route: "#/Users", isActive: false,
                 navigateHandler: () => {
-                    this.activePage(new pages.UsersViewModel());
+                    var space = new Space("Users");
+                    space.addPage(new pages.UsersViewModel(), null);
+                    // By default, replace can closed active space
+                    this.spaceList.replaceActive(space);      
                 }
             }, 
             {
                 title: "Books", route: "#/Books", isActive: false,
                 navigateHandler: () => {
-                    this.activePage(new pages.BooksViewModel());
+                    var space = new Space("Books");
+                    space.addPage(new pages.BooksViewModel(), null);
+                    // By default, replace can closed active space
+                    this.spaceList.replaceActive(space);                    
+                    //this.activePage(new pages.BooksViewModel());
                 }
             }
         ];
 
-        public sammyApp: Sammy.Application = Sammy();
-
         constructor() {
+            this.spaceList = new SpaceList();
             this.user = new authentication.LogonViewModel();
             //this.initializeRouters();
         }        
+        
+        public openHomePageSpace = () => {
+            if (!this.homePageSpace) {
+                this.homePageSpace = new Space("Home", true, false);
+                this.spaceList.openNew(this.homePageSpace, true);
+                this.homePageSpace.addPage(new pages.HomePageViewModel(), null);
+            }
+            else {
+                this.spaceList.open(this.homePageSpace);
+            }
+        }
+
+        public sammyApp: Sammy.Application = Sammy();
 
         //private initializeRouters() {
         //    this.sammyApp.get("#/Welcome", (context: any) => {

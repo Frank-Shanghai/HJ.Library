@@ -46,11 +46,13 @@
                 dataType: 'json',
                 url: '/api/accounts/user/' + this.name()
             }).done((data) => {
+                library.Application.instance.openHomePageSpace();
                 Application.instance.sessionUser(data);
             }).fail((jqXhr: any, textStatus: any, err: any) => {
                 alert(err.message);
             });
-            library.Application.instance.activePage(new pages.HomePageViewModel());
+            
+            //library.Application.instance.activePage(new pages.HomePageViewModel());
             //library.Application.instance.sammyApp.run("#/Welcome");
         }
 

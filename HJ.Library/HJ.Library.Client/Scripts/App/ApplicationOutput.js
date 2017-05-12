@@ -14,9 +14,27 @@ var hj;
                     this.templateId = "";
                     this.isVisible = ko.observable(false);
                     this.title = ko.observable('');
-                    //TODO: Move this property to space when space is implemented.
+                    this.parameters = ko.observable();
                     this.isProcessing = ko.observable(false);
                 }
+                //public navigator: Services.INavigator;
+                //public errorDialog = ko.observable<IErrorDialogParameters>(null);
+                //public htmlDialog = ko.observable<IHtmlDialogParameters>(null);
+                // TODO: Page information dialog
+                //public informationDialog = ko.observable<IInformationDialogParameters>(null);
+                PageBase.prototype.onBeforeNavigateAway = function (navigate, cancel) {
+                    // Do anything you want to do here
+                    if (navigate) {
+                        navigate();
+                    }
+                };
+                PageBase.prototype.equals = function (page) {
+                    //TODO: what is the base logic for pages equlity? page id/tag/name and parameters?
+                    // Answer: here we recognize 2 pages as equal pages if they have the same template id
+                    return page.templateId === this.templateId;
+                };
+                PageBase.prototype.dispose = function () {
+                };
                 return PageBase;
             }());
             pages.PageBase = PageBase;
@@ -33,7 +51,6 @@ var hj;
                 var _this = this;
                 this.changePasswordDialog = new library.dialogs.ChangePasswordViewModel();
                 this.informationDialog = ko.observable(null);
-                this.activePage = ko.observable(null);
                 this.isAuthenticated = ko.observable(false);
                 this.isProcessing = ko.observable(false);
                 this.sessionUser = ko.observable(null); // type return user
@@ -46,23 +63,42 @@ var hj;
                     {
                         title: "Home", route: "#/Welcome", isActive: true,
                         navigateHandler: function () {
-                            _this.activePage(new library.pages.HomePageViewModel());
+                            _this.openHomePageSpace();
+                            //this.activePage(new pages.HomePageViewModel());
                         }
                     },
                     {
                         title: "Users", route: "#/Users", isActive: false,
                         navigateHandler: function () {
-                            _this.activePage(new library.pages.UsersViewModel());
+                            var space = new library.Space("Users");
+                            space.addPage(new library.pages.UsersViewModel(), null);
+                            // By default, replace can closed active space
+                            _this.spaceList.replaceActive(space);
                         }
                     },
                     {
                         title: "Books", route: "#/Books", isActive: false,
                         navigateHandler: function () {
-                            _this.activePage(new library.pages.BooksViewModel());
+                            var space = new library.Space("Books");
+                            space.addPage(new library.pages.BooksViewModel(), null);
+                            // By default, replace can closed active space
+                            _this.spaceList.replaceActive(space);
+                            //this.activePage(new pages.BooksViewModel());
                         }
                     }
                 ];
+                this.openHomePageSpace = function () {
+                    if (!_this.homePageSpace) {
+                        _this.homePageSpace = new library.Space("Home", true, false);
+                        _this.spaceList.openNew(_this.homePageSpace, true);
+                        _this.homePageSpace.addPage(new library.pages.HomePageViewModel(), null);
+                    }
+                    else {
+                        _this.spaceList.open(_this.homePageSpace);
+                    }
+                };
                 this.sammyApp = Sammy();
+                this.spaceList = new library.SpaceList();
                 this.user = new library.authentication.LogonViewModel();
                 //this.initializeRouters();
             }
@@ -129,11 +165,12 @@ var hj;
                             dataType: 'json',
                             url: '/api/accounts/user/' + _this.name()
                         }).done(function (data) {
+                            library.Application.instance.openHomePageSpace();
                             library.Application.instance.sessionUser(data);
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
                         });
-                        library.Application.instance.activePage(new library.pages.HomePageViewModel());
+                        //library.Application.instance.activePage(new pages.HomePageViewModel());
                         //library.Application.instance.sammyApp.run("#/Welcome");
                     };
                 }
@@ -183,6 +220,35 @@ var hj;
             return Bindings;
         }());
         library.Bindings = Bindings;
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+///<reference path="Bindings.ts" />
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var CloseOverlayBinding = (function () {
+            function CloseOverlayBinding() {
+            }
+            CloseOverlayBinding.prototype.init = function (element, valueAccessor, allowBindingAccessor, viewModel, bindingContext) {
+                var $element = $(element);
+                var options = valueAccessor();
+                var closeOverlayHandler = function (e) {
+                    // Only call this handler if the target is *not* a child element, which means all the other spaces except for this element or its children
+                    if ($element.has(e.target).length === 0 && options.action) {
+                        options.action();
+                    }
+                };
+                $(document).on("click", closeOverlayHandler);
+                // Remove the event handler if Knockout dispose the element
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                    $(document).off("click", closeOverlayHandler);
+                });
+            };
+            return CloseOverlayBinding;
+        }());
+        library.CloseOverlayBinding = CloseOverlayBinding;
+        library.Bindings.registerCustomBinding("closeOverlay", new CloseOverlayBinding());
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
 ///<reference path="../Bindings.ts" />
@@ -334,10 +400,12 @@ var hj;
                         ko.applyBindings(row, element.get(0));
                     };
                     this.add = function () {
-                        library.Application.instance.activePage(new pages.EditBook());
+                        _this.space.addPage(new pages.EditBookViewModel(), null);
+                        //Application.instance.activePage(new EditBook());
                     };
                     this.edit = function (bookId) {
-                        library.Application.instance.activePage(new pages.EditBook(_this.selectedBooks()[0].bookId));
+                        _this.space.addPage(new pages.EditBookViewModel(_this.selectedBooks()[0].bookId), null);
+                        //Application.instance.activePage(new EditBook(this.selectedBooks()[0].bookId));
                     };
                     this.remove = function () {
                         //TODO: 
@@ -374,7 +442,8 @@ var hj;
                         };
                     };
                     this.refresh = function () {
-                        library.Application.instance.activePage(new BooksViewModel());
+                        _this.space.addPage(new BooksViewModel(), null);
+                        //Application.instance.activePage(new BooksViewModel());
                     };
                     this.templateId = pages.books.BooksViewId;
                     this.title("Books");
@@ -442,9 +511,9 @@ var hj;
     (function (library) {
         var pages;
         (function (pages) {
-            var EditBook = (function (_super) {
-                __extends(EditBook, _super);
-                function EditBook(bookId) {
+            var EditBookViewModel = (function (_super) {
+                __extends(EditBookViewModel, _super);
+                function EditBookViewModel(bookId) {
                     var _this = this;
                     _super.call(this);
                     this.bookId = bookId;
@@ -477,7 +546,8 @@ var hj;
                                 Comment: _this.comment()
                             })
                         }).done(function () {
-                            library.Application.instance.activePage(new pages.BooksViewModel());
+                            _this.space.addPage(new pages.BooksViewModel(), null);
+                            //Application.instance.activePage(new BooksViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
                         }).always(function () {
@@ -503,7 +573,8 @@ var hj;
                                 Comment: _this.comment()
                             })
                         }).done(function (data, textStatus, jqXHR) {
-                            library.Application.instance.activePage(new pages.BooksViewModel());
+                            _this.space.addPage(new pages.BooksViewModel(), null);
+                            //Application.instance.activePage(new BooksViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
                         }).always(function () {
@@ -511,12 +582,13 @@ var hj;
                         });
                     };
                     this.cancel = function () {
-                        library.Application.instance.activePage(new pages.BooksViewModel());
+                        _this.space.addPage(new pages.BooksViewModel(), null);
+                        //Application.instance.activePage(new BooksViewModel());
                     };
                     this.templateId = pages.books.EditBookViewId;
                     this.initialize(bookId);
                 }
-                EditBook.prototype.initialize = function (bookId) {
+                EditBookViewModel.prototype.initialize = function (bookId) {
                     var _this = this;
                     if (bookId) {
                         this.isEditingMode(true);
@@ -547,10 +619,54 @@ var hj;
                         this.title('Create New Book');
                     }
                 };
-                return EditBook;
+                return EditBookViewModel;
             }(pages.PageBase));
-            pages.EditBook = EditBook;
+            pages.EditBookViewModel = EditBookViewModel;
         })(pages = library.pages || (library.pages = {}));
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var dialogs;
+        (function (dialogs) {
+            var ChangePasswordViewModel = (function () {
+                function ChangePasswordViewModel() {
+                    var _this = this;
+                    this.oldPassword = ko.observable('');
+                    this.newPassword = ko.observable('');
+                    this.confirmPassword = ko.observable('');
+                    this.changePassword = function () {
+                        if (_this.newPassword() !== _this.confirmPassword()) {
+                            alert('The new password and confirm password should be identical.');
+                            return;
+                        }
+                        library.Application.instance.isProcessing(true);
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '/api/accounts/changepassword',
+                            data: JSON.stringify({
+                                OldPassword: _this.oldPassword(),
+                                NewPassword: _this.newPassword()
+                            })
+                        }).done(function () {
+                            alert("Password changed sucessfully.");
+                            _this.oldPassword('');
+                            _this.newPassword('');
+                            _this.confirmPassword('');
+                        }).fail(function (jqXhr, textStatus, err) {
+                            alert(err.message);
+                        }).always(function () {
+                            library.Application.instance.isProcessing(false);
+                        });
+                    };
+                }
+                return ChangePasswordViewModel;
+            }());
+            dialogs.ChangePasswordViewModel = ChangePasswordViewModel;
+        })(dialogs = library.dialogs || (library.dialogs = {}));
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
 var hj;
@@ -626,50 +742,6 @@ var hj;
         })(pages = library.pages || (library.pages = {}));
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
-var hj;
-(function (hj) {
-    var library;
-    (function (library) {
-        var dialogs;
-        (function (dialogs) {
-            var ChangePasswordViewModel = (function () {
-                function ChangePasswordViewModel() {
-                    var _this = this;
-                    this.oldPassword = ko.observable('');
-                    this.newPassword = ko.observable('');
-                    this.confirmPassword = ko.observable('');
-                    this.changePassword = function () {
-                        if (_this.newPassword() !== _this.confirmPassword()) {
-                            alert('The new password and confirm password should be identical.');
-                            return;
-                        }
-                        library.Application.instance.isProcessing(true);
-                        $.ajax({
-                            type: 'post',
-                            contentType: 'application/json',
-                            url: '/api/accounts/changepassword',
-                            data: JSON.stringify({
-                                OldPassword: _this.oldPassword(),
-                                NewPassword: _this.newPassword()
-                            })
-                        }).done(function () {
-                            alert("Password changed sucessfully.");
-                            _this.oldPassword('');
-                            _this.newPassword('');
-                            _this.confirmPassword('');
-                        }).fail(function (jqXhr, textStatus, err) {
-                            alert(err.message);
-                        }).always(function () {
-                            library.Application.instance.isProcessing(false);
-                        });
-                    };
-                }
-                return ChangePasswordViewModel;
-            }());
-            dialogs.ChangePasswordViewModel = ChangePasswordViewModel;
-        })(dialogs = library.dialogs || (library.dialogs = {}));
-    })(library = hj.library || (hj.library = {}));
-})(hj || (hj = {}));
 ///<reference path="../PageBase.ts" />
 var hj;
 (function (hj) {
@@ -710,7 +782,8 @@ var hj;
                                 Password: _this.password()
                             })
                         }).done(function () {
-                            library.Application.instance.activePage(new pages.UsersViewModel());
+                            _this.space.addPage(new pages.UsersViewModel(), null);
+                            //Application.instance.activePage(new UsersViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
                         }).always(function () {
@@ -730,7 +803,8 @@ var hj;
                                 RoleName: _this.selectedRoles().toString()
                             })
                         }).done(function () {
-                            library.Application.instance.activePage(new pages.UsersViewModel());
+                            _this.space.addPage(new pages.UsersViewModel(), null);
+                            //Application.instance.activePage(new UsersViewModel());
                         }).fail(function (jqXhr, textStatus, err) {
                             alert(err.message);
                         }).always(function () {
@@ -738,7 +812,9 @@ var hj;
                         });
                     };
                     this.cancel = function () {
-                        library.Application.instance.activePage(new pages.UsersViewModel());
+                        // By calling addPage, it will check the template id first, if they are the same, the old page will be replaced with the new page.
+                        _this.space.addPage(new pages.UsersViewModel(), null);
+                        //Application.instance.activePage(new UsersViewModel());
                     };
                     this.title('Create User');
                     this.templateId = pages.users.EditUserViewId;
@@ -792,14 +868,16 @@ var hj;
                         _this.selectedUsers(selectedRows);
                     };
                     this.edit = function (userName) {
-                        library.Application.instance.activePage(new pages.EditUserViewModel(_this.selectedUsers()[0]));
+                        //Application.instance.activePage(new EditUserViewModel(this.selectedUsers()[0]));
+                        _this.space.addPage(new pages.EditUserViewModel(_this.selectedUsers()[0]), null);
                     };
                     this.add = function () {
-                        library.Application.instance.activePage(new pages.EditUserViewModel());
+                        _this.space.addPage(new pages.EditUserViewModel(), null);
+                        //Application.instance.activePage(new EditUserViewModel());
                     };
                     this.remove = function () {
                         //TODO: 
-                        // 2. Check if it has any books not returned or owned any books, handl these things first and then delete it
+                        // 2. Check if it has any books not returned or owned any books, handle these things first and then delete it
                         library.InformationHandler.report({
                             title: "Delete",
                             header: "Please Confirm",
@@ -832,7 +910,8 @@ var hj;
                         };
                     };
                     this.refresh = function () {
-                        library.Application.instance.activePage(new UsersViewModel());
+                        _this.space.addPage(new UsersViewModel(), null);
+                        //Application.instance.activePage(new UsersViewModel());
                     };
                     this.templateId = pages.users.UsersViewId;
                     this.title("Users");
@@ -904,6 +983,248 @@ var hj;
 (function (hj) {
     var library;
     (function (library) {
+        var Space = (function () {
+            function Space(title, isSinglePageSpace, canClose) {
+                var _this = this;
+                if (isSinglePageSpace === void 0) { isSinglePageSpace = false; }
+                if (canClose === void 0) { canClose = true; }
+                this.pages = ko.observableArray([]);
+                this.activePage = ko.observable(null);
+                this.isProcessing = ko.observable(false);
+                this.isActive = ko.observable(true);
+                this.isPreviousButtonEnabled = ko.computed(function () {
+                    var that = _this;
+                    return _this.pages().indexOf(_this.activePage()) > 0 && (_this.activePage() && !_this.activePage().isProcessing());
+                });
+                this.isNextButtonEnabled = ko.computed(function () {
+                    return _this.pages().indexOf(_this.activePage()) < _this.pages().length - 1 && (_this.activePage() && !_this.activePage().isProcessing());
+                });
+                this.isPagesButtonEnabled = ko.computed(function () {
+                    return _this.activePage() && !_this.activePage().isProcessing();
+                });
+                this.goToPreviousPage = function () {
+                    if (_this.activePage()) {
+                        _this.activePage().onBeforeNavigateAway(_this.doGoToPreviousPage);
+                    }
+                };
+                this.doGoToPreviousPage = function () {
+                    var previousPageIndex = Math.max(0, _this.pages().indexOf(_this.activePage()) - 1);
+                    _this.setActivePage(_this.pages()[previousPageIndex]);
+                };
+                this.goToNextPage = function () {
+                    if (_this.activePage()) {
+                        _this.activePage().onBeforeNavigateAway(_this.doGoToNextPage);
+                    }
+                };
+                this.doGoToNextPage = function () {
+                    var nextPageIndex = Math.max(_this.pages().length - 1, _this.pages().indexOf(_this.activePage()) + 1);
+                    _this.setActivePage(_this.pages()[nextPageIndex]);
+                };
+                this.goToPage = function (page) {
+                    if (_this.activePage()) {
+                        _this.activePage().onBeforeNavigateAway(function () { _this.setActivePage(page); });
+                    }
+                    else {
+                        _this.setActivePage(page);
+                    }
+                };
+                this.setActivePage = function (page) {
+                    if (_this.activePage()) {
+                        _this.activePage().isVisible(false);
+                    }
+                    page.isVisible(true);
+                    _this.activePage(page);
+                };
+                this.id = library.Utils.guid();
+                this.title = ko.observable(title);
+                this.isSinglePageSpace = isSinglePageSpace;
+                this.canClose = canClose;
+            }
+            Space.prototype.addPage = function (page, parameters, removeForwardPages) {
+                var _this = this;
+                if (removeForwardPages === void 0) { removeForwardPages = true; }
+                var handler = function () {
+                    page.space = _this;
+                    page.parameters = parameters;
+                    var existingPage = ko.utils.arrayFirst(_this.pages(), function (x) { return x.equals(page); });
+                    if (existingPage) {
+                        _this.pages.replace(existingPage, page);
+                    }
+                    else {
+                        if (removeForwardPages) {
+                            _this.removeAllPagesAfterActive();
+                        }
+                        _this.pages.push(page);
+                    }
+                    _this.setActivePage(page);
+                };
+                if (this._onBeforeAddPage) {
+                    this._onBeforeAddPage(page, this, handler, function () { });
+                }
+                else {
+                    handler();
+                }
+            };
+            Space.prototype.removePage = function (page) {
+                page.dispose();
+                this.pages.remove(page);
+                if (this.activePage() === page) {
+                    if (this.pages().length > 0) {
+                        // Set the last page as acitve page
+                        this.setActivePage(this.pages()[this.pages().length - 1]);
+                    }
+                    else {
+                        this.setActivePage(null);
+                    }
+                }
+            };
+            Space.prototype.onBeforeAddPage = function (onBeforeAddPage) {
+                if (!this._onBeforeAddPage) {
+                    this._onBeforeAddPage = onBeforeAddPage;
+                }
+            };
+            Space.prototype.removeAllPagesAfterActive = function () {
+                var _this = this;
+                if (this.pages().length === 0)
+                    return;
+                var activePageIndex = this.pages().indexOf(this.activePage());
+                if (activePageIndex === this.pages().length - 1)
+                    return;
+                var pagesToRemove = this.pages().slice(activePageIndex + 1);
+                pagesToRemove.forEach(function (page) {
+                    page.dispose();
+                    _this.pages.remove(page);
+                });
+            };
+            return Space;
+        }());
+        library.Space = Space;
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var SpaceList = (function () {
+            function SpaceList() {
+                var _this = this;
+                this.spaces = ko.observableArray([]);
+                this.activeSpace = ko.observable(null);
+                this.activePage = ko.pureComputed(function () {
+                    return _this.activeSpace() ? _this.activeSpace().activePage() : null;
+                });
+                this.open = function (space) {
+                    if (space === _this.activeSpace())
+                        return;
+                    if (_this.spaces.indexOf(space) < 0)
+                        return;
+                    if (_this.activeSpace()) {
+                        _this.activeSpace().isActive(false);
+                    }
+                    space.isActive(true);
+                    _this.activeSpace(space);
+                };
+                this.closeAll = function (except) {
+                    if (except === void 0) { except = null; }
+                    var spacesToRemove = [];
+                    _this.spaces().forEach(function (space) {
+                        if (space.canClose === true && space !== except) {
+                            spacesToRemove.push(space);
+                        }
+                    });
+                    spacesToRemove.forEach(function (space) {
+                        space.pages().forEach(function (page) { return page.dispose(); });
+                        _this.spaces.remove(space);
+                    });
+                    if (_this.spaces().length === 0) {
+                        _this.activeSpace(null);
+                    }
+                    else {
+                        _this.activeSpace(except || _this.spaces()[0]);
+                        _this.activeSpace().isActive(true);
+                    }
+                };
+                this.close = function (space) {
+                    var closeSpaceHandler = function () {
+                        space.pages().forEach(function (page) { return page.dispose(); });
+                        _this.spaces.remove(space);
+                        if (_this.activeSpace() === space) {
+                            if (_this.spaces().length > 0) {
+                                _this.activeSpace(_this.spaces()[_this.spaces().length - 1]);
+                            }
+                            else {
+                                _this.activeSpace(null);
+                            }
+                        }
+                        if (_this._onAfterCloseSpace) {
+                            _this._onAfterCloseSpace();
+                        }
+                    };
+                    if (_this._onBeforeCloseSpace) {
+                        _this._onBeforeCloseSpace(space, closeSpaceHandler);
+                    }
+                    else {
+                        closeSpaceHandler();
+                    }
+                };
+            }
+            SpaceList.prototype.openNew = function (space, insertAtBeginning) {
+                space.onBeforeAddPage(this._onBeforeAddPage); // space list's _onBeforeAddPage has higher priority than space's _onBeforeAddPage
+                if (insertAtBeginning) {
+                    this.spaces.unshift(space);
+                }
+                else {
+                    this.spaces.push(space);
+                }
+                this.open(space);
+            };
+            SpaceList.prototype.replaceActive = function (space) {
+                space.onBeforeAddPage(this._onBeforeAddPage);
+                if (this.spaces().length > 0) {
+                    var activeSpace = this.activeSpace();
+                    if (activeSpace.canClose) {
+                        var index = this.spaces.indexOf(activeSpace);
+                        activeSpace.pages().forEach(function (page) { page.dispose(); });
+                        this.spaces.remove(activeSpace);
+                        this.spaces.splice(index, 0, space);
+                    }
+                    else {
+                        this.spaces.push(space);
+                    }
+                }
+                else {
+                    this.spaces.push(space);
+                }
+                this.open(space);
+            };
+            return SpaceList;
+        }());
+        library.SpaceList = SpaceList;
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var Utils = (function () {
+            function Utils() {
+            }
+            Utils.guid = function () {
+                var p8 = function (s) {
+                    var p = (Math.random().toString(16) + "000000000").substr(2, 8);
+                    return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
+                };
+                return p8(false) + p8(true) + p8(true) + p8(false);
+            };
+            return Utils;
+        }());
+        library.Utils = Utils;
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
         var authentication;
         (function (authentication) {
             authentication.LogonView = "\u003cdiv class=\"container logon\"\u003e\r\n    \u003cdiv class=\"row\"\u003e\r\n        \u003cdiv class=\"col-md-offset-3 col-md-6\"\u003e\r\n            \u003cdiv class=\"header\"\u003e\r\n                \u003cspan\u003eLogin\u003c/span\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"form-group\"\u003e\r\n                \u003cinput type=\"text\" class=\"form-control\" placeholder=\"account\" data-bind=\"value: name\" /\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"form-group\"\u003e\r\n                \u003cinput type=\"password\" class=\"form-control\" placeholder=\"password\" data-bind=\"value: password\" /\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"footer\"\u003e\r\n                \u003cbutton class=\"btn btn-default\" data-bind=\"click: reset\"\u003eReset\u003c/button\u003e\r\n                \u003cbutton class=\"btn btn-default\" data-bind=\"click: logon\"\u003eSign In\u003c/button\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e";
@@ -917,7 +1238,7 @@ var hj;
     (function (library) {
         var pages;
         (function (pages) {
-            pages.HomePageView = "\u003cdiv\u003e\r\n    \u003ch1\u003eWelcome!\u003c/h1\u003e\r\n\u003c/div\u003e\r\n";
+            pages.HomePageView = "\u003cdiv\u003e\r\n    \u003cspn\u003eWelcome!\u003c/spn\u003e\r\n\u003c/div\u003e\r\n";
             pages.HomePageViewId = "hj-library-pages-HomePageView";
         })(pages = library.pages || (library.pages = {}));
     })(library = hj.library || (hj.library = {}));

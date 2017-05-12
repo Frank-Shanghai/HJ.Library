@@ -3,32 +3,55 @@
     width: 100%;
 }
 
+$app-header-height: 50px;
+$app-header-border-color: #cccccc;
+$app-header-background-color: #f5f5f6;
+
 .app-header {
-    height: 80px;
+    height: $app-header-height;
     background-color: white;
     border-bottom: solid 2px cadetblue;
+    position: relative;
 
     .logo {
         > img {
-            height: 78px; margin-left: 15px;
+            height: 48px;
+            border-right: solid 1px $app-header-border-color;
+        }
+    }
+
+    .space-title {
+        position: absolute;
+        background: $app-header-background-color;
+        top: 0;
+        left: 65px;
+        right: 160px;
+        padding-left: 10px;
+        border-right: solid 1px $app-header-border-color;
+        height: 100%;
+
+        > span {
+            line-height: 50px;
+            font-size: 25px;
+            color: #12759f;
         }
     }
 
     .account {
         float: right;
         height: 48px;
-        line-height: 48px; 
-        margin-top: 30px; 
+        line-height: 48px;
         position: relative;
 
         > span {
-            font-size: 25px;
+            font-size: 20px;
         }
 
         .profile-icon {
             margin: 0 2px 0 5px;
+
             > i {
-                font-size: 42px; 
+                font-size: 42px;
                 border: solid;
             }
         }
@@ -37,7 +60,7 @@
 
 .app-navigation-bar {
     position: absolute;
-    top: 80px;
+    top: $app-header-height;
     left: 0;
     bottom: 0;
     width: 28%;
@@ -47,18 +70,21 @@
         border-bottom: 1px solid gray;
     }
 
-    .nav-stacked > li + li { margin-top: unset; }
+    .nav-stacked > li + li {
+        margin-top: unset;
+    }
 
-    .nav-pills > li > a { border-radius: unset;}
+    .nav-pills > li > a {
+        border-radius: unset;
+    }
 }
 
 .app-main-screen {
     position: absolute;
-    top: 80px;
+    top: $app-header-height;
     left: 28%;
     right: 0;
     bottom: 0;
-
     margin: 1%;
     padding: 2%;
     padding-top: 0;
@@ -68,10 +94,81 @@
     .active-page {
         overflow: auto;
     }
+
+
+    .page-title {
+        margin: 0 0 10px 0;
+
+        .navigation-button {
+            float: left;
+            margin-right: 20px;
+
+            a {
+                color: #b3b3b3;
+            }
+
+            > a + a {
+                margin-left: 10px;
+            }
+
+            a:hover, a:focus {
+                text-decoration: none;
+            }
+
+            a.disabled {
+                cursor: default;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+        }
+
+        
+
+        .page-history {
+            .dropdown-toggle .fa-angle-up {
+                display: none;
+            }
+
+            > a {
+                font-size: 30px;
+                color: #0c2931;
+            }
+
+            a:hover, a:focus {
+                text-decoration: none;
+            }
+
+            a.disabled {
+                cursor: default;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            > ul {
+                font-size: 20px;
+                color: #0c2931;
+            }
+
+            margin-left: 110px;            
+        }
+        .dropdown.page-history.open .dropdown-toggle .fa-angle-up {
+            /*
+                * css多类选择器
+                * 中间无空格的几个类写在一起，代表这个元素同时具有这几个样式类
+                * 中间有空格隔开的话，代表类间的层级关系
+            */
+            display: inline-block;
+        }
+
+        .dropdown.page-history.open .dropdown-toggle .fa-angle-down {
+            display: none;
+        }
+    }
 }
 
 .grid-toolbar {
     margin: 10px 10px 10px 0;
+
     > button + button {
         margin-left: 5px;
     }

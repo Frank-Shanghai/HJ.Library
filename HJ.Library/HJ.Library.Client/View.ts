@@ -4,7 +4,7 @@ module hj.library.authentication {
 	export var LogonViewId:string = "hj-library-authentication-LogonView";
 }
 module hj.library.pages {
-	export var HomePageView:string = "\u003cdiv\u003e\r\n    \u003ch1\u003eWelcome!\u003c/h1\u003e\r\n\u003c/div\u003e\r\n";
+	export var HomePageView:string = "\u003cdiv\u003e\r\n    \u003cspn\u003eWelcome!\u003c/spn\u003e\r\n\u003c/div\u003e\r\n";
 	export var HomePageViewId:string = "hj-library-pages-HomePageView";
 }
 module hj.library.pages.books {

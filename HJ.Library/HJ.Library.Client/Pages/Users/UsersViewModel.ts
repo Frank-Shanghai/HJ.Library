@@ -73,16 +73,18 @@ module hj.library.pages {
         }
 
         private edit = (userName: string) => {
-            Application.instance.activePage(new EditUserViewModel(this.selectedUsers()[0]));
+            //Application.instance.activePage(new EditUserViewModel(this.selectedUsers()[0]));
+            this.space.addPage(new EditUserViewModel(this.selectedUsers()[0]), null);
         }
 
         private add = () => {
-            Application.instance.activePage(new EditUserViewModel());
+            this.space.addPage(new EditUserViewModel(), null);
+            //Application.instance.activePage(new EditUserViewModel());
         }
 
         private remove = () => {
             //TODO: 
-            // 2. Check if it has any books not returned or owned any books, handl these things first and then delete it
+            // 2. Check if it has any books not returned or owned any books, handle these things first and then delete it
             InformationHandler.report({
                 title: "Delete",
                 header: "Please Confirm",
@@ -119,7 +121,8 @@ module hj.library.pages {
         }
 
         private refresh = () => {
-            Application.instance.activePage(new UsersViewModel());
+            this.space.addPage(new UsersViewModel(), null);
+            //Application.instance.activePage(new UsersViewModel());
         }
     }
 }
