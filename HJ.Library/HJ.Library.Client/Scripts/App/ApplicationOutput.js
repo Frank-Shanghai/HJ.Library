@@ -97,6 +97,37 @@ var hj;
                         _this.spaceList.open(_this.homePageSpace);
                     }
                 };
+                this.closeSpace = function (space) {
+                    if (!space.canClose)
+                        return;
+                    // No such scenarios?
+                    if (space.pages().length === 0) {
+                        _this.spaceList.close(space);
+                        return;
+                    }
+                    var doCloseSpace = function () {
+                        if (space.activePage()) {
+                            space.activePage().onBeforeNavigateAway(function () {
+                                _this.spaceList.close(space);
+                            });
+                        }
+                        else {
+                            _this.spaceList.close(space);
+                        }
+                    };
+                    library.InformationHandler.report({
+                        title: "Close Space",
+                        header: "Please Confirm",
+                        message: "Are you sure you want to close space " + space.title() + "? ",
+                        isOKButtonVisible: true,
+                        okButtonText: "Yes",
+                        isCancelButtonVisible: true,
+                        cancelButtonText: "Cancel",
+                        onConfirm: function () {
+                            doCloseSpace();
+                        }
+                    });
+                };
                 this.sammyApp = Sammy();
                 this.spaceList = new library.SpaceList();
                 this.user = new library.authentication.LogonViewModel();
@@ -631,50 +662,6 @@ var hj;
     (function (library) {
         var dialogs;
         (function (dialogs) {
-            var ChangePasswordViewModel = (function () {
-                function ChangePasswordViewModel() {
-                    var _this = this;
-                    this.oldPassword = ko.observable('');
-                    this.newPassword = ko.observable('');
-                    this.confirmPassword = ko.observable('');
-                    this.changePassword = function () {
-                        if (_this.newPassword() !== _this.confirmPassword()) {
-                            alert('The new password and confirm password should be identical.');
-                            return;
-                        }
-                        library.Application.instance.isProcessing(true);
-                        $.ajax({
-                            type: 'post',
-                            contentType: 'application/json',
-                            url: '/api/accounts/changepassword',
-                            data: JSON.stringify({
-                                OldPassword: _this.oldPassword(),
-                                NewPassword: _this.newPassword()
-                            })
-                        }).done(function () {
-                            alert("Password changed sucessfully.");
-                            _this.oldPassword('');
-                            _this.newPassword('');
-                            _this.confirmPassword('');
-                        }).fail(function (jqXhr, textStatus, err) {
-                            alert(err.message);
-                        }).always(function () {
-                            library.Application.instance.isProcessing(false);
-                        });
-                    };
-                }
-                return ChangePasswordViewModel;
-            }());
-            dialogs.ChangePasswordViewModel = ChangePasswordViewModel;
-        })(dialogs = library.dialogs || (library.dialogs = {}));
-    })(library = hj.library || (hj.library = {}));
-})(hj || (hj = {}));
-var hj;
-(function (hj) {
-    var library;
-    (function (library) {
-        var dialogs;
-        (function (dialogs) {
             var InformationDialogComponentViewModel = (function () {
                 function InformationDialogComponentViewModel(parameters) {
                     var _this = this;
@@ -740,6 +727,50 @@ var hj;
             }(pages.PageBase));
             pages.HomePageViewModel = HomePageViewModel;
         })(pages = library.pages || (library.pages = {}));
+    })(library = hj.library || (hj.library = {}));
+})(hj || (hj = {}));
+var hj;
+(function (hj) {
+    var library;
+    (function (library) {
+        var dialogs;
+        (function (dialogs) {
+            var ChangePasswordViewModel = (function () {
+                function ChangePasswordViewModel() {
+                    var _this = this;
+                    this.oldPassword = ko.observable('');
+                    this.newPassword = ko.observable('');
+                    this.confirmPassword = ko.observable('');
+                    this.changePassword = function () {
+                        if (_this.newPassword() !== _this.confirmPassword()) {
+                            alert('The new password and confirm password should be identical.');
+                            return;
+                        }
+                        library.Application.instance.isProcessing(true);
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '/api/accounts/changepassword',
+                            data: JSON.stringify({
+                                OldPassword: _this.oldPassword(),
+                                NewPassword: _this.newPassword()
+                            })
+                        }).done(function () {
+                            alert("Password changed sucessfully.");
+                            _this.oldPassword('');
+                            _this.newPassword('');
+                            _this.confirmPassword('');
+                        }).fail(function (jqXhr, textStatus, err) {
+                            alert(err.message);
+                        }).always(function () {
+                            library.Application.instance.isProcessing(false);
+                        });
+                    };
+                }
+                return ChangePasswordViewModel;
+            }());
+            dialogs.ChangePasswordViewModel = ChangePasswordViewModel;
+        })(dialogs = library.dialogs || (library.dialogs = {}));
     })(library = hj.library || (hj.library = {}));
 })(hj || (hj = {}));
 ///<reference path="../PageBase.ts" />
@@ -1150,7 +1181,7 @@ var hj;
                         _this.spaces.remove(space);
                         if (_this.activeSpace() === space) {
                             if (_this.spaces().length > 0) {
-                                _this.activeSpace(_this.spaces()[_this.spaces().length - 1]);
+                                _this.open(_this.spaces()[_this.spaces().length - 1]);
                             }
                             else {
                                 _this.activeSpace(null);

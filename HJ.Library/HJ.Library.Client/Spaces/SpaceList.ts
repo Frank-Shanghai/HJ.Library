@@ -96,7 +96,7 @@
 
                 if (this.activeSpace() === space) {
                     if (this.spaces().length > 0) {
-                        this.activeSpace(this.spaces()[this.spaces().length - 1]);
+                        this.open(this.spaces()[this.spaces().length - 1]);
                     }
                     else {
                         this.activeSpace(null);

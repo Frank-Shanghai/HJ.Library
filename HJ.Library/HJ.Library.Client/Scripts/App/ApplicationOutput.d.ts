@@ -28,6 +28,7 @@ declare module hj.library {
         navigationMenus: Array<any>;
         constructor();
         openHomePageSpace: () => void;
+        closeSpace: (space: Space) => void;
         sammyApp: Sammy.Application;
     }
 }
@@ -112,15 +113,6 @@ declare module hj.library.pages {
     }
 }
 declare module hj.library.dialogs {
-    class ChangePasswordViewModel {
-        private oldPassword;
-        private newPassword;
-        private confirmPassword;
-        constructor();
-        private changePassword;
-    }
-}
-declare module hj.library.dialogs {
     interface IInformationDialogComponentParameters {
         context?: IInformationDialogComponentParameters;
         title: string | KnockoutObservable<string>;
@@ -155,6 +147,15 @@ declare module hj.library.dialogs {
 declare module hj.library.pages {
     class HomePageViewModel extends PageBase {
         constructor();
+    }
+}
+declare module hj.library.dialogs {
+    class ChangePasswordViewModel {
+        private oldPassword;
+        private newPassword;
+        private confirmPassword;
+        constructor();
+        private changePassword;
     }
 }
 declare module hj.library.pages {

@@ -73,6 +73,41 @@ module hj.library {
             }
         }
 
+        public closeSpace = (space: Space) => {
+            if (!space.canClose)
+                return;
+
+            // No such scenarios?
+            if (space.pages().length === 0) {
+                this.spaceList.close(space);
+                return;
+            }
+
+            var doCloseSpace = () => {
+                if (space.activePage()) {
+                    space.activePage().onBeforeNavigateAway(() => {
+                        this.spaceList.close(space);
+                    });
+                }
+                else {
+                    this.spaceList.close(space);
+                }
+            }
+
+            InformationHandler.report({
+                title: "Close Space",
+                header: "Please Confirm",
+                message: "Are you sure you want to close space " + space.title() + "? ",
+                isOKButtonVisible: true,
+                okButtonText: "Yes",
+                isCancelButtonVisible: true,
+                cancelButtonText: "Cancel",
+                onConfirm: () => {
+                    doCloseSpace();
+                }
+            });
+        }
+
         public sammyApp: Sammy.Application = Sammy();
 
         //private initializeRouters() {
