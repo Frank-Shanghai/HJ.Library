@@ -58,24 +58,79 @@ $app-header-background-color: #f5f5f6;
     }
 }
 
-.app-navigation-bar {
-    position: absolute;
-    top: $app-header-height;
-    left: 0;
-    bottom: 0;
+.fs-nav {
     width: 28%;
-    overflow: auto;
+    position: absolute;
+    top: 50px;
+    bottom: 0;
 
-    > ul > li {
-        border-bottom: 1px solid gray;
+    .quick-nav {
+        width: 50px;
+        height: 100%;
+        background-color: #0f333d;
+
+        .nav-pills > li > a {
+            border-radius: 0;
+        }
+
+        .nav > li > a {
+            padding: 0;
+        }
+
+        .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+            background-color: unset;
+        }
+
+        .nav > li > a:hover, .nav > li > a:focus {
+            color: white;
+            background-color: unset;
+        }
+
+        a {
+            font-size: 30px;
+            text-align: center;
+        }
     }
 
-    .nav-stacked > li + li {
-        margin-top: unset;
-    }
+    .app-navigation-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+        margin-left: 50px;
+        border: solid 1px gainsboro;
+        border-left-width: 0;
+        border-top-width: 0;
 
-    .nav-pills > li > a {
-        border-radius: unset;
+        > ul > li {
+            border-bottom: 1px solid gainsboro;
+        }
+
+        .nav-stacked > li + li {
+            margin-top: unset;
+        }
+
+        .nav-pills > li > a {
+            border-radius: unset;
+        }
+
+        .nav-stacked li > a > span {
+            margin-right: 45px;
+            display: block;            
+        }
+
+        .nav-stacked li > a > i {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 13px;
+            opacity: 0.4;
+            &:hover {
+                opacity: 1.0;
+            }
+        }
     }
 }
 
@@ -122,7 +177,7 @@ $app-header-background-color: #f5f5f6;
             }
         }
 
-        
+
 
         .page-history {
             .dropdown-toggle .fa-angle-up {
@@ -149,8 +204,9 @@ $app-header-background-color: #f5f5f6;
                 color: #0c2931;
             }
 
-            margin-left: 110px;            
+            margin-left: 110px;
         }
+
         .dropdown.page-history.open .dropdown-toggle .fa-angle-up {
             /*
                 * css多类选择器

@@ -37,19 +37,55 @@ body {
         font-size: 42px;
         border: solid; }
 
-.app-navigation-bar {
+.fs-nav {
+  width: 28%;
   position: absolute;
   top: 50px;
-  left: 0;
-  bottom: 0;
-  width: 28%;
-  overflow: auto; }
-  .app-navigation-bar > ul > li {
-    border-bottom: 1px solid gray; }
-  .app-navigation-bar .nav-stacked > li + li {
-    margin-top: unset; }
-  .app-navigation-bar .nav-pills > li > a {
-    border-radius: unset; }
+  bottom: 0; }
+  .fs-nav .quick-nav {
+    width: 50px;
+    height: 100%;
+    background-color: #0f333d; }
+    .fs-nav .quick-nav .nav-pills > li > a {
+      border-radius: 0; }
+    .fs-nav .quick-nav .nav > li > a {
+      padding: 0; }
+    .fs-nav .quick-nav .nav-pills > li.active > a, .fs-nav .quick-nav .nav-pills > li.active > a:hover, .fs-nav .quick-nav .nav-pills > li.active > a:focus {
+      background-color: unset; }
+    .fs-nav .quick-nav .nav > li > a:hover, .fs-nav .quick-nav .nav > li > a:focus {
+      color: white;
+      background-color: unset; }
+    .fs-nav .quick-nav a {
+      font-size: 30px;
+      text-align: center; }
+  .fs-nav .app-navigation-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    margin-left: 50px;
+    border: solid 1px gainsboro;
+    border-left-width: 0;
+    border-top-width: 0; }
+    .fs-nav .app-navigation-bar > ul > li {
+      border-bottom: 1px solid gainsboro; }
+    .fs-nav .app-navigation-bar .nav-stacked > li + li {
+      margin-top: unset; }
+    .fs-nav .app-navigation-bar .nav-pills > li > a {
+      border-radius: unset; }
+    .fs-nav .app-navigation-bar .nav-stacked li > a > span {
+      margin-right: 45px;
+      display: block; }
+    .fs-nav .app-navigation-bar .nav-stacked li > a > i {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 13px;
+      opacity: 0.4; }
+      .fs-nav .app-navigation-bar .nav-stacked li > a > i:hover {
+        opacity: 1.0; }
 
 .app-main-screen {
   position: absolute;

@@ -46,14 +46,33 @@
     </div>
 
     <!-- ==== Navigation Bar ==== -->
-    <nav id="navigationBar" class="app-navigation-bar">
-        <!-- custome binding handler menuState is used to update menu style in runtime -->
-        <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus, menuState: {}">
-            <!--<li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>--><!-- Old Sammy navigation code -->
-            <li data-bind="css: {'active': isActive}"><a href="#" data-bind="text: title, click: navigateHandler"></a></li>
-        </ul>
-    </nav>
-
+    <div class="fs-nav">
+        <nav class="quick-nav">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#menuBar" data-toggle="tab"><i class="fa fa-bars fa-fw"></i></a></li>
+                <li><a href="#spaceBar" data-toggle="tab"><i class="fa fa-th saved fa-fw"></i></a></li>
+            </ul>
+        </nav>
+        <div class="tab-content">
+            <nav id="menuBar" class="app-navigation-bar tab-pane fade in active">
+                <!-- custome binding handler menuState is used to update menu style in runtime -->
+                <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus, menuState: {}">
+                    <!--<li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>--><!-- Old Sammy navigation code -->
+                    <li data-bind="css: {'active': isActive}"><a href="#" data-bind="text: title, click: navigateHandler"></a></li>
+                </ul>
+            </nav>
+            <nav id="spaceBar" class="app-navigation-bar tab-pane fade">
+                <ul class="nav nav-pills nav-stacked" data-bind="foreach: spaceList.spaces, menuState: {}">
+                    <li data-bind="css: {'active': isActive}">
+                        <a href="#" data-bind="click: hj.library.Application.instance.spaceList.open">
+                            <span data-bind="text: title"></span>
+                            <i class="fa fa-close" data-bind="visible: canClose, click: $parent.closeSpace"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <!-- ==== Content View / Main Screen ==== -->
     <section id="content" class="app-main-screen">
         <!-- ko with: spaceList.activeSpace() -->
