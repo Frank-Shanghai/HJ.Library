@@ -2,7 +2,7 @@
 module hj.library {
 
     export class Application {
-        private homePageSpace: Space;
+        public homePageSpace: Space;
 
         private static _instance: Application;
 
@@ -27,38 +27,69 @@ module hj.library {
             }
         });
 
-        public navigationMenus: Array<any> = [
+        public navigationMenus: Array<any> = [];
+        //public navigationMenus: Array<any> = [
+        //    {
+        //        title: "Home", route: "#/Welcome", isActive: true,
+        //        navigateHandler: () => {
+        //            this.openHomePageSpace();
+        //            //this.activePage(new pages.HomePageViewModel());
+        //        }
+        //     },
+        //    {
+        //        title: "Users", route: "#/Users", isActive: false,
+        //        navigateHandler: () => {
+        //            var space = new Space("Users");
+        //            space.addPage(new pages.UsersViewModel(), null);
+        //            // By default, replace can closed active space
+        //            this.spaceList.replaceActive(space);      
+        //        }
+        //    }, 
+        //    {
+        //        title: "Books", route: "#/Books", isActive: false,
+        //        navigateHandler: () => {
+        //            var space = new Space("Books");
+        //            space.addPage(new pages.BooksViewModel(), null);
+        //            // By default, replace can closed active space
+        //            this.spaceList.replaceActive(space);                    
+        //            //this.activePage(new pages.BooksViewModel());
+        //        }
+        //    }
+        //];
+
+        public menuNodes: Array<IMenuNode> = [
             {
-                title: "Home", route: "#/Welcome", isActive: true,
-                navigateHandler: () => {
-                    this.openHomePageSpace();
-                    //this.activePage(new pages.HomePageViewModel());
-                }
-             },
+                text: "Users",
+                // No need the full namespace path since it has been handled when generating menu items in Menu.ts
+                targetPageName: "UsersViewModel"
+            },
             {
-                title: "Users", route: "#/Users", isActive: false,
-                navigateHandler: () => {
-                    var space = new Space("Users");
-                    space.addPage(new pages.UsersViewModel(), null);
-                    // By default, replace can closed active space
-                    this.spaceList.replaceActive(space);      
-                }
-            }, 
+                text: "Books",
+                // No need the full namespace path since it has been handled when generating menu items in Menu.ts
+                targetPageName: "BooksViewModel"
+            },
             {
-                title: "Books", route: "#/Books", isActive: false,
-                navigateHandler: () => {
-                    var space = new Space("Books");
-                    space.addPage(new pages.BooksViewModel(), null);
-                    // By default, replace can closed active space
-                    this.spaceList.replaceActive(space);                    
-                    //this.activePage(new pages.BooksViewModel());
-                }
+                text: "Borrow/Return Mgr",
+                nodes: [
+                    {
+                        text: "Borrow"
+                    }, 
+                    {
+                        text: "Return"
+                    },
+                    {
+                        text: "B/R Record"
+                    }
+                ]
             }
         ];
+
+        public menu = new Menu(this.menuNodes);
 
         constructor() {
             this.spaceList = new SpaceList();
             this.user = new authentication.LogonViewModel();
+            this.navigationMenus = this.menu.navigationMenu; 
             //this.initializeRouters();
         }        
         
@@ -71,6 +102,8 @@ module hj.library {
             else {
                 this.spaceList.open(this.homePageSpace);
             }
+
+            return this.homePageSpace;
         }
 
         public closeSpace = (space: Space) => {

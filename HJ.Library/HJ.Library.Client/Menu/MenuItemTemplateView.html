@@ -1,0 +1,24 @@
+﻿<a href="#" class="link-container" data-bind="click: click, indent: $data">
+    <span data-bind="text: text"></span>
+    <!-- ko ifnot: hasChildren -->
+    <i class="fa fa-external-link space-icon" data-bind="click: clickNewSpaceIcon"></i>
+    <!-- /ko -->
+
+    <!-- ko if: hasChildren -->
+    <!-- ko ifnot: isExpanded -->
+    <i class="fa fa-angle-right arrow"></i>
+    <!-- /ko -->
+
+    <!-- ko if: isExpanded -->
+    <i class="fa fa-angle-down arrow"></i>
+    <!-- /ko -->
+    <!-- /ko -->
+</a>
+
+<!-- ko if: hasChildren -->
+<!-- ko if: isExpanded -->
+<ul class="nav nav-pills nav-stacked" data-bind="foreach: subMenus">
+    <li data-bind="template: 'hj-library-menu-MenuItemTemplateView', menuItemState: $data"></li>
+</ul>
+<!-- /ko -->
+<!-- /ko -->

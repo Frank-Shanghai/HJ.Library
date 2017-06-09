@@ -4,5 +4,13 @@ HJ.Library/.vs/HJ.Library/v14/.suo
 HJ.Library/HJ.Library.Client/bin/HJ.Library.Client.dll
 HJ.Library/HJ.Library.Client/bin/HJ.Library.Client.pdb
 HJ.Library/HJ.Library.Client/obj/Debug/HJ.Library.Client.csprojResolveAssemblyReference.cache
+HJ.Library/HJ.Library.Client/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 HJ.Library/HJ.Library.Client/obj/Debug/HJ.Library.Client.dll
 HJ.Library/HJ.Library.Client/obj/Debug/HJ.Library.Client.pdb
+
+HJ.Library/HJ.Library.Client/Scripts/App/ApplicationOutput.d.ts
+HJ.Library/HJ.Library.Client/Scripts/App/ApplicationOutput.js
+HJ.Library/HJ.Library.Client/Scripts/App/ApplicationOutput.js.map
+
+HJ.Library/HJ.Library.Client/Style/app.css
+HJ.Library/HJ.Library.Client/Style/app.min.css
