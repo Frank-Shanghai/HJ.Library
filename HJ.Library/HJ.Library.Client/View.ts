@@ -3,6 +3,10 @@ module hj.library.authentication {
 	export var LogonView:string = "\u003cdiv class=\"container logon\"\u003e\r\n    \u003cdiv class=\"row\"\u003e\r\n        \u003cdiv class=\"col-md-offset-3 col-md-6\"\u003e\r\n            \u003cdiv class=\"header\"\u003e\r\n                \u003cspan\u003eLogin\u003c/span\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"form-group\"\u003e\r\n                \u003cinput type=\"text\" class=\"form-control\" placeholder=\"account\" data-bind=\"value: name\" /\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"form-group\"\u003e\r\n                \u003cinput type=\"password\" class=\"form-control\" placeholder=\"password\" data-bind=\"value: password\" /\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"footer\"\u003e\r\n                \u003cbutton class=\"btn btn-default\" data-bind=\"click: reset\"\u003eReset\u003c/button\u003e\r\n                \u003cbutton class=\"btn btn-default\" data-bind=\"click: logon\"\u003eSign In\u003c/button\u003e\r\n            \u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\u003c/div\u003e";
 	export var LogonViewId:string = "hj-library-authentication-LogonView";
 }
+module hj.library.menu {
+	export var MenuItemTemplateView:string = "\u003ca href=\"#\" class=\"link-container\" data-bind=\"click: click, indent: $data\"\u003e\r\n    \u003cspan data-bind=\"text: text\"\u003e\u003c/span\u003e\r\n    \u003c!-- ko ifnot: hasChildren --\u003e\r\n    \u003ci class=\"fa fa-external-link space-icon\" data-bind=\"click: clickNewSpaceIcon\"\u003e\u003c/i\u003e\r\n    \u003c!-- /ko --\u003e\r\n\r\n    \u003c!-- ko if: hasChildren --\u003e\r\n    \u003c!-- ko ifnot: isExpanded --\u003e\r\n    \u003ci class=\"fa fa-angle-right arrow\"\u003e\u003c/i\u003e\r\n    \u003c!-- /ko --\u003e\r\n\r\n    \u003c!-- ko if: isExpanded --\u003e\r\n    \u003ci class=\"fa fa-angle-down arrow\"\u003e\u003c/i\u003e\r\n    \u003c!-- /ko --\u003e\r\n    \u003c!-- /ko --\u003e\r\n\u003c/a\u003e\r\n\r\n\u003c!-- ko if: hasChildren --\u003e\r\n\u003c!-- ko if: isExpanded --\u003e\r\n\u003cul class=\"nav nav-pills nav-stacked\" data-bind=\"foreach: subMenus\"\u003e\r\n    \u003cli data-bind=\"template: \u0027hj-library-menu-MenuItemTemplateView\u0027, menuItemState: $data\"\u003e\u003c/li\u003e\r\n\u003c/ul\u003e\r\n\u003c!-- /ko --\u003e\r\n\u003c!-- /ko --\u003e\r\n";
+	export var MenuItemTemplateViewId:string = "hj-library-menu-MenuItemTemplateView";
+}
 module hj.library.pages {
 	export var HomePageView:string = "\u003cdiv\u003e\r\n    \u003cspn\u003eWelcome!\u003c/spn\u003e\r\n\u003c/div\u003e\r\n";
 	export var HomePageViewId:string = "hj-library-pages-HomePageView";
@@ -35,6 +39,7 @@ module hj.library.views {
 	export function register(){
 		var bodyElement = $('body');
 		bodyElement.append('<script type="text/html" id="hj-library-authentication-LogonView">' + hj.library.authentication.LogonView + '</script>');
+		bodyElement.append('<script type="text/html" id="hj-library-menu-MenuItemTemplateView">' + hj.library.menu.MenuItemTemplateView + '</script>');
 		bodyElement.append('<script type="text/html" id="hj-library-pages-HomePageView">' + hj.library.pages.HomePageView + '</script>');
 		bodyElement.append('<script type="text/html" id="hj-library-pages-books-BookDetailsTemplateView">' + hj.library.pages.books.BookDetailsTemplateView + '</script>');
 		bodyElement.append('<script type="text/html" id="hj-library-pages-books-BooksView">' + hj.library.pages.books.BooksView + '</script>');

@@ -56,17 +56,16 @@
         <div class="tab-content">
             <nav id="menuBar" class="app-navigation-bar tab-pane fade in active">
                 <!-- custome binding handler menuState is used to update menu style in runtime -->
-                <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus, menuState: {}">
-                    <!--<li data-bind="css: {active: isActive}"><a href="#" data-bind="text: title, attr: {href: route}"></a></li>--><!-- Old Sammy navigation code -->
-                    <li data-bind="css: {'active': isActive}"><a href="#" data-bind="text: title, click: navigateHandler"></a></li>
+                <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus">                        
+                    <li data-bind="css: {'active': isActive}, template: 'hj-library-menu-MenuItemTemplateView', menuItemState: $data"></li>               
                 </ul>
             </nav>
             <nav id="spaceBar" class="app-navigation-bar tab-pane fade">
-                <ul class="nav nav-pills nav-stacked" data-bind="foreach: spaceList.spaces, menuState: {}">
-                    <li data-bind="css: {'active': isActive}">
-                        <a href="#" data-bind="click: hj.library.Application.instance.spaceList.open">
+                <ul class="nav nav-pills nav-stacked" data-bind="foreach: spaceList.spaces">
+                    <li data-bind="css: {'active': isActive}, menuItemState: $data">
+                        <a href="#" class="link-container" data-bind="click: hj.library.Application.instance.spaceList.open">
                             <span data-bind="text: title"></span>
-                            <i class="fa fa-close" data-bind="visible: canClose, click: $parent.closeSpace"></i>
+                            <i class="fa fa-close close-icon" data-bind="visible: canClose, click: $parent.closeSpace"></i>
                         </a>
                     </li>
                 </ul>
@@ -111,12 +110,7 @@
             <!-- /ko -->
         </div>
         <!-- /ko -->
-        <!-- /ko -->
-
-        <!-- testing purpose -->
-        <ul data-bind="foreach: spaceList.spaces">
-            <li><a href="#" data-bind="text: title, click: hj.library.Application.instance.spaceList.open"></a></li>
-        </ul>
+        <!-- /ko -->        
     </section>
 
     <!-- User Profile Modal Dialog-->

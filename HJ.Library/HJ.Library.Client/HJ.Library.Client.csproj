@@ -97,6 +97,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Menu\MenuItemTemplateView.html" />
     <Content Include="Note.txt" />
     <Content Include="Pages\Dialogs\ProgressBarView.html" />
     <Content Include="Pages\Dialogs\_dialog.scss" />
@@ -180,8 +181,12 @@
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\CloseOverlayBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
-    <TypeScriptCompile Include="CustomBindings\MenuStateBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\IndentBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\MenuItemStateBinding.ts" />
     <TypeScriptCompile Include="InformationHandler.ts" />
+    <TypeScriptCompile Include="Menu\Menu.ts" />
+    <TypeScriptCompile Include="Menu\MenuItem.ts" />
+    <TypeScriptCompile Include="Menu\MenuNode.ts" />
     <TypeScriptCompile Include="Pages\Books\BooksViewModel.ts" />
     <TypeScriptCompile Include="Pages\Books\EditBookViewModel.ts" />
     <TypeScriptCompile Include="Pages\Dialogs\IInformationDialogComponentParameters.ts" />

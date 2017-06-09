@@ -8,4 +8,12 @@
             return p8(false) + p8(true) + p8(true) + p8(false);
         }
     }
+
+    export class InstanceLoader {
+        public static getInstance<T>(context: Object, name: string, ...args: any[]): T {
+            var instance = Object.create(context[name].prototype);
+            instance.constructor.apply(instance, args);
+            return <T>instance;
+        }
+    }
 }
