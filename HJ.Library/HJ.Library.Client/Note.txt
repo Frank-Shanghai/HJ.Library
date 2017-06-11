@@ -1,4 +1,10 @@
-﻿1. About Progress Bar
+﻿目前使用的database为MS sql server 2014.
+a. 如果迁移到其他PC上工作，在HJ.Library中的web.config中设置好database路径等。用代码生成数据库，
+但一些测试数据要自己添加。
+b. 当然，如果数据库版本一致的话，可以直接attach database file.
+c. 当然，也可以从本机上导出数据库脚本，然后中另外一台机器上运行，来创建数据库及添加数据。
+
+1. About Progress Bar
 If you want to display the progress bar only when the operation takes longer than 500ms(0.5 second). Use showProgressingIndicator and hideProgressingIndicator function, inside of the function,
 update the count. And use setTimeout to call showProgressingIndicator after 500ms, or add count after 500ms in the showProgressIndictor (seems better) function.
 
