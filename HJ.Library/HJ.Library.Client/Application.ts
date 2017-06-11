@@ -141,6 +141,33 @@ module hj.library {
             });
         }
 
+        public logout = () => {
+            InformationHandler.report({
+                title: "Logout",
+                header: "Please Confirm",
+                message: "You are about to close all pages and logout from HJ Library system.",
+                isOKButtonVisible: true,
+                okButtonText: "Logout",
+                isCancelButtonVisible: true,
+                cancelButtonText: "Cancel",
+                onConfirm: () => {
+                    logoutHandler();
+                }
+            });
+
+            var logoutHandler = () => {
+                $.ajax({
+                    type: 'get',
+                    url: '/api/accounts/logout'
+                }).done(() => {
+                    window.onbeforeunload = undefined;
+                    window.location.reload();
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    alert(err.message);
+                });
+            };
+        }
+
         public sammyApp: Sammy.Application = Sammy();
 
         //private initializeRouters() {

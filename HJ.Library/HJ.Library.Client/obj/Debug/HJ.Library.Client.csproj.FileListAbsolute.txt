@@ -51,3 +51,5 @@ D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.Co
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\System.Web.Http.Owin.xml
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Newtonsoft.Json.xml
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.Host.SystemWeb.xml

@@ -26,6 +26,19 @@ namespace HJ.Library.Controllers
             return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
         }
 
+        [Route("logout")]
+        [HttpGet]
+        public IHttpActionResult Logout()
+        {
+            try {
+                HttpContext.Current.GetOwinContext().Authentication.SignOut();
+                return Ok();
+            }
+            catch {
+                return InternalServerError();
+            }
+        }
+
         [Authorize(Roles="Admin")]
         [Route( "user/{id:guid}", Name = "GetUserById" )]
         //In Web API, every route has a name. Route names are useful for generating links, so that you can include a link in an HTTP response，
