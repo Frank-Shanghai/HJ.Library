@@ -38,8 +38,11 @@
                     this.copies(book.copies);
                     this.owner(book.owner);
                     this.comment(book.comment);
-                }).fail((jqXHR: JQueryXHR, textStatus: any, err: any) => {
-                    alert(err.message);
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to initialize book information.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error);
                 }).always(() => {
                     this.isProcessing(false);
                 });
@@ -57,7 +60,7 @@
                 contentType: 'application/json',
                 url: '/api/books',
                 data: JSON.stringify({
-                    BookId: '3a519f4d-107d-4d5f-9572-325a3c027a50', // just pass an valid value here, won't be used as the real bookId, real guid will be generate on server side before creating new book
+                    BookId: Utils.guid(), // just pass an valid value here, won't be used as the real bookId, real guid will be generate on server side before creating new book
                     ISBN: this.isbn(),
                     Name: this.bookTitle(),
                     Author: this.author(),
@@ -72,7 +75,10 @@
                 this.space.addPage(new BooksViewModel(), null);
                 //Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                alert(err.message);
+                var error: IError = new Error("Failed to create a new book.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
             }).always(() => {
                 this.isProcessing(false);
             });
@@ -100,7 +106,10 @@
                 this.space.addPage(new BooksViewModel(), null);
                 //Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                alert(err.message);
+                var error: IError = new Error("Failed to update book.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
             }).always(() => {
                 this.isProcessing(false);
             });

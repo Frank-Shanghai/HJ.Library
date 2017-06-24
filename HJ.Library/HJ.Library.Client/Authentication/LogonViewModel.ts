@@ -19,8 +19,14 @@
                     username: this.name(),
                     password: this.password()
                 }
-            }).done(this.handleLogonResponse)
-                .fail(this.onLogonFail)
+            })
+                .done(this.handleLogonResponse)
+                .fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to log on.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error);
+                })
                 .always(() => {
                     Application.instance.isProcessing(false);
                 });
@@ -48,8 +54,11 @@
             }).done((data) => {
                 library.Application.instance.openHomePageSpace();
                 Application.instance.sessionUser(data);
-            }).fail((jqXhr: any, textStatus: any, err: any) => {
-                alert(err.message);
+            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                var error: IError = new Error("Failed to get user information.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
             });
             
             //library.Application.instance.activePage(new pages.HomePageViewModel());

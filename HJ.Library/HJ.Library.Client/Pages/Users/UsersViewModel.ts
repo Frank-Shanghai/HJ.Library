@@ -61,11 +61,14 @@ module hj.library.pages {
                     pageList: [10, 20, 50, 100],
                     clickToSelect: true
                 });
-            })
-                .fail(() => { })
-                .always(() => {
-                    this.isProcessing(false);
-                });
+            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                var error: IError = new Error("Failed to get users list.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
+            }).always(() => {
+                this.isProcessing(false);
+            });
         }
 
         private refreshSelection = (selectedRows: any) => {
@@ -113,7 +116,10 @@ module hj.library.pages {
                 $.when.apply($, promises).done(() => {
                     this.refresh();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                    alert(err.message);
+                    var error: IError = new Error("Failed to delete selected users.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error);
                 }).always(() => {
                     this.isProcessing(false);
                 });
