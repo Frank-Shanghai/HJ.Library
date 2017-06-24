@@ -18,6 +18,7 @@ module hj.library {
         public user: authentication.LogonViewModel;
         public changePasswordDialog: dialogs.ChangePasswordViewModel = new dialogs.ChangePasswordViewModel();
         public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
+        public errorDialog: KnockoutObservable<dialogs.IErrorDialogParameters> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public sessionUser = ko.observable(null); // type return user
@@ -61,7 +62,7 @@ module hj.library {
             {
                 text: "Users",
                 // No need the full namespace path since it has been handled when generating menu items in Menu.ts
-                targetPageName: "UsersViewModel"
+                targetPageName: "UsersViewModel" // Should be the class name
             },
             {
                 text: "Books",
@@ -79,6 +80,15 @@ module hj.library {
                     },
                     {
                         text: "B/R Record"
+                    }
+                ]
+            },
+            {
+                text: "Test Pages",
+                nodes: [
+                    {
+                        text: "Modal",
+                        targetPageName: "ModalTestViewModel"
                     }
                 ]
             }
@@ -163,7 +173,10 @@ module hj.library {
                     window.onbeforeunload = undefined;
                     window.location.reload();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                    alert(err.message);
+                    var error: IError = new Error("Failed to log out.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error);
                 });
             };
         }

@@ -26,3 +26,16 @@ public userFullName = ko.computed(() => {
 4. 关于将Navigation Menu设计成HJ1那样强大的样子。多级（层层展开时只显示父，父父...结点，其他全部收缩），展开，状态，搜索等等很多复杂功能，可以参考研究HJ1的相关代码。以后有时间可自行参考设计
 实现框架，不仅限于Navigation。
 暂时先使用简单的bootstrap nav 进行目前的project。
+
+5. Bootstrap tab issue
+			<ul class="nav nav-tabs" data-tabs="tabs">
+                <li><a data-toggle="tab" href="#Title 1">Title 1</a></li>
+                <li><a data-toggle="tab" href="#Title 2">Title 2</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="Title 1">message 1</div>
+                <div class="tab-pane" id="Title 2">Message 2</div>
+            </div>
+上面一段简单的代码却始终不能正常工作。切换tab时，并不显示相应的内容。
+最后，究其原因是，如果id中加了空格，那么bootstrap就不能正常工作了。所以，要用bootstrap，就避免在id中出现空格。其实，无论
+什么时候，都要避免id中出现空格。

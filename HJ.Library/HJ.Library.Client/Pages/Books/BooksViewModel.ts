@@ -64,8 +64,11 @@ module hj.library.pages {
                     detailView: true,
                     detailFormatter: this.detailFormatter
                 });
-            }).fail((jqXhr: any, textStatus: any, err: any) => {
-                alert(err.message);
+            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                var error: IError = new Error("Failed to load book list.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
             }).always(() => {
                 this.isProcessing(false);
             });
@@ -112,7 +115,10 @@ module hj.library.pages {
                 $.when.apply($, promises).done((data) => {
                     this.refresh();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                    alert(err.message);
+                    var error: IError = new Error("Failed to remove selected books.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error);
                 }).always(() => {
                     this.isProcessing(false);
                 });

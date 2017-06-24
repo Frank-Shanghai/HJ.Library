@@ -1,0 +1,26 @@
+﻿<div class="dialog-overlay-layer">
+    <!-- Note the css binding, since class name contains '-', so need to quote the class name -->
+    <div class="dialog-container" data-bind="css: {'dialog-maximized': _maxmized}">
+        <div class="error-dialog-header">
+            <span class="dialog-title"><i class="fa fa-warning"></i></span>
+            <span class="dialog-title" data-bind="text: _title"></span>
+        </div>
+
+        <div class="error-dialog-content">
+            <!-- tab pages -->
+            <!-- Make the first tab header and tab content be active -->
+            <ul class="nav nav-tabs" data-bind="foreach: _messages">
+                <li data-bind="css: {active: ($index() === 0)}"><a data-toggle="tab" data-bind="attr: {href: '#' + title.replace(' ', '-') }, text: title, css: {active: ($index() === 0)}"></a></li>
+            </ul>
+            <div class="tab-content" data-bind="foreach: _messages">
+                <div class="tab-pane" data-bind="attr: {id: title.replace(' ', '-')}, text: message, css: {active: ($index() === 0)}"></div>
+            </div>
+        </div>
+
+        <div class="dialog-footer">
+            <button class="btn btn-default" data-bind="text: _dismissButtonText, click: dismissClick"></button>
+            <button class="btn btn-default" data-bind="text: _maximizeButtonText, click: maxClick, visible: !_maxmized()"></button>
+            <button class="btn btn-default" data-bind="text: _restoreButtonText, click: maxClick, visible: _maxmized"></button>
+        </div>
+    </div>
+</div>

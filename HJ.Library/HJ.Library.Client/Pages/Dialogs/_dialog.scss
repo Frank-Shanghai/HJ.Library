@@ -39,6 +39,65 @@ $dialog-height-large: 500px;
     border-radius: 3px;
     margin: 10px;
     position: relative;
+
+    .dialog-header {
+        border-bottom: solid #cccccc 1px;
+        margin: 20px 40px;
+        padding-bottom: 20px;
+    }
+
+    .dialog-title {
+        margin: 0;
+        font-size: 20px;
+        color: #0c2931;
+    }
+
+    .dialog-content {
+        position: absolute;
+        top: 89px;
+        left: 0;
+        right: 0;
+        bottom: 75px;
+        margin: 0 40px 0 40px;
+        overflow-y: auto;
+    }
+
+    .dialog-message-header {
+        font-weight: bold;
+        font-size: 17px;
+        padding: 0 0 10px 0;
+        text-align: left;
+        white-space: pre-wrap;
+        max-height: 100px;
+    }
+
+    .dialog-message {
+        color: #666666;
+        white-space: pre-wrap;
+    }
+
+    .dialog-footer {
+        padding: 20px 35px;
+        height: 75px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .error-dialog-header {
+        @extend .dialog-header;
+        border-bottom-color: red;
+        span { color: red; }
+    }
+
+    .error-dialog-content {
+        @extend .dialog-content;
+        .tab-pane {
+            padding: 10px;
+            white-space: pre;
+        }
+    }
 }
 
 .dialog-container-large {
@@ -47,64 +106,24 @@ $dialog-height-large: 500px;
     height: $dialog-height-large;
 }
 
-.dialog-header {
-    border-bottom: solid #cccccc 1px;
-    margin: 20px 40px;
-    padding-bottom: 20px;
-}
-
-.dialog-page-title {
+.dialog-maximized {
+    height: 100%;
+    width: 100%;
     margin: 0;
-    font-size: 20px;
-    color: #0c2931;
-}
-
-.dialog-content {
-    position: absolute;
-    top: 89px;
+    top: 0;
     left: 0;
-    right: 0;
-    bottom: 75px;
-    margin: 0 40px 0 40px;
-    overflow-y: auto;
+    max-height: 100%;
+    max-width: 100%;
+    opacity: 1;
+    border-radius: 0;
 }
 
-.dialog-header-message {
-    font-weight: bold;
-    font-size: 17px;
-    padding: 0 0 10px 0;
-    text-align: left;
-    white-space: pre-wrap;
-    max-height: 100px;
-}
 
-.dialog-message{
-    color: #666666;
-    white-space: pre-wrap;
-}
-
-.dialog-footer {
-    padding: 20px 35px;
-    height: 75px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.dialog-button {
-    margin-left: 5px;
-    margin-right: 5px;
-    button {
-        min-width: 105px;
-    }
-}
 
 .progress-bar-dialog {
     width: 30%;
+
     .progress-bar {
         width: 100%;
     }
 }
-
-

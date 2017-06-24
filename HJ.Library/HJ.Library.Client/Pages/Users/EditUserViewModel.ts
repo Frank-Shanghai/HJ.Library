@@ -43,7 +43,11 @@ module hj.library.pages {
                     this.firstName(user.firstName);
                     this.lastName(user.lastName);
                     this.selectedRoles(user.roles);
-                }).fail(() => {
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to get editng user information.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error);
                 }).always(() => {
                     this.isProcessing(false);
                 });
@@ -68,8 +72,11 @@ module hj.library.pages {
             }).done(() => {
                 this.space.addPage(new UsersViewModel(), null);
                 //Application.instance.activePage(new UsersViewModel());
-            }).fail((jqXhr: any, textStatus: any, err: any) => {
-                alert(err.message);
+            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                var error: IError = new Error("Failed to create new user.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
             }).always(() => {
                 this.isProcessing(false);
             });
@@ -90,8 +97,11 @@ module hj.library.pages {
             }).done(() => {
                 this.space.addPage(new UsersViewModel(), null);
                 //Application.instance.activePage(new UsersViewModel());
-            }).fail((jqXhr: any, textStatus: any, err: any) => {
-                alert(err.message);
+            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                var error: IError = new Error("Failed to update user.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
             }).always(() => {
                 this.isProcessing(false);
             });

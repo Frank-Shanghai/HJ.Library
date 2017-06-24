@@ -27,7 +27,10 @@
                 this.newPassword('');
                 this.confirmPassword('');
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                alert(err.message);
+                var error: IError = new Error("Failed to set password.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error);
             }).always(() => {
                 Application.instance.isProcessing(false);
             });
