@@ -47,7 +47,7 @@ module hj.library.pages {
                     var error: IError = new Error("Failed to get editng user information.");
                     error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                    ErrorHandler.report(error);
+                    ErrorHandler.report(error, null, this);
                 }).always(() => {
                     this.isProcessing(false);
                 });
@@ -76,7 +76,7 @@ module hj.library.pages {
                 var error: IError = new Error("Failed to create new user.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                ErrorHandler.report(error);
+                ErrorHandler.report(error, null, this);
             }).always(() => {
                 this.isProcessing(false);
             });
@@ -101,7 +101,7 @@ module hj.library.pages {
                 var error: IError = new Error("Failed to update user.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                ErrorHandler.report(error);
+                ErrorHandler.report(error, null, this);
             }).always(() => {
                 this.isProcessing(false);
             });

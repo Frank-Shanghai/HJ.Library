@@ -185,11 +185,13 @@
     <TypeScriptCompile Include="ComponentRegistry.ts" />
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\CloseOverlayBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\ExpandToAvailableHeightBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\IndentBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuItemStateBinding.ts" />
     <TypeScriptCompile Include="ErrorHandler.ts" />
     <TypeScriptCompile Include="InformationHandler.ts" />
+    <TypeScriptCompile Include="Infrastructure\IDialogContainer.ts" />
     <TypeScriptCompile Include="JQueryXHRErrorFormatter.ts" />
     <TypeScriptCompile Include="Menu\Menu.ts" />
     <TypeScriptCompile Include="Menu\MenuItem.ts" />

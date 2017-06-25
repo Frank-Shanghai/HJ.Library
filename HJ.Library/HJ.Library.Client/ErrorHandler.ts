@@ -9,21 +9,29 @@
         /**
         * Displays an information dialog
         */
-        public static report(error: IError) {
-            // TODO: Currently, the error dialog is only for application level, can refactored the code to allow the pages have their own information dialog
+        public static report(error: IError, onClose?: () => void, dialogContainer?: IDialogContainer) {
             var dialogParameters = ErrorHandler.buildMessage(error);
 
-            var originalCloseAction = dialogParameters.onClose;
+            if (dialogContainer) {
+                dialogParameters.onClose = () => {
+                    dialogContainer.errorDialog(null);
 
-            dialogParameters.onClose = () => {
-                if (originalCloseAction) {
-                    originalCloseAction();
+                    if (onClose) {
+                        onClose();
+                    }
                 }
 
-                Application.instance.errorDialog(null);
+                dialogContainer.errorDialog(dialogParameters);
             }
+            else {
+                dialogParameters.onClose = () => {
+                    Application.instance.errorDialog(null);
+                    if (onClose)
+                        onClose();
+                }
 
-            Application.instance.errorDialog(dialogParameters);
+                Application.instance.errorDialog(dialogParameters);
+            }
         }
 
         private static buildMessage(error: IError): dialogs.IErrorDialogParameters {
