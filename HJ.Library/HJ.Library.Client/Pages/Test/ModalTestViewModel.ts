@@ -11,7 +11,7 @@
                 message: "error message here",
                 stack: "stack trace here",
                 raw: "raw message here"
-            });
+            }, () => { alert('This is the onClose call back.'); });
         }
 
         private showErrorDialogWithoutExplicitRawMessage = () => {
@@ -36,6 +36,48 @@
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
                 ErrorHandler.report(error);
+            });
+        }
+
+        private showPageLevelDialog = () => {
+            InformationHandler.report({
+                title: "Page Level Dialog",
+                header: "Please Confirm",
+                message: "Page Level Dialog Message. Left navigaiton menu and top space inner page navigation bar should be available.",
+                isOKButtonVisible: true,
+                okButtonText: "OK",
+                isCancelButtonVisible: true,
+                cancelButtonText: "Cancel",
+                onConfirm: () => {                    
+                }
+            }, this);
+        }
+
+        private showSpaceLevelDialog = () => {
+            InformationHandler.report({
+                title: "Space Level Dialog",
+                header: "Please Confirm",
+                message: "Space Level Dialog Message, left navigation menu should be available.",
+                isOKButtonVisible: true,
+                okButtonText: "OK",
+                isCancelButtonVisible: true,
+                cancelButtonText: "Cancel",
+                onConfirm: () => {
+                }
+            }, this.space);
+        }
+
+        private showApplicationLevelDialog = () => {
+            InformationHandler.report({
+                title: "Application Level Dialog",
+                header: "Please Confirm",
+                message: "Application Level Dialog Message",
+                isOKButtonVisible: true,
+                okButtonText: "OK",
+                isCancelButtonVisible: true,
+                cancelButtonText: "Cancel",
+                onConfirm: () => {
+                }
             });
         }
     }

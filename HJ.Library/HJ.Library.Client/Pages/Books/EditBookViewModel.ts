@@ -42,7 +42,7 @@
                     var error: IError = new Error("Failed to initialize book information.");
                     error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                    ErrorHandler.report(error);
+                    ErrorHandler.report(error, null, this);
                 }).always(() => {
                     this.isProcessing(false);
                 });
@@ -78,7 +78,7 @@
                 var error: IError = new Error("Failed to create a new book.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                ErrorHandler.report(error);
+                ErrorHandler.report(error, null, this);
             }).always(() => {
                 this.isProcessing(false);
             });
@@ -109,7 +109,7 @@
                 var error: IError = new Error("Failed to update book.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                ErrorHandler.report(error);
+                ErrorHandler.report(error, null, this);
             }).always(() => {
                 this.isProcessing(false);
             });

@@ -68,7 +68,7 @@ module hj.library.pages {
                 var error: IError = new Error("Failed to load book list.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                ErrorHandler.report(error);
+                ErrorHandler.report(error, null, this);
             }).always(() => {
                 this.isProcessing(false);
             });
@@ -98,7 +98,7 @@ module hj.library.pages {
                 onConfirm: () => {
                     removeHandler();
                 }
-            });
+            }, this);
 
             var removeHandler = () => {
                 this.isProcessing(true);
@@ -118,7 +118,7 @@ module hj.library.pages {
                     var error: IError = new Error("Failed to remove selected books.");
                     error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                    ErrorHandler.report(error);
+                    ErrorHandler.report(error, null, this);
                 }).always(() => {
                     this.isProcessing(false);
                 });

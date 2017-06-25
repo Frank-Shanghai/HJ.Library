@@ -11,9 +11,12 @@
         public title: KnockoutObservable<string>;
         public pages: KnockoutObservableArray<pages.PageBase> = ko.observableArray([]);
         public activePage: KnockoutObservable<pages.PageBase> = ko.observable(null);
-        public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public isActive: KnockoutObservable<boolean> = ko.observable(true);
         public canClose: boolean; // Home space cannot be closed and should be a single page space
+
+        public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
+        public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
+        public errorDialog: KnockoutObservable<dialogs.IErrorDialogParameters> = ko.observable(null);
 
         constructor(title: string, isSinglePageSpace: boolean = false, canClose: boolean = true) {
             this.id = Utils.guid();

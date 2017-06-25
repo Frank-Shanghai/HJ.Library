@@ -157,13 +157,14 @@ $app-header-background-color: #f5f5f6;
     right: 0;
     bottom: 0;
     margin: 1%;
-    padding: 2%;
+    padding: 1% 1% 0 1%;
     padding-top: 0;
     overflow-y: auto;
     background: white;
 
     .active-page {
         overflow: auto;
+        position: relative;
     }
 
 

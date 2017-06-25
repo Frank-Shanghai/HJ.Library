@@ -7,15 +7,11 @@
         public space: Space;
         public parameters = ko.observable<any>();
 
-        public isProcessing = ko.observable(false);
-
         //public navigator: Services.INavigator;
 
-        //public errorDialog = ko.observable<IErrorDialogParameters>(null);
-        //public htmlDialog = ko.observable<IHtmlDialogParameters>(null);
-
-        // TODO: Page information dialog
-        //public informationDialog = ko.observable<IInformationDialogParameters>(null);
+        public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
+        public informationDialog: KnockoutObservable<library.dialogs.IInformationDialogComponentParameters> = ko.observable(null);
+        public errorDialog: KnockoutObservable<library.dialogs.IErrorDialogParameters> = ko.observable(null);
 
         public onBeforeNavigateAway(navigate: () => void, cancel?: () => void) {
             // Do anything you want to do here
