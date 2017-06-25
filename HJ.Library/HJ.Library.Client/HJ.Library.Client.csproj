@@ -97,7 +97,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="HeaderView.html" />
+    <Content Include="MainContentView.html" />
     <Content Include="Menu\MenuItemTemplateView.html" />
+    <Content Include="Menu\NavigationMenuView.html" />
     <Content Include="Note.txt" />
     <Content Include="Pages\Dialogs\ErrorDialogComponentView.html" />
     <Content Include="Pages\Dialogs\ProgressBarView.html" />

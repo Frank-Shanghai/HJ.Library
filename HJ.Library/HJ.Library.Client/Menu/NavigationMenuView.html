@@ -1,0 +1,26 @@
+﻿<div class="fs-nav">
+    <nav class="quick-nav">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#menuBar" data-toggle="tab"><i class="fa fa-bars fa-fw"></i></a></li>
+            <li><a href="#spaceBar" data-toggle="tab"><i class="fa fa-th saved fa-fw"></i></a></li>
+        </ul>
+    </nav>
+    <div class="tab-content">
+        <nav id="menuBar" class="app-navigation-bar tab-pane fade in active">
+            <!-- custome binding handler menuState is used to update menu style at runtime -->
+            <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus">
+                <li data-bind="css: {'active': isActive}, template: 'hj-library-menu-MenuItemTemplateView', menuItemState: $data"></li>
+            </ul>
+        </nav>
+        <nav id="spaceBar" class="app-navigation-bar tab-pane fade">
+            <ul class="nav nav-pills nav-stacked" data-bind="foreach: spaceList.spaces">
+                <li data-bind="css: {'active': isActive}, menuItemState: $data">
+                    <a href="#" class="link-container" data-bind="click: hj.library.Application.instance.spaceList.open">
+                        <span data-bind="text: title"></span>
+                        <i class="fa fa-close close-icon" data-bind="visible: canClose, click: $parent.closeSpace"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
