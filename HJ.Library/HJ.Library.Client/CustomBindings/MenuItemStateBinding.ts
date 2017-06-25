@@ -4,13 +4,18 @@ module hj.library {
         public init(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
             var li = $(element);
             var menuItem: MenuItem = valueAccessor();
-
-            li.on("click", function () {
+            var clickHandler = () => {
                 if (!menuItem.hasChildren()) {
-                    var navBar = $(this).parents("nav.app-navigation-bar").first();
+                    var navBar = li.parents("nav.app-navigation-bar").first();
                     navBar.find("li").removeClass("active");
-                    $(this).addClass("active");
+                    li.addClass("active");
                 }
+            };
+
+            li.on("click", clickHandler);
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, () => {
+                li.off("click", clickHandler);
             });
         }
     }
