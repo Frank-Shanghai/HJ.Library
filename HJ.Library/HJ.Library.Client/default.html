@@ -26,94 +26,13 @@
     <!-- ko ifnot: sessionUser -->
     <div data-bind="template: {name: 'hj-library-authentication-LogonView', data: user}"></div>
     <!-- /ko -->
+
     <!-- ko if: sessionUser -->
     <!-- ==== Header View ==== -->
-    <div class="app-header">
-        <a href="#/Welcome" class="logo"><img src="Resource/books.jpg" alt="Home" /></a>
-        <div class="account">
-            <span data-bind="text: userFullName"></span>
-            <a href="#" class="profile-icon dropdown-toggle" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-user"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="#" data-toggle="modal" data-target="#userProfile">View Profile</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#changePassword">Change Password</a></li>
-                <li class="divider"></li>
-                <li><a href="#" data-bind="click: logout">Logout</a></li>
-            </ul>
-        </div>
-        <div class="space-title">
-            <span data-bind="text: spaceList.activeSpace().title"></span>
-        </div>
-    </div>
+    <div data-bind="template: {name: 'hj-library-HeaderView'}"></div>
 
-    <!-- ==== Navigation Bar ==== -->
-    <div class="fs-nav">
-        <nav class="quick-nav">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#menuBar" data-toggle="tab"><i class="fa fa-bars fa-fw"></i></a></li>
-                <li><a href="#spaceBar" data-toggle="tab"><i class="fa fa-th saved fa-fw"></i></a></li>
-            </ul>
-        </nav>
-        <div class="tab-content">
-            <nav id="menuBar" class="app-navigation-bar tab-pane fade in active">
-                <!-- custome binding handler menuState is used to update menu style in runtime -->
-                <ul class="nav nav-pills nav-stacked" data-bind="foreach: navigationMenus">                        
-                    <li data-bind="css: {'active': isActive}, template: 'hj-library-menu-MenuItemTemplateView', menuItemState: $data"></li>               
-                </ul>
-            </nav>
-            <nav id="spaceBar" class="app-navigation-bar tab-pane fade">
-                <ul class="nav nav-pills nav-stacked" data-bind="foreach: spaceList.spaces">
-                    <li data-bind="css: {'active': isActive}, menuItemState: $data">
-                        <a href="#" class="link-container" data-bind="click: hj.library.Application.instance.spaceList.open">
-                            <span data-bind="text: title"></span>
-                            <i class="fa fa-close close-icon" data-bind="visible: canClose, click: $parent.closeSpace"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <!-- ==== Content View / Main Screen ==== -->
-    <section id="content" class="app-main-screen">
-        <!-- ko with: spaceList.activeSpace() -->
-        <div class="page-title">
-            <div class="navigation-button">
-                <a href="#" data-hj-test-id="active-thread-previous-button" data-bind="css: { 'disabled': !isPreviousButtonEnabled() }, click: goToPreviousPage">
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-circle-thin fa-stack-2x"></i>
-                        <i class="fa fa-angle-left fa-stack-1x"></i>
-                    </span>
-                </a>
-                <a href="#" data-hj-test-id="active-thread-next-button" data-bind="css: { 'disabled': !isNextButtonEnabled() }, click: goToNextPage">
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-circle-thin fa-stack-2x"></i>
-                        <i class="fa fa-angle-right fa-stack-1x"></i>
-                    </span>
-                </a>
-            </div>
-            <div class="dropdown page-history">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-bind="css: { 'disabled': !isPagesButtonEnabled() }">
-                    <span data-hj-test-id="hj-active-page-title" data-bind="text: activePage().title()"></span>
-                    <i class="fa fa-angle-down"></i>
-                    <i class="fa fa-angle-up"></i>
-                </a>
-                <ul class="dropdown-menu" data-bind="foreach: pages">
-                    <li data-toggle="collapse" data-target=".in" data-bind="css: { 'active': isVisible }"><a href="#" data-bind="text: title, click: $parent.goToPage"></a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- ko if: activePage -->
-        <div class="active-page">
-            <div data-bind="template: {name: activePage().templateId, data: activePage}"></div>
-            <!-- ko if: isProcessing -->
-            <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>
-            <!-- /ko -->
-        </div>
-        <!-- /ko -->
-        <!-- /ko -->        
-    </section>
+    <!-- Main Content Screen View -->
+    <div data-bind="template: {name: 'hj-library-MainContentView'}"></div>
 
     <!-- User Profile Modal Dialog-->
     <div data-bind="template: {name: 'hj-library-pages-dialogs-UserProfileDialogView', data: sessionUser}"></div>
@@ -130,12 +49,11 @@
     <!-- ko if: errorDialog -->
     <hj-error-dialog params="context: errorDialog"></hj-error-dialog>
     <!-- /ko -->
-
     <!-- /ko -->
+
     <!-- Progress Bar -->
     <!-- ko if: isProcessing -->
     <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView'}"></div>
     <!-- /ko -->
-
 </body>
 </html>

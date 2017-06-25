@@ -1,0 +1,18 @@
+﻿<div class="app-header">
+    <a href="#/Welcome" class="logo"><img src="Resource/books.jpg" alt="Home" /></a>
+    <div class="account">
+        <span data-bind="text: userFullName"></span>
+        <a href="#" class="profile-icon dropdown-toggle" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-user"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="#" data-toggle="modal" data-target="#userProfile">View Profile</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#changePassword">Change Password</a></li>
+            <li class="divider"></li>
+            <li><a href="#" data-bind="click: logout">Logout</a></li>
+        </ul>
+    </div>
+    <div class="space-title">
+        <span data-bind="text: spaceList.activeSpace().title"></span>
+    </div>
+</div>
