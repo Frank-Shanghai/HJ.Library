@@ -165,6 +165,11 @@ $app-header-background-color: #f5f5f6;
     .active-page {
         overflow: auto;
         position: relative;
+        padding-right: 10px; // If there are scroll bars, looks better to have some spaces between the page content and bar
+        padding-bottom: 10px;
+        height: 100%;
+
+        .page-footer { margin-top: 20px; }
     }
 
 

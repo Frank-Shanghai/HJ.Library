@@ -1,0 +1,18 @@
+﻿.hj-flex-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.hj-flex-grow {
+    overflow-y: hidden;
+}
+
+.hj-flex-scroll {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.hj-flex-shrink-footer:before, .hj-flex-shrink-footer:after{
+    content: ' ';
+    display: table;
+}

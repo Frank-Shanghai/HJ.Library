@@ -1,0 +1,38 @@
+﻿<hj-flex-container data-hj-test-id="the-flex">
+    <hj-flex-shrink>
+        <span data-bind="text: header1"></span>
+    </hj-flex-shrink>
+    <hj-flex-shrink>
+        <span data-hj-test-id="header2" data-bind="text: header2"></span>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <!-- ko foreach: labels1 -->
+            <p>
+                <span data-bind="text: $data"></span>
+            </p>
+            <!-- /ko -->
+        </hj-flex-scroll>
+    </hj-flex-grow>
+    <hj-flex-shrink>
+        <span data-bind="text: middle1"></span>
+    </hj-flex-shrink>
+    <hj-flex-shrink>
+        <span data-bind="text: middle2"></span>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <!-- ko foreach: labels2 -->
+            <p>
+                <span data-hj-test-id="label2" data-bind="text: $data"></span>
+            </p>
+            <!-- /ko -->
+        </hj-flex-scroll>
+    </hj-flex-grow>
+    <hj-flex-shrink>
+        <span data-hj-test-id="footer1" data-bind="text: footer1"></span>
+    </hj-flex-shrink>
+    <hj-flex-shrink>
+        <span data-bind="text: footer2"></span>
+    </hj-flex-shrink>
+</hj-flex-container>

@@ -74,6 +74,10 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Components\FlexContainer\FlexContainerComponentView.html" />
+    <Content Include="Components\FlexContainer\FlexGrowComponentView.html" />
+    <Content Include="Components\FlexContainer\FlexScrollComponentView.html" />
+    <Content Include="Components\FlexContainer\FlexShrinkComponentView.html" />
     <Content Include="Content\bootstrap-1.1.0.css" />
     <Content Include="Content\bootstrap-1.1.0.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -110,6 +114,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Components\FlexContainer\_hj-flexcontainer.scss" />
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
@@ -120,7 +125,10 @@
     <Content Include="Pages\Dialogs\ChangePasswordDialogView.html" />
     <Content Include="Pages\Dialogs\InformationDialogComponentView.html" />
     <Content Include="Pages\Dialogs\UserProfileDialogView.html" />
-    <Content Include="Pages\Test\ModalTestView.html" />
+    <Content Include="Pages\Test\FlexContainer\CanReAddGrowView.html" />
+    <Content Include="Pages\Test\FlexContainer\CanScrollView.html" />
+    <Content Include="Pages\Test\FlexContainer\MultipleFlexElementsView.html" />
+    <Content Include="Pages\Test\Modal\ModalTestView.html" />
     <Content Include="Pages\Users\EditUserView.html" />
     <Content Include="Pages\Users\UsersView.html" />
     <Content Include="Resource\books.jpg" />
@@ -183,12 +191,22 @@
     <TypeScriptCompile Include="Application.ts" />
     <TypeScriptCompile Include="Authentication\LogonViewModel.ts" />
     <TypeScriptCompile Include="ComponentRegistry.ts" />
+    <TypeScriptCompile Include="Components\FlexContainer\FlexContainerComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\FlexContainer\FlexContainerContent.ts" />
+    <TypeScriptCompile Include="Components\FlexContainer\FlexGrowComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\FlexContainer\FlexScrollComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\FlexContainer\FlexShrinkComponentViewModel.ts" />
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\CloseOverlayBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\ExpandToAvailableHeightBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\FlexContainer\FlexContainerBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\FlexContainer\FlexGrowBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\FlexContainer\FlexShrinkBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\IndentBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\KnockoutBindingContextExtensions.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuItemStateBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\SetBindingContext.ts" />
     <TypeScriptCompile Include="ErrorHandler.ts" />
     <TypeScriptCompile Include="InformationHandler.ts" />
     <TypeScriptCompile Include="Infrastructure\IDialogContainer.ts" />
@@ -205,7 +223,10 @@
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\Dialogs\ChangePasswordDialogViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />
-    <TypeScriptCompile Include="Pages\Test\ModalTestViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Test\FlexContainer\CanReAddGrowViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Test\FlexContainer\CanScrollViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Test\FlexContainer\MultipleFlexElementsViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Test\Modal\ModalTestViewModel.ts" />
     <TypeScriptCompile Include="Pages\Users\EditUserViewModel.ts" />
     <TypeScriptCompile Include="Pages\Users\UsersViewModel.ts" />
     <TypeScriptCompile Include="Scripts\moment-datepicker.d.ts" />

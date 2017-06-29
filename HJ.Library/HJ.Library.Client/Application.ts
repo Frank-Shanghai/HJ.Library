@@ -89,6 +89,23 @@ module hj.library {
                     {
                         text: "Modal",
                         targetPageName: "ModalTestViewModel"
+                    },
+                    {
+                        text: "FlexContainer",
+                        nodes: [
+                            {
+                                text: "CanScroll",
+                                targetPageName: "CanScrollViewModel"
+                            },
+                            {
+                                text: "CanReAddGrow",
+                                targetPageName: "CanReAddGrowViewModel"
+                            },
+                            {
+                                text: "MultipleFlexElements",
+                                targetPageName: "MultipleFlexElementsViewModel"
+                            }
+                        ]
                     }
                 ]
             }

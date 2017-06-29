@@ -12,6 +12,34 @@
                 template: pages.dialogs.ErrorDialogComponentView,
                 synchronous: true
             });
+
+            // Register hj-flex-container
+            ko.components.register("hj-flex-container", {
+                viewModel: FlexContainerComponentViewModel,
+                template: components.flexcontainer.FlexContainerComponentView,
+                synchronous: true
+            });
+
+            // Register hj-flex-shrink
+            ko.components.register("hj-flex-shrink", {
+                viewModel: FlexShrinkComponentViewModel,
+                template: components.flexcontainer.FlexShrinkComponentView,
+                synchronous: true
+            });
+
+            // Register hj-flex-scroll
+            ko.components.register("hj-flex-scroll", {
+                viewModel: FlexScrollComponentViewModel,
+                template: components.flexcontainer.FlexScrollComponentView,
+                synchronous: true
+            });
+
+            // Register hj-flex-grow
+            ko.components.register("hj-flex-grow", {
+                viewModel: FlexGrowComponentViewModel,
+                template: components.flexcontainer.FlexGrowComponentView,
+                synchronous: true
+            });
         }
     }
 }
