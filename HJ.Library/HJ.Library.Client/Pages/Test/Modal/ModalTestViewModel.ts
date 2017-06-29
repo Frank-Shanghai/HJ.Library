@@ -3,7 +3,7 @@
         constructor() {
             super();
             this.title("Modal Test");
-            this.templateId = test.ModalTestViewId;
+            this.templateId = test.modal.ModalTestViewId;
         }
 
         private showErrorDialog = () => {

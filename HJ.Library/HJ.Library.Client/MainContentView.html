@@ -4,51 +4,58 @@
 <!-- ==== Content View / Screen ==== -->
 <section id="content" class="app-main-screen">
     <!-- ko with: spaceList.activeSpace() -->
-    <div class="page-title">
-        <div class="navigation-button">
-            <a href="#" data-hj-test-id="active-thread-previous-button" data-bind="css: { 'disabled': !isPreviousButtonEnabled() }, click: goToPreviousPage">
-                <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle-thin fa-stack-2x"></i>
-                    <i class="fa fa-angle-left fa-stack-1x"></i>
-                </span>
-            </a>
-            <a href="#" data-hj-test-id="active-thread-next-button" data-bind="css: { 'disabled': !isNextButtonEnabled() }, click: goToNextPage">
-                <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle-thin fa-stack-2x"></i>
-                    <i class="fa fa-angle-right fa-stack-1x"></i>
-                </span>
-            </a>
-        </div>
-        <div class="dropdown page-history">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-bind="css: { 'disabled': !isPagesButtonEnabled() }">
-                <span data-hj-test-id="hj-active-page-title" data-bind="text: activePage().title()"></span>
-                <i class="fa fa-angle-down"></i>
-                <i class="fa fa-angle-up"></i>
-            </a>
-            <ul class="dropdown-menu" data-bind="foreach: pages">
-                <li data-toggle="collapse" data-target=".in" data-bind="css: { 'active': isVisible }"><a href="#" data-bind="text: title, click: $parent.goToPage"></a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- ko if: activePage -->
-    <!-- ko with: activePage -->
-    <div class="active-page" data-bind="expandToAvailableHeight: {}">
-        <div data-bind="template: {name: templateId}"></div>
-        <!-- Information Dialog -->
-        <!-- ko if: informationDialog -->
-        <hj-information-dialog params="context: informationDialog"></hj-information-dialog>
-        <!-- /ko -->
-        <!-- Error Dialog -->
-        <!-- ko if: errorDialog -->
-        <hj-error-dialog params="context: errorDialog"></hj-error-dialog>
-        <!-- /ko -->
-        <!-- ko if: isProcessing -->
-        <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>
-        <!-- /ko -->
-    </div>
-    <!-- /ko -->
-    <!-- /ko -->
+    <hj-flex-container>
+        <hj-flex-shrink>
+            <div class="page-title">
+                <div class="navigation-button">
+                    <a href="#" data-hj-test-id="active-thread-previous-button" data-bind="css: { 'disabled': !isPreviousButtonEnabled() }, click: goToPreviousPage">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-angle-left fa-stack-1x"></i>
+                        </span>
+                    </a>
+                    <a href="#" data-hj-test-id="active-thread-next-button" data-bind="css: { 'disabled': !isNextButtonEnabled() }, click: goToNextPage">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-angle-right fa-stack-1x"></i>
+                        </span>
+                    </a>
+                </div>
+                <div class="dropdown page-history">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-bind="css: { 'disabled': !isPagesButtonEnabled() }">
+                        <span data-hj-test-id="hj-active-page-title" data-bind="text: activePage().title()"></span>
+                        <i class="fa fa-angle-down"></i>
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                    <ul class="dropdown-menu" data-bind="foreach: pages">
+                        <li data-toggle="collapse" data-target=".in" data-bind="css: { 'active': isVisible }"><a href="#" data-bind="text: title, click: $parent.goToPage"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </hj-flex-shrink>
+        <hj-flex-grow>
+            <hj-flex-scroll>
+                <!-- ko if: activePage -->
+                <!-- ko with: activePage -->
+                <div class="active-page">
+                    <!-- ko template: {name: templateId} --><!-- /ko -->
+                    <!-- Information Dialog -->
+                    <!-- ko if: informationDialog -->
+                    <hj-information-dialog params="context: informationDialog"></hj-information-dialog>
+                    <!-- /ko -->
+                    <!-- Error Dialog -->
+                    <!-- ko if: errorDialog -->
+                    <hj-error-dialog params="context: errorDialog"></hj-error-dialog>
+                    <!-- /ko -->
+                    <!-- ko if: isProcessing -->
+                    <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>
+                    <!-- /ko -->
+                </div>
+                <!-- /ko -->
+                <!-- /ko -->
+            </hj-flex-scroll>
+        </hj-flex-grow>
+    </hj-flex-container>
 
     <!-- Information Dialog -->
     <!-- ko if: informationDialog -->
@@ -61,6 +68,5 @@
     <!-- ko if: isProcessing -->
     <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>
     <!-- /ko -->
-
     <!-- /ko -->
 </section>

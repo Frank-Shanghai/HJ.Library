@@ -1,0 +1,17 @@
+﻿<hj-flex-container>
+    <hj-flex-shrink>
+        <span data-bind="text: header"></span>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <!-- ko foreach: labels -->
+            <p>
+                <span data-bind="text: $data"></span>
+            </p>
+            <!-- /ko -->
+        </hj-flex-scroll>
+    </hj-flex-grow>
+    <hj-flex-shrink>
+        <span data-bind="text: footer"></span>
+    </hj-flex-shrink>
+</hj-flex-container>

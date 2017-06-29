@@ -1,0 +1,13 @@
+﻿<hj-flex-container>
+    <hj-flex-shrink>
+        <button data-bind="text: 'Toggle Top Section', click: toggleTopSection"></button>
+    </hj-flex-shrink>
+    <!-- ko if: isTopVisible() -->
+    <hj-flex-grow>
+        <h1>Top Content</h1>
+    </hj-flex-grow>
+    <!-- /ko -->
+    <hj-flex-grow>
+        <h1>Bottom Content</h1>
+    </hj-flex-grow>
+</hj-flex-container>

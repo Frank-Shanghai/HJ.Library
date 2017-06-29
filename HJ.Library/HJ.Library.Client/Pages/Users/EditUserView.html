@@ -1,45 +1,54 @@
-﻿<div class="form-group">
-    <label>Email</label>
-    <input type="email" class="form-control" placeholder="email address" data-bind="value: email, enable: !isEditingMode()" />
-</div>
-<div class="form-group">
-    <label>Login Name</label>
-    <input type="text" class="form-control" placeholder="Login Name" data-bind="value: userName, enable: !isEditingMode()" />
-</div>
-<div class="form-group">
-    <label>First Name</label>
-    <input type="text" class="form-control" placeholder="First Name" data-bind="value: firstName" />
-</div>
-<div class="form-group">
-    <label>Last Name</label>
-    <input type="text" class="form-control" placeholder="Last Name" data-bind="value: lastName" />
-</div>
-<div class="form-group">
-    <label>Roles</label>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="checkbox">
-                <label><input type="checkbox" value="User" data-bind="checked: selectedRoles" />User</label>
+﻿<hj-flex-container>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" placeholder="email address" data-bind="value: email, enable: !isEditingMode()" />
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="Admin" data-bind="checked: selectedRoles" />Admin</label>
+            <div class="form-group">
+                <label>Login Name</label>
+                <input type="text" class="form-control" placeholder="Login Name" data-bind="value: userName, enable: !isEditingMode()" />
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="SuperAdmin" data-bind="checked: selectedRoles" />SuperAdmin</label>
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" placeholder="First Name" data-bind="value: firstName" />
             </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" placeholder="Last Name" data-bind="value: lastName" />
+            </div>
+            <div class="form-group">
+                <label>Roles</label>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="User" data-bind="checked: selectedRoles" />User</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="Admin" data-bind="checked: selectedRoles" />Admin</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="SuperAdmin" data-bind="checked: selectedRoles" />SuperAdmin</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- TODO: Add the option to use default password -->
+            <div class="form-group" data-bind="visible: !isEditingMode()">
+                <label>Password</label>
+                <input type="password" class="form-control" placeholder="Password" data-bind="value: password" />
+            </div>
+            <div class="form-group" data-bind="visible: !isEditingMode()">
+                <label>Confirm Password</label>
+                <input type="password" class="form-control" placeholder="Confirm Password" data-bind="value: confirmPassword" />
+            </div>
+        </hj-flex-scroll>
+    </hj-flex-grow>
+    <hj-flex-shrink>
+        <div class="page-footer">
+            <button class="btn btn-default" data-bind="click: createUser, visible: !isEditingMode()">Create</button>
+            <button class="btn btn-default" data-bind="click: updateUser, visible: isEditingMode">Save</button>
+            <button class="btn btn-default" data-bind="click: cancel">Cancel</button>
         </div>
-    </div>
-</div>
-<!-- TODO: Add the option to use default password -->
-<div class="form-group" data-bind="visible: !isEditingMode()">
-    <label>Password</label>
-    <input type="password"class="form-control" placeholder="Password" data-bind="value: password" />
-</div>
-<div class="form-group" data-bind="visible: !isEditingMode()">
-    <label>Confirm Password</label>
-    <input type="password" class="form-control" placeholder="Confirm Password" data-bind="value: confirmPassword" />
-</div>
-
-<button class="btn btn-default" data-bind="click: createUser, visible: !isEditingMode()">Create</button>
-<button class="btn btn-default" data-bind="click: updateUser, visible: isEditingMode">Save</button>
-<button class="btn btn-default" data-bind="click: cancel">Cancel</button>
+    </hj-flex-shrink>
+</hj-flex-container>
