@@ -1,4 +1,4 @@
-﻿module hj.library.dialogs {
+﻿module hj.library {
     export interface IInformationDialogComponentParameters {
         context?: IInformationDialogComponentParameters;
 

@@ -1,4 +1,4 @@
-﻿module hj.library.dialogs {
+﻿module hj.library {
     export interface IErrorDialogParameters {
         context?: IErrorDialogParameters;
 		/**

@@ -10,8 +10,8 @@
         //public navigator: Services.INavigator;
 
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
-        public informationDialog: KnockoutObservable<library.dialogs.IInformationDialogComponentParameters> = ko.observable(null);
-        public errorDialog: KnockoutObservable<library.dialogs.IErrorDialogParameters> = ko.observable(null);
+        public informationDialog: KnockoutObservable<IInformationDialogComponentParameters> = ko.observable(null);
+        public errorDialog: KnockoutObservable<IErrorDialogParameters> = ko.observable(null);
 
         public onBeforeNavigateAway(navigate: () => void, cancel?: () => void) {
             // Do anything you want to do here

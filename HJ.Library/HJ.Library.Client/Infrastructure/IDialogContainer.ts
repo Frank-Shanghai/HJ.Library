@@ -1,6 +1,6 @@
 ﻿module hj.library {
     export interface IDialogContainer {
-        errorDialog: KnockoutObservable<dialogs.IErrorDialogParameters>;
-        informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters>;
+        errorDialog: KnockoutObservable<IErrorDialogParameters>;
+        informationDialog: KnockoutObservable<IInformationDialogComponentParameters>;
     }
 }

@@ -34,8 +34,8 @@
             }
         }
 
-        private static buildMessage(error: IError): dialogs.IErrorDialogParameters {
-            var errorDialog: dialogs.IErrorDialogParameters = {
+        private static buildMessage(error: IError): IErrorDialogParameters {
+            var errorDialog: IErrorDialogParameters = {
                 title: 'Error',
                 messages: [
                     { title: "Error Message", message: error.message },

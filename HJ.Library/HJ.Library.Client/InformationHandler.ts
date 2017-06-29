@@ -3,7 +3,7 @@
         /**
         * Displays an information dialog
         */
-        public static report(dialogParameters: dialogs.IInformationDialogComponentParameters, dialogContainer?: IDialogContainer) {
+        public static report(dialogParameters: IInformationDialogComponentParameters, dialogContainer?: IDialogContainer) {
             var originalCloseAction = dialogParameters.onClose;
 
             if (dialogContainer) {

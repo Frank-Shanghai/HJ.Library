@@ -3,13 +3,13 @@
         static register() {
             // Register hj-information-dialog
             ko.components.register("hj-information-dialog", {
-                viewModel: dialogs.InformationDialogComponentViewModel, template: pages.dialogs.InformationDialogComponentView, synchronous: true
+                viewModel: InformationDialogComponentViewModel, template: components.modal.InformationDialogComponentView, synchronous: true
             });
 
             // Register hj-error-dialog 
             ko.components.register("hj-error-dialog", {
-                viewModel: dialogs.ErrorDialogComponentViewModel,
-                template: pages.dialogs.ErrorDialogComponentView,
+                viewModel: ErrorDialogComponentViewModel,
+                template: components.modal.ErrorDialogComponentView,
                 synchronous: true
             });
 

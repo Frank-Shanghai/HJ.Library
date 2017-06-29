@@ -3,8 +3,11 @@
 // Logon View
 @import "../Authentication/_logon.scss";
 
-// modal dialogs view
+// page dialogs view
 @import "../Pages/Dialogs/_dialog.scss";
+
+// modals
+@import "../Components/Modal/_modal.scss";
 
 // flex container view
 @import "../Components/FlexContainer/_hj-flexcontainer.scss";

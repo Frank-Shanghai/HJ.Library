@@ -15,8 +15,8 @@
         public canClose: boolean; // Home space cannot be closed and should be a single page space
 
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
-        public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
-        public errorDialog: KnockoutObservable<dialogs.IErrorDialogParameters> = ko.observable(null);
+        public informationDialog: KnockoutObservable<IInformationDialogComponentParameters> = ko.observable(null);
+        public errorDialog: KnockoutObservable<IErrorDialogParameters> = ko.observable(null);
 
         constructor(title: string, isSinglePageSpace: boolean = false, canClose: boolean = true) {
             this.id = Utils.guid();

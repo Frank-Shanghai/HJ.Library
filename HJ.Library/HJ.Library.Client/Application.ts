@@ -17,8 +17,8 @@ module hj.library {
         public spaceList: SpaceList;
         public user: authentication.LogonViewModel;
         public changePasswordDialog: dialogs.ChangePasswordViewModel = new dialogs.ChangePasswordViewModel();
-        public informationDialog: KnockoutObservable<dialogs.IInformationDialogComponentParameters> = ko.observable(null);
-        public errorDialog: KnockoutObservable<dialogs.IErrorDialogParameters> = ko.observable(null);
+        public informationDialog: KnockoutObservable<IInformationDialogComponentParameters> = ko.observable(null);
+        public errorDialog: KnockoutObservable<IErrorDialogParameters> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public sessionUser = ko.observable(null); // type return user

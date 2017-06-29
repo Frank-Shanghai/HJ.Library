@@ -106,7 +106,7 @@
     <Content Include="Menu\MenuItemTemplateView.html" />
     <Content Include="Menu\NavigationMenuView.html" />
     <Content Include="Note.txt" />
-    <Content Include="Pages\Dialogs\ErrorDialogComponentView.html" />
+    <Content Include="Components\Modal\ErrorDialogComponentView.html" />
     <Content Include="Pages\Dialogs\ProgressBarView.html" />
     <Content Include="Pages\Dialogs\_dialog.scss" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -115,6 +115,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Components\FlexContainer\_hj-flexcontainer.scss" />
+    <Content Include="Components\Modal\_modal.scss" />
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
@@ -123,7 +124,7 @@
     <Content Include="Pages\Books\EditBookView.html" />
     <Content Include="Pages\HomePageView.html" />
     <Content Include="Pages\Dialogs\ChangePasswordDialogView.html" />
-    <Content Include="Pages\Dialogs\InformationDialogComponentView.html" />
+    <Content Include="Components\Modal\InformationDialogComponentView.html" />
     <Content Include="Pages\Dialogs\UserProfileDialogView.html" />
     <Content Include="Pages\Test\FlexContainer\CanReAddGrowView.html" />
     <Content Include="Pages\Test\FlexContainer\CanScrollView.html" />
@@ -216,10 +217,10 @@
     <TypeScriptCompile Include="Menu\MenuNode.ts" />
     <TypeScriptCompile Include="Pages\Books\BooksViewModel.ts" />
     <TypeScriptCompile Include="Pages\Books\EditBookViewModel.ts" />
-    <TypeScriptCompile Include="Pages\Dialogs\ErrorDialogComponentViewModel.ts" />
-    <TypeScriptCompile Include="Pages\Dialogs\IErrorDialogParameters.ts" />
-    <TypeScriptCompile Include="Pages\Dialogs\IInformationDialogComponentParameters.ts" />
-    <TypeScriptCompile Include="Pages\Dialogs\InformationDialogComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\Modal\ErrorDialogComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\Modal\IErrorDialogParameters.ts" />
+    <TypeScriptCompile Include="Components\Modal\IInformationDialogComponentParameters.ts" />
+    <TypeScriptCompile Include="Components\Modal\InformationDialogComponentViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\Dialogs\ChangePasswordDialogViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />

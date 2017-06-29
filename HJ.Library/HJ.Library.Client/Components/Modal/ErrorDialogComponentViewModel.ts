@@ -1,4 +1,4 @@
-﻿module hj.library.dialogs {
+﻿module hj.library {
     export class ErrorDialogComponentViewModel {
         private _title: any;
         private _messages: IErrorDialogMessage[];

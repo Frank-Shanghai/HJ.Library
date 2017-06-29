@@ -1,4 +1,4 @@
-﻿module hj.library.dialogs {
+﻿module hj.library {
     export class InformationDialogComponentViewModel {
         private _title: string | KnockoutObservable<string>;
         private _header: string | KnockoutObservable<string>;
