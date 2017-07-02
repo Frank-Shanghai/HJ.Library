@@ -40,7 +40,7 @@ namespace HJ.Library.Controllers
         }
 
         [Authorize(Roles="Admin")]
-        [Route( "user/{id:guid}", Name = "GetUserById" )]
+        [Route( "user/id/{id}", Name = "GetUserById" )]
         //In Web API, every route has a name. Route names are useful for generating links, so that you can include a link in an HTTP response，
         //for example, refer to ModelFactory.cs, like: Url = this.urlHelper.Link( "GetRoleById", new { id = appRole.Id } )
         public async Task<IHttpActionResult> GetUser(string Id)
@@ -56,7 +56,7 @@ namespace HJ.Library.Controllers
         }
 
         [Authorize(Roles="Admin")]
-        [Route("user/{userName}")]
+        [Route("user/name/{userName}")]
         // In AspNetUsers data table, the UserName column has been set as Unique, Non-clustered index, so from the database definition, this column is unique
         public async Task<IHttpActionResult> GetUserByName(string userName)
         {

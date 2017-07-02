@@ -107,6 +107,7 @@
     <Content Include="Menu\NavigationMenuView.html" />
     <Content Include="Note.txt" />
     <Content Include="Components\Modal\ErrorDialogComponentView.html" />
+    <Content Include="Pages\Borrows\BorrowBooksView.html" />
     <Content Include="Pages\Dialogs\ProgressBarView.html" />
     <Content Include="Pages\Dialogs\_dialog.scss" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -221,6 +222,7 @@
     <TypeScriptCompile Include="Components\Modal\IErrorDialogParameters.ts" />
     <TypeScriptCompile Include="Components\Modal\IInformationDialogComponentParameters.ts" />
     <TypeScriptCompile Include="Components\Modal\InformationDialogComponentViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Borrows\BorrowBooksViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\Dialogs\ChangePasswordDialogViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />

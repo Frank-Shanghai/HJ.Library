@@ -1,0 +1,6 @@
+﻿<div id="books-toolbar" class="grid-toolbar">
+    <button class="btn btn-default" data-bind="click: borrowBooks, enable: selectedBooks().length > 0 ? true : false">
+        <i class="fa fa-sign-out fa-rotate-180" style="padding-right: 0; padding-left: 5px"></i>Borrow
+    </button>
+</div>
+<table data-bind="grid: {options: gridOptions, selectionChanged: refreshSelection}"></table>

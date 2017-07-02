@@ -1,5 +1,8 @@
 ﻿module hj.library.pages {
     export class EditBookViewModel extends PageBase {
+        // TODO: Validations
+        // Copies cannot be small than 1, available copies cannot be small than 0 when updating
+        
         public isEditingMode: KnockoutObservable<boolean> = ko.observable(false);
 
         public isbn: KnockoutObservable<string> = ko.observable('');
@@ -11,6 +14,8 @@
         public copies = ko.observable(undefined);
         public owner = ko.observable('');
         public comment = ko.observable('');
+
+        private book: any;
 
         constructor(private bookId?: string) {
             super();
@@ -38,6 +43,7 @@
                     this.copies(book.copies);
                     this.owner(book.owner);
                     this.comment(book.comment);
+                    this.book = book;
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                     var error: IError = new Error("Failed to initialize book information.");
                     error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
@@ -68,6 +74,7 @@
                     PublicationDate: this.publicationDate(),
                     Pages: this.pages(),
                     Copies: this.copies(),
+                    AvailableCopies: this.copies(),
                     Owner: this.owner(),
                     Comment: this.comment()
                 })
@@ -99,6 +106,7 @@
                     PublicationDate: this.publicationDate(),
                     Pages: this.pages(),
                     Copies: this.copies(),
+                    AvailableCopies: this.book.availableCopies + this.copies() - this.book.availableCopies,
                     Owner: this.owner(),
                     Comment: this.comment()
                 })

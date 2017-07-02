@@ -50,7 +50,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/api/accounts/user/' + this.name()
+                url: '/api/accounts/user/name/' + this.name()
             }).done((data) => {
                 library.Application.instance.openHomePageSpace();
                 Application.instance.sessionUser(data);

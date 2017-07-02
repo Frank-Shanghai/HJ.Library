@@ -73,7 +73,8 @@ module hj.library {
                 text: "Borrow/Return Mgr",
                 nodes: [
                     {
-                        text: "Borrow"
+                        text: "Borrow",
+                        targetPageName: "BorrowBooksViewModel"
                     }, 
                     {
                         text: "Return"
