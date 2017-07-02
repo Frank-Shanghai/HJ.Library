@@ -27,6 +27,8 @@ namespace HJ.Library.Infrastructure
 
         public int Copies { get; set; }
 
+        public int AvailableCopies { get; set; }
+
         public string Owner { get; set; }
 
         public string Comment { get; set; }
