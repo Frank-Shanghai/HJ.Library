@@ -65,9 +65,9 @@
             //library.Application.instance.sammyApp.run("#/Welcome");
         }
 
-        private onLogonFail(jqXhr: JQueryXHR) {
-            console.log(jqXhr);
-            alert("failed to logon, press F12, refer to console window output for more details.");
-        }
+        //private onLogonFail(jqXhr: JQueryXHR) {
+        //    console.log(jqXhr);
+        //    alert("failed to logon, press F12, refer to console window output for more details.");
+        //}
     }
 }
