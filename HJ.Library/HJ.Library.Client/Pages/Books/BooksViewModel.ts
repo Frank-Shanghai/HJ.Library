@@ -39,7 +39,7 @@ module hj.library.pages {
         };
 
         public selectedBooks: KnockoutObservableArray<any> = ko.observableArray([]);
-        public dataSource = ko.observable([]);
+        public dataSource = ko.observableArray([]);
 
         constructor() {
             super();

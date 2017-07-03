@@ -26,6 +26,7 @@ namespace HJ.Library.Controllers
 
         // GET: api/Borrows/5
         [ResponseType(typeof(Borrow))]
+        [Route("{id:guid}", Name = "GetBorrowById")]
         public async Task<IHttpActionResult> GetBorrow(Guid id)
         {
             Borrow borrow = await db.Borrows.FindAsync(id);
@@ -88,6 +89,7 @@ namespace HJ.Library.Controllers
 
         // POST: api/Borrows
         [ResponseType(typeof(Borrow))]
+        [Route("")]
         public async Task<IHttpActionResult> PostBorrow(Borrow borrow)
         {
             if (!ModelState.IsValid)
@@ -95,7 +97,13 @@ namespace HJ.Library.Controllers
                 return BadRequest(ModelState);
             }
 
+            borrow.BorrowId = System.Guid.NewGuid();
             db.Borrows.Add(borrow);
+
+            var book = db.Books.Find(borrow.BookId);
+            if (book != null) {
+                book.AvailableCopies--;
+            }
 
             try
             {
@@ -113,7 +121,8 @@ namespace HJ.Library.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = borrow.BorrowId }, borrow);
+            Uri locationHeader = new Uri(Url.Link("GetBorrowById", new { id = borrow.BookId }));
+            return Created(locationHeader, borrow);
         }
 
         // DELETE: api/Borrows/5

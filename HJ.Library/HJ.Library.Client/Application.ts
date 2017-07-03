@@ -4,6 +4,12 @@ module hj.library {
     export class Application {
         public homePageSpace: Space;
 
+        // Books can be borrowed for 4 weeks/28 days
+        public maximumDays = 28;
+
+        // One user can borrow at most 3 books
+        public maximumsNumber = 3;
+
         private static _instance: Application;
 
         public static get instance(): Application {
