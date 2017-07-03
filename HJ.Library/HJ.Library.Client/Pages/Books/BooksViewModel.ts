@@ -2,14 +2,50 @@
 
 module hj.library.pages {
     export class BooksViewModel extends PageBase {
-        public gridOptions = ko.observable(null);
+        public gridOptions = {
+            columns: [
+                {
+                    checkbox: true
+                },
+                {
+                    title: 'Title',
+                    field: 'name'
+                },
+                {
+                    title: 'Author',
+                    field: 'author'
+                },
+                {
+                    title: 'Publisher',
+                    field: "publisher"
+                },
+                {
+                    title: "Publication Date",
+                    field: 'publicationDate',
+                    formatter: (value) => {
+                        return moment(value).format("MM-DD-YYYY");
+                    }
+                }
+            ],
+            striped: true,
+            sortable: true,
+            pagination: true,
+            pageNumber: 1,
+            pageSize: 10,
+            pageList: [10, 20, 50, 100],
+            clickToSelect: true,
+            detailView: true,
+            detailFormatter: this.detailFormatter
+        };
+
         public selectedBooks: KnockoutObservableArray<any> = ko.observableArray([]);
+        public dataSource = ko.observable([]);
 
         constructor() {
             super();
             this.templateId = books.BooksViewId;
             this.title("Books");
-            this.initialize();
+            this.refreshDataGrid();
         }
 
         private refreshSelection = (selectedRows: any) => {
@@ -21,49 +57,14 @@ module hj.library.pages {
             ko.applyBindings(row, element.get(0));
         }
 
-        private initialize() {
+        private refreshDataGrid() {
             this.isProcessing(true);
             $.ajax({
                 type: 'get',
                 accepts: 'application/json',
                 url: '/api/books'
             }).done((books) => {
-                this.gridOptions({
-                    data: books,
-                    columns: [
-                        {
-                            checkbox: true
-                        },
-                        {
-                            title: 'Title',
-                            field: 'name'
-                        },
-                        {
-                            title: 'Author',
-                            field: 'author'
-                        },
-                        {
-                            title: 'Publisher',
-                            field: "publisher"
-                        },
-                        {
-                            title: "Publication Date",
-                            field: 'publicationDate',
-                            formatter: (value) => {
-                                return moment(value).format("MM-DD-YYYY");
-                            }
-                        }
-                    ],
-                    striped: true,
-                    sortable: true,
-                    pagination: true,
-                    pageNumber: 1,
-                    pageSize: 10,
-                    pageList: [10, 20, 50, 100],
-                    clickToSelect: true,
-                    detailView: true,
-                    detailFormatter: this.detailFormatter
-                });
+                this.dataSource(books);
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 var error: IError = new Error("Failed to load book list.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
@@ -113,7 +114,7 @@ module hj.library.pages {
                 }
 
                 $.when.apply($, promises).done((data) => {
-                    this.refresh();
+                    this.refreshDataGrid();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                     var error: IError = new Error("Failed to remove selected books.");
                     error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
@@ -123,11 +124,6 @@ module hj.library.pages {
                     this.isProcessing(false);
                 });
             }
-        }
-
-        private refresh = () => {
-            this.space.addPage(new BooksViewModel(), null);
-            //Application.instance.activePage(new BooksViewModel());
         }
     }
 }

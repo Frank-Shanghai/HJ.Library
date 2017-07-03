@@ -1,66 +1,65 @@
 ﻿///<reference path="../PageBase.ts" />
 module hj.library.pages {
     export class UsersViewModel extends PageBase {
-        public users: KnockoutObservableArray<any> = ko.observableArray([]);
-        public gridOptions: KnockoutObservable<any> = ko.observable(null);
+        public dataSource: KnockoutObservableArray<any> = ko.observableArray([]);
+        public gridOptions = {
+            columns: [
+                {
+                    checkbox: true
+                },
+                {
+                    title: "Name",
+                    formatter: (value, row) => {
+                        return row.firstName + ' ' + row.lastName;
+                    }
+                },
+                {
+                    title: "Logon Name",
+                    field: "userName"
+                },
+                {
+                    title: "Email",
+                    field: "email"
+                },
+                {
+                    title: "Roles",
+                    field: "roles",
+                    formatter: (value) => {
+                        return value.toString();
+                    }
+                },
+                {
+                    title: "Id",
+                    field: "id",
+                    visible: false
+                }
+            ],
+            striped: true,
+            sortable: true,
+            pagination: true,
+            pageNumber: 1,
+            pageSize: 10,
+            pageList: [10, 20, 50, 100],
+            clickToSelect: true
+        };
+
         public selectedUsers: KnockoutObservableArray<any> = ko.observableArray([]);
 
         constructor() {
             super();
             this.templateId = users.UsersViewId;
             this.title("Users");
-            this.initialize();
+            this.refreshDataGrid();
         }
 
-        private initialize() {
+        private refreshDataGrid() {
             this.isProcessing(true);
             $.ajax({
                 type: 'get',
                 accepts: "application/json",
                 url: '/api/accounts/users'
             }).done((users) => {
-                this.users(users);
-                this.gridOptions({
-                    data: users,
-                    columns: [
-                        {
-                            checkbox: true
-                        },
-                        {
-                            title: "Name",
-                            formatter: (value, row) => {
-                                return row.firstName + ' ' + row.lastName;
-                            }
-                        },
-                        {
-                            title: "Logon Name",
-                            field: "userName"
-                        },
-                        {
-                            title: "Email",
-                            field: "email"
-                        },
-                        {
-                            title: "Roles",
-                            field: "roles",
-                            formatter: (value) => {
-                                return value.toString();
-                            }
-                        },
-                        {
-                            title: "Id",
-                            field: "id",
-                            visible: false
-                        }
-                    ],
-                    striped: true,
-                    sortable: true,
-                    pagination: true,
-                    pageNumber: 1,
-                    pageSize: 10,
-                    pageList: [10, 20, 50, 100],
-                    clickToSelect: true
-                });
+                this.dataSource(users);
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 var error: IError = new Error("Failed to get users list.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
@@ -114,7 +113,7 @@ module hj.library.pages {
                 }
 
                 $.when.apply($, promises).done(() => {
-                    this.refresh();
+                    this.refreshDataGrid();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                     var error: IError = new Error("Failed to delete selected users.");
                     error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
@@ -124,11 +123,6 @@ module hj.library.pages {
                     this.isProcessing(false);
                 });
             }
-        }
-
-        private refresh = () => {
-            this.space.addPage(new UsersViewModel(), null);
-            //Application.instance.activePage(new UsersViewModel());
         }
     }
 }

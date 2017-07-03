@@ -4,6 +4,21 @@ module hj.library {
         public update(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
             var context = ko.unwrap(valueAccessor());
             var options = ko.unwrap(context.options);
+            if (ko.isObservable(context.dataSource)) {
+                $.extend(options, {
+                    data: ko.unwrap(context.dataSource)
+                });
+
+                context.dataSource.subscribe((newValue) => {
+                    options.data = newValue;
+                    (<any>$(element)).bootstrapTable("load", options);
+                });
+            }
+            else {
+                $.extend(options, {
+                    data: context.dataSource
+                });
+            }
 
             var configSelectionChangedEvent = (element: any, context: any) => {
                 var options = ko.unwrap(context.options);
