@@ -109,7 +109,7 @@ namespace HJ.Library.Controllers
                 Email = userModel.Email,
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
-                BorrowedBooks = 0,
+                BorrowedBooksCount = 0,
                 EmailConfirmed = true // Currently, don't consider email confirming
             };
 
