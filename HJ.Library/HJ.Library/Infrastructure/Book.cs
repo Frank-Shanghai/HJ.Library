@@ -33,5 +33,6 @@ namespace HJ.Library.Infrastructure
 
         public string Comment { get; set; }
 
+        public virtual ICollection<Borrow> BeBorrwedRecords { get; set; }
     }
 }

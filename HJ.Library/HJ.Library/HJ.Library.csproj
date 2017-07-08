@@ -169,6 +169,10 @@
     <Compile Include="Migrations\201707040626037_AddBorrowedBooksColumnToUserTable.Designer.cs">
       <DependentUpon>201707040626037_AddBorrowedBooksColumnToUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707080704194_RenamedBorrowedBooksColumnInUserTable.cs" />
+    <Compile Include="Migrations\201707080704194_RenamedBorrowedBooksColumnInUserTable.Designer.cs">
+      <DependentUpon>201707080704194_RenamedBorrowedBooksColumnInUserTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChangePasswordDto.cs" />
     <Compile Include="Models\ModelFactory.cs" />
@@ -207,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707040626037_AddBorrowedBooksColumnToUserTable.resx">
       <DependentUpon>201707040626037_AddBorrowedBooksColumnToUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707080704194_RenamedBorrowedBooksColumnInUserTable.resx">
+      <DependentUpon>201707080704194_RenamedBorrowedBooksColumnInUserTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
