@@ -18,6 +18,7 @@ namespace HJ.Library.Infrastructure
         [MaxLength(100)]
         public string LastName { get; set; }
 
+        // Count how many books user already borrowed
         public int BorrowedBooks { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<ApplicationUser> manager, string authenticationtype )
