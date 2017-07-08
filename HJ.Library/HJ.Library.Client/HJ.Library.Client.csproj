@@ -78,6 +78,7 @@
     <Content Include="Components\FlexContainer\FlexGrowComponentView.html" />
     <Content Include="Components\FlexContainer\FlexScrollComponentView.html" />
     <Content Include="Components\FlexContainer\FlexShrinkComponentView.html" />
+    <Content Include="Components\SearchableDropDownList\SearchableDropDownListComponentView.html" />
     <Content Include="Content\bootstrap-1.1.0.css" />
     <Content Include="Content\bootstrap-1.1.0.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -117,6 +118,7 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Components\FlexContainer\_hj-flexcontainer.scss" />
     <Content Include="Components\Modal\_modal.scss" />
+    <Content Include="Components\SearchableDropDownList\_searchableDropDownList.scss" />
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
@@ -131,6 +133,7 @@
     <Content Include="Pages\Test\FlexContainer\CanScrollView.html" />
     <Content Include="Pages\Test\FlexContainer\MultipleFlexElementsView.html" />
     <Content Include="Pages\Test\Modal\ModalTestView.html" />
+    <Content Include="Pages\Test\SearchableDropDownList\SearchableDropDownListTestView.html" />
     <Content Include="Pages\Users\EditUserView.html" />
     <Content Include="Pages\Users\UsersView.html" />
     <Content Include="Resource\books.jpg" />
@@ -158,6 +161,8 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
     <Content Include="Scripts\sammy-0.7.5.min.js" />
+    <Content Include="Scripts\select2\select2.css" />
+    <Content Include="Scripts\select2\select2.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Style\app.css">
@@ -198,6 +203,8 @@
     <TypeScriptCompile Include="Components\FlexContainer\FlexGrowComponentViewModel.ts" />
     <TypeScriptCompile Include="Components\FlexContainer\FlexScrollComponentViewModel.ts" />
     <TypeScriptCompile Include="Components\FlexContainer\FlexShrinkComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\SearchableDropDownList\ISearchableDropDownListComponentParameters.ts" />
+    <TypeScriptCompile Include="Components\SearchableDropDownList\SearchableDropDownListComponentViewModel.ts" />
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\CloseOverlayBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\ExpandToAvailableHeightBinding.ts" />
@@ -208,6 +215,7 @@
     <TypeScriptCompile Include="CustomBindings\IndentBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\KnockoutBindingContextExtensions.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuItemStateBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\SearchableDropDownList\SearchableDropDownListBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\SetBindingContext.ts" />
     <TypeScriptCompile Include="ErrorHandler.ts" />
     <TypeScriptCompile Include="InformationHandler.ts" />
@@ -230,6 +238,7 @@
     <TypeScriptCompile Include="Pages\Test\FlexContainer\CanScrollViewModel.ts" />
     <TypeScriptCompile Include="Pages\Test\FlexContainer\MultipleFlexElementsViewModel.ts" />
     <TypeScriptCompile Include="Pages\Test\Modal\ModalTestViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Test\SearchableDropDownList\SearchableDropDownListTestViewModel.ts" />
     <TypeScriptCompile Include="Pages\Users\EditUserViewModel.ts" />
     <TypeScriptCompile Include="Pages\Users\UsersViewModel.ts" />
     <TypeScriptCompile Include="Scripts\moment-datepicker.d.ts" />

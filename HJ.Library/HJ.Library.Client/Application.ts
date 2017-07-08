@@ -113,6 +113,15 @@ module hj.library {
                                 targetPageName: "MultipleFlexElementsViewModel"
                             }
                         ]
+                    },
+                    {
+                        text: "SearchableDropDownList",
+                        nodes: [
+                            {
+                                text: "Searchable DDL",
+                                targetPageName: "SearchableDropDownListTestViewModel"
+                            }
+                        ]
                     }
                 ]
             }

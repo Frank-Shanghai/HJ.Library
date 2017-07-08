@@ -103,13 +103,14 @@ namespace HJ.Library.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() 
+            var user = new ApplicationUser()
             {
                 UserName = userModel.UserName,
-                Email=userModel.Email,
-                FirstName=userModel.FirstName,
-                LastName=userModel.LastName,
-                EmailConfirmed=true // Currently, don't consider email confirming
+                Email = userModel.Email,
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                BorrowedBooks = 0,
+                EmailConfirmed = true // Currently, don't consider email confirming
             };
 
             IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, userModel.Password);

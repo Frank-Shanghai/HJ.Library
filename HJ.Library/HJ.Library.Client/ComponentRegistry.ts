@@ -40,6 +40,13 @@
                 template: components.flexcontainer.FlexGrowComponentView,
                 synchronous: true
             });
+
+            // Register hj-searchable-dropdownlist
+            ko.components.register("hj-searchable-dropdownlist", {
+                viewModel: SearchableDropDownListComponentViewModel,
+                template: components.searchabledropdownlist.SearchableDropDownListComponentView,
+                synchronous: true
+            });
         }
     }
 }
