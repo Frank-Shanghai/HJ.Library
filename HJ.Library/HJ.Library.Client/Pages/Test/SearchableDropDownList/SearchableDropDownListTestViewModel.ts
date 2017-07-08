@@ -34,7 +34,7 @@
         }
 
         // Multiple select Select2 control
-        private multipleSelect = ko.observable(['1','2']);
+        private multipleSelect = ko.observableArray(['1','2']);
         private multipleSelectString = ko.pureComputed(() => {
             return this.multipleSelect().toString();
         });
@@ -56,6 +56,15 @@
         private removeMFirst = () => {
             this.multipleContext.data.remove(this.multipleContext.data()[0]);
         }
+
+        // Select Event
+        private selectEventContext = {
+            data: ko.observableArray([{ id: 1, text: "test1" }, { id: 2, text: "test2" }]),
+            placeholder: "Select one item",
+            select: (selectedValue: any) => {
+                alert("you selected value: " + selectedValue);
+            }
+        };
 
         // Enabled/Disalbed
         public stateContext = {

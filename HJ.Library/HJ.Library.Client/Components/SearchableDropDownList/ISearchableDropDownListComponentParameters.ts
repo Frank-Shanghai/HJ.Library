@@ -23,7 +23,6 @@
     }
 
     export interface ISearchableDropDownListComponentSelectEvent<T> {
-        dataItem: T;
-        dataItems: T[];
+        selectedValue: T | T[];
     }
 }

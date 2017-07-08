@@ -10,6 +10,13 @@
                 tags: _options.tags
             });
 
+            if (!($.isFunction(_options.select)) || ko.isObservable(_options.select)) {
+                $select2.val(ko.unwrap(_options.select)).trigger("change");
+            }
+            else {
+                $select2.val(null).trigger("change");
+            }
+
             var updateControlState = (disabled: boolean) => {
                 $select2.prop("disabled", disabled);
             };
@@ -24,13 +31,6 @@
                     select($select2.val());
                 }
             });
-
-            if (!($.isFunction(_options.select)) || ko.isObservable(_options.select)) {
-                $select2.val(ko.unwrap(_options.select)).trigger("change");
-            }
-            else {
-                $select2.val(null).trigger("change");
-            }
 
             updateControlState(ko.unwrap(_options.enabled) === false ? true : false);
 
