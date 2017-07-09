@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace HJ.Library.Infrastructure
 {
@@ -33,6 +34,9 @@ namespace HJ.Library.Infrastructure
 
         public string Comment { get; set; }
 
+        // Refer to the following link about why to add JsonIgnore attribute
+        // https://stackoverflow.com/questions/5769200/serialize-one-to-many-relationships-in-json-net
+        [JsonIgnore]
         public virtual ICollection<Borrow> BeBorrwedRecords { get; set; }
     }
 }

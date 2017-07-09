@@ -11,7 +11,7 @@
         public publisher = ko.observable('');
         public publicationDate: KnockoutObservable<Date> = ko.observable(null);
         public pages: KnockoutObservable<number> = ko.observable(undefined);
-        public copies = ko.observable(undefined);
+        public copies: KnockoutObservable<number> = ko.observable(undefined);
         public owner = ko.observable('');
         public comment = ko.observable('');
 
@@ -40,7 +40,7 @@
                     this.publisher(book.publisher);
                     this.publicationDate(book.publicationDate);
                     this.pages(book.pages);
-                    this.copies(book.copies);
+                    this.copies(parseInt(book.copies));
                     this.owner(book.owner);
                     this.comment(book.comment);
                     this.book = book;
@@ -106,7 +106,7 @@
                     PublicationDate: this.publicationDate(),
                     Pages: this.pages(),
                     Copies: this.copies(),
-                    AvailableCopies: this.book.availableCopies + this.copies() - this.book.availableCopies,
+                    AvailableCopies: this.book.availableCopies + parseInt(this.copies().toString()) - this.book.copies,
                     Owner: this.owner(),
                     Comment: this.comment()
                 })

@@ -32,7 +32,8 @@ namespace HJ.Library.Models
                 Email = appUser.Email,
                 EmailConfirmed = appUser.EmailConfirmed,
                 Roles = appUserManager.GetRolesAsync(appUser.Id).Result,
-                Claims = appUserManager.GetClaimsAsync(appUser.Id).Result
+                Claims = appUserManager.GetClaimsAsync(appUser.Id).Result,
+                BorrowedBooksCount=appUser.BorrowedBooksCount
             };
         }
 
@@ -57,6 +58,7 @@ namespace HJ.Library.Models
         public bool EmailConfirmed { get; set; }
         public IList<string> Roles { get; set; }
         public IList<System.Security.Claims.Claim> Claims { get; set; }
+        public int BorrowedBooksCount { get; set; }
     }
 
     public class RoleReturnModel

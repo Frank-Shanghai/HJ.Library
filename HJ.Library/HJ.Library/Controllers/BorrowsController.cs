@@ -101,8 +101,15 @@ namespace HJ.Library.Controllers
             db.Borrows.Add(borrow);
 
             var book = db.Books.Find(borrow.BookId);
-            if (book != null) {
+            if (book != null)
+            {
                 book.AvailableCopies--;
+            }
+
+            var user = db.Users.Find(borrow.UserId);
+            if (user != null)
+            {
+                user.BorrowedBooksCount++;
             }
 
             try

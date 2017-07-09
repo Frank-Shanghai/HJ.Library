@@ -2,6 +2,10 @@
 
 module hj.library.pages {
     export class BorrowBooksViewModel extends PageBase {
+        public booksDataSource = ko.observableArray([]);
+        public usersDataSource = ko.observableArray([]);
+        public selectedBooks: KnockoutObservableArray<any> = ko.observableArray([]);
+        public selectedUserId: KnockoutObservable<any> = ko.observable(null);
         public booksGridOptions = {
             columns: [
                 {
@@ -43,19 +47,29 @@ module hj.library.pages {
             pageList: [10, 20, 50, 100],
             clickToSelect: true,
             detailView: true,
-            detailFormatter: this.detailFormatter
+            detailFormatter: (index, row, element: JQuery) => {
+                element.html(books.BookDetailsTemplateView);
+                ko.applyBindings(row, element.get(0));
+            }
         };
-        public booksDataSource = ko.observableArray([]);
-        public usersDataSource = ko.observableArray([]);
-        public selectedBooks: KnockoutObservableArray<any> = ko.observableArray([]);
-        public selectedUser: KnockoutObservable<any> = ko.observable(null);
 
-        // TODO: Control Borrow button's state
-        // If selected user is not null, has more than 1 books selected
-        // User borrowed books number is less than maximum number, User doens't have books that expired and not returned
+        public userListOptions = {
+            data: this.usersDataSource,
+            placeholder: "select a user",
+            select: this.selectedUserId
+        };
 
+        public canBorrowBook: KnockoutComputed<boolean> = ko.pureComputed<boolean>(() => {
+            if (this.selectedUserId() && this.selectedBooks().length > 0) {
+                return true;
+            }
 
-        // TODO: For books that available copies are 0, make the row is not selectable and UI be kind of different from normal ones
+            return false;
+        });
+
+        // TODO: Update borrow method and server API to allow borrow multiple books at once
+        // TODO: When user selected, update a message display how many books this user can borrow, and 
+        // control the borrow button state and display message (beside the button) based on this number
 
         constructor() {
             super();
@@ -66,11 +80,6 @@ module hj.library.pages {
 
         private refreshBooksSelection = (selectedRows: any) => {
             this.selectedBooks(selectedRows);
-        }
-
-        private detailFormatter = (index, row, element: JQuery) => {
-            element.html(books.BookDetailsTemplateView);
-            ko.applyBindings(row, element.get(0));
         }
 
         private intialize() {
@@ -93,8 +102,10 @@ module hj.library.pages {
                 type: 'get',
                 accepts: 'application/json',
                 url: '/api/books'
-            }).done((books) => {
-                this.booksDataSource(books);
+            }).done((books: Array<any>) => {
+                this.booksDataSource(books.filter((value: any) => {
+                    return value.availableCopies > 0;
+                }));
                 deferredObj.resolve(null);
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 deferredObj.reject(jqXhr, textStatus, err);
@@ -110,7 +121,14 @@ module hj.library.pages {
                 accepts: "application/json",
                 url: '/api/accounts/users'
             }).done((users: Array<any>) => {
-                this.usersDataSource(users);
+                this.usersDataSource.removeAll();
+                users.forEach((user) => {
+                    this.usersDataSource.push({
+                        id: user.id,
+                        text: user.firstName + ' ' + user.lastName + ' [' + user.email + ']',
+                        disabled: user.borrowedBooksCount >= 3
+                    });
+                });
                 deferredObj.resolve(null);
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 deferredObj.reject(jqXhr, textStatus, err);
@@ -128,17 +146,12 @@ module hj.library.pages {
                 data: JSON.stringify({
                     borrowId: Utils.guid(),
                     bookId: this.selectedBooks()[0].bookId,
-                    userId: Application.instance.sessionUser().id,
+                    userId: this.selectedUserId(),
                     startDate: new Date(Date.now()),
                     endDate: new Date() // Default date: 1/1/1970
                 })
             }).done(() => {
-                this.initializeBooks().fail((jqXhr: JQueryXHR) => {
-                    var error: IError = new Error("Failed to initialize books list.");
-                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
-
-                    ErrorHandler.report(error, null, this);
-                });
+                this.intialize();
             }).fail((jqXhr: JQueryXHR) => {
                 var error: IError = new Error("Failed to borrow books.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);

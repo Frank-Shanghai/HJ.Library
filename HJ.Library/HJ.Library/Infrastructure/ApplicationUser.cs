@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace HJ.Library.Infrastructure
 {
@@ -21,6 +22,7 @@ namespace HJ.Library.Infrastructure
         // Count how many books user already borrowed
         public int BorrowedBooksCount { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Borrow> BorrowRecords { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<ApplicationUser> manager, string authenticationtype )

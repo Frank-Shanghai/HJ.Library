@@ -7,9 +7,8 @@
         }
 
         // Sample
-        private sampleSelect = ko.observable('2');
         public sampleContext = {
-            data: ko.observableArray([{ id: 1, text: "sample1" }, { id: 2, text: "sample2" }]),
+            data: ko.observableArray([{ id: 1, text: "sample1", disabled: true }, { id: 2, text: "sample2" }]),
             placeholder: "Select one item",
         };
 
@@ -39,13 +38,13 @@
             return this.multipleSelect().toString();
         });
         public multipleContext = {
-            data: ko.observableArray([{ id: 1, text: "test1" }, { id: 2, text: "test2" }, { id: 3, text: "test3" }]),
+            data: ko.observableArray([{ id: 1, text: "test1" }, { id: 2, text: "test2" }, { id: 3, text: "test3", disabled: true }, { id: 4, text: "test4" }]),
             placeholder: "Select items",
             multiple: true,
             select: this.multipleSelect
         };
 
-        private index1 = 4;
+        private index1 = 5;
         private addNewOptionToMultiple = () => {
             this.multipleContext.data.push({
                 id: this.index1, text: "test" + this.index1

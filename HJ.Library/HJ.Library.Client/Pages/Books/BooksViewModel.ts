@@ -35,7 +35,10 @@ module hj.library.pages {
             pageList: [10, 20, 50, 100],
             clickToSelect: true,
             detailView: true,
-            detailFormatter: this.detailFormatter
+            detailFormatter: (index, row, element: JQuery) => {
+                element.html(books.BookDetailsTemplateView);
+                ko.applyBindings(row, element.get(0));
+            }
         };
 
         public selectedBooks: KnockoutObservableArray<any> = ko.observableArray([]);
@@ -50,11 +53,6 @@ module hj.library.pages {
 
         private refreshSelection = (selectedRows: any) => {
             this.selectedBooks(selectedRows);
-        }
-
-        private detailFormatter = (index, row, element: JQuery) => {
-            element.html(books.BookDetailsTemplateView);
-            ko.applyBindings(row, element.get(0));
         }
 
         private refreshDataGrid() {

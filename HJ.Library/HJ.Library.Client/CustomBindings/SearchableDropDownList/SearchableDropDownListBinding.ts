@@ -2,6 +2,15 @@
     export class SearchableDropDownListBinding implements KnockoutBindingHandler {
         public init(element: any, valueAccessor: () => any, allBindings: any, viewModel: any, bindingContext: KnockoutBindingContext) {
             var _options = ko.unwrap(valueAccessor());
+            var setOptionsState = () => {
+                var $options = $(element).find("option");
+                var data = ko.unwrap(_options.data);
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].disabled === true) {
+                        $($options[i]).prop("disabled", true);
+                    }
+                }
+            };
 
             var $select2 = $(element).select2({
                 placeholder: _options.placeholder,
@@ -9,6 +18,8 @@
                 data: ko.unwrap(_options.data),
                 tags: _options.tags
             });
+
+            setOptionsState();
 
             if (!($.isFunction(_options.select)) || ko.isObservable(_options.select)) {
                 $select2.val(ko.unwrap(_options.select)).trigger("change");
@@ -56,6 +67,7 @@
                     newData.forEach((item: any) => {
                         $(element).append($("<option></option>").attr("value", item.id).html(item.text));
                     });
+                    setOptionsState();
                     // #end-region
                                         
                     // Update selected values 
