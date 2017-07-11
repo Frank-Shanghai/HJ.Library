@@ -1,21 +1,21 @@
-﻿<h3>Sample, no default selected value, show place holder when initialized</h3>
+﻿<h4>Sample, no default selected value, show place holder when initialized. Frist option is disabled.</h4>
 <hj-searchable-dropdownlist params="context: sampleContext"></hj-searchable-dropdownlist>
 
-<h3>Basic, ko.observable, default selected value is '1'</h3>
+<h4>Basic, ko.observable, default selected value is '2'</h4>
 <button class="btn btn-default" data-bind="click: addNewOption">Add</button>
 <button class="btn btn-default" data-bind="click: removeFirst">Remove First</button>
 <hj-searchable-dropdownlist params="context: basicContext"></hj-searchable-dropdownlist>
 <span data-bind="text: basicSelect"></span>
 
-<h3>Multiple, ko.observableArray, default selected value is ['1', '2']</h3>
+<h4>Multiple, ko.observableArray, default selected value is ['1', '2'], the 3rd option is disabled.</h4>
 <button class="btn btn-default" data-bind="click: addNewOptionToMultiple">Add</button>
 <button class="btn btn-default" data-bind="click: removeMFirst">Remove First</button>
 <hj-searchable-dropdownlist params="context: multipleContext"></hj-searchable-dropdownlist>
 <span data-bind="text: multipleSelectString"></span>
 
-<h3>Select Event</h3>
+<h4>Select Event</h4>
 <hj-searchable-dropdownlist params="context: selectEventContext"></hj-searchable-dropdownlist>
 
-<h3>Enabled/Disabled State</h3>
+<h4>Enabled/Disabled State</h4>
 <button class="btn btn-default" data-bind="click: toggleState">Toggle State</button>
 <hj-searchable-dropdownlist params="context: stateContext"></hj-searchable-dropdownlist>

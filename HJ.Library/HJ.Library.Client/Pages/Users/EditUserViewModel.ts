@@ -35,7 +35,7 @@ module hj.library.pages {
                 $.ajax({
                     type: 'get',
                     accepts: "application/json",
-                    url: '/api/accounts/user/' + user.userName
+                    url: '/api/accounts/user/name/' + user.userName
                 }).done((user) => {
                     this.userId = user.id;
                     this.email(user.email);

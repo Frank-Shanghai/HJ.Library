@@ -137,6 +137,7 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\BorrowsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
@@ -173,6 +174,7 @@
       <DependentUpon>201707080704194_RenamedBorrowedBooksColumnInUserTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BorrowInfoDTO.cs" />
     <Compile Include="Models\ChangePasswordDto.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\RoleDto.cs" />
