@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HJ.Library.Infrastructure;
+using HJ.Library.Models;
 
 namespace HJ.Library.Controllers
 {
@@ -18,13 +19,14 @@ namespace HJ.Library.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Borrows
+        // GET: api/borrows
+        [Route("", Name = "GetBorrows")]
         public IQueryable<Borrow> GetBorrows()
         {
             return db.Borrows;
         }
 
-        // GET: api/Borrows/5
+        // GET: api/borrows/5
         [ResponseType(typeof(Borrow))]
         [Route("{id:guid}", Name = "GetBorrowById")]
         public async Task<IHttpActionResult> GetBorrow(Guid id)
@@ -38,7 +40,7 @@ namespace HJ.Library.Controllers
             return Ok(borrow);
         }
 
-        [Route("user/{id}", Name="GetBooksByUserId")]
+        [Route("user/{id}", Name = "GetBooksByUserId")]
         public IList<Borrow> GetBorrowsByUserId(string userId)
         {
             IEnumerable<Borrow> borrows = from b in db.Borrows
@@ -52,7 +54,7 @@ namespace HJ.Library.Controllers
             return borrows.ToList<Borrow>();
         }
 
-        // PUT: api/Borrows/5
+        // PUT: api/borrows/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutBorrow(Guid id, Borrow borrow)
         {
@@ -87,28 +89,46 @@ namespace HJ.Library.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Borrows
+        // POST: api/borrows
         [ResponseType(typeof(Borrow))]
         [Route("")]
-        public async Task<IHttpActionResult> PostBorrow(Borrow borrow)
+        public async Task<IHttpActionResult> PostBorrow(BorrowInfoDTO borrow)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            borrow.BorrowId = System.Guid.NewGuid();
-            db.Borrows.Add(borrow);
-
-            var book = db.Books.Find(borrow.BookId);
-            if (book != null)
+            var user = db.Users.Find(borrow.UserId);
+            if (user == null)
             {
-                book.AvailableCopies--;
+                throw new Exception("user not exist.");
             }
 
-            var user = db.Users.Find(borrow.UserId);
-            if (user != null)
-            {
+            var borrows = new List<Borrow>();
+            foreach (Guid bookId in borrow.Books)
+            {  
+                Borrow newBorrow = new Borrow
+                {
+                    BorrowId = Guid.NewGuid(),
+                    UserId = borrow.UserId,
+                    BookId= bookId,
+                    StartDate = DateTime.Now,
+                    EndDate = new DateTime(1970, 1, 1)
+                };
+
+                db.Borrows.Add(newBorrow);
+                borrows.Add(newBorrow);
+
+                var book = db.Books.Find(bookId);
+                if (book != null)
+                {
+                    book.AvailableCopies--;
+                }
+                else {
+                    throw new Exception("book not exist.");
+                }
+
                 user.BorrowedBooksCount++;
             }
 
@@ -118,21 +138,14 @@ namespace HJ.Library.Controllers
             }
             catch (DbUpdateException)
             {
-                if (BorrowExists(borrow.BorrowId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
-            Uri locationHeader = new Uri(Url.Link("GetBorrowById", new { id = borrow.BookId }));
-            return Created(locationHeader, borrow);
+            Uri locationHeader = new Uri(Url.Link("GetBorrows", null));
+            return Created(locationHeader, borrows);
         }
 
-        // DELETE: api/Borrows/5
+        // DELETE: api/borrows/5
         [ResponseType(typeof(Borrow))]
         public async Task<IHttpActionResult> DeleteBorrow(Guid id)
         {

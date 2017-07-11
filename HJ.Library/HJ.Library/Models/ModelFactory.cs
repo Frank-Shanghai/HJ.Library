@@ -33,7 +33,7 @@ namespace HJ.Library.Models
                 EmailConfirmed = appUser.EmailConfirmed,
                 Roles = appUserManager.GetRolesAsync(appUser.Id).Result,
                 Claims = appUserManager.GetClaimsAsync(appUser.Id).Result,
-                BorrowedBooksCount=appUser.BorrowedBooksCount
+                BorrowedBooksCount = appUser.BorrowedBooksCount
             };
         }
 

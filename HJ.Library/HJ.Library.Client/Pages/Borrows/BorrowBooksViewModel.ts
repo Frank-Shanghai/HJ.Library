@@ -67,7 +67,7 @@ module hj.library.pages {
             return false;
         });
 
-        // TODO: Update borrow method and server API to allow borrow multiple books at once
+        // TODO: Add confirming dialog, show user, and books
         // TODO: When user selected, update a message display how many books this user can borrow, and 
         // control the borrow button state and display message (beside the button) based on this number
 
@@ -139,16 +139,19 @@ module hj.library.pages {
 
         private borrowBooks = () => {
             this.isProcessing(true);
+
+            var books = [];
+            this.selectedBooks().forEach((book) => {
+                books.push(book.bookId);
+            });
+
             $.ajax({
                 type: 'post',
                 contentType: 'application/json',
                 url: '/api/borrows',
                 data: JSON.stringify({
-                    borrowId: Utils.guid(),
-                    bookId: this.selectedBooks()[0].bookId,
-                    userId: this.selectedUserId(),
-                    startDate: new Date(Date.now()),
-                    endDate: new Date() // Default date: 1/1/1970
+                    UserId: this.selectedUserId(),
+                    Books: books
                 })
             }).done(() => {
                 this.intialize();
