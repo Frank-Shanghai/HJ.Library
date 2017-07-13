@@ -119,6 +119,7 @@
     <Content Include="Components\FlexContainer\_hj-flexcontainer.scss" />
     <Content Include="Components\Modal\_modal.scss" />
     <Content Include="Components\SearchableDropDownList\_searchableDropDownList.scss" />
+    <Content Include="Pages\Borrows\_borrow.scss" />
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
