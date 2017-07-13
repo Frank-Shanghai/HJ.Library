@@ -2,8 +2,9 @@
     <hj-flex-shrink>
         <div id="books-toolbar" class="grid-toolbar">
             <button class="btn btn-default" data-bind="click: borrowBooks, enable: canBorrowBook">
-                <i class="fa fa-sign-out fa-rotate-180" style="padding-right: 0; padding-left: 5px"></i>Borrow
+                <i class="fa fa-sign-out fa-rotate-180 borrow-button-icon"></i>Borrow
             </button>
+            <span class="error-message" data-bind="if: isBookCountLimitMessageVisible">* User can borrow <span data-bind="text: hj.library.Application.instance.userMaximumBookCount"></span> books at most, and this user already borrowed <span data-bind="text: selectedUser().borrowedBooksCount"></span> book(s).</span>
         </div>
 
         <h3>Select User</h3>

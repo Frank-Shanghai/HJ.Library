@@ -6,6 +6,24 @@ module hj.library.pages {
         public usersDataSource = ko.observableArray([]);
         public selectedBooks: KnockoutObservableArray<any> = ko.observableArray([]);
         public selectedUserId: KnockoutObservable<any> = ko.observable(null);
+        public selectedUser = ko.pureComputed(() => {
+            for (var i = 0; i < this.usersDataSource().length; i++) {
+                if (this.usersDataSource()[i].id === this.selectedUserId()) {
+                    return this.usersDataSource()[i];
+                }
+            }
+        });
+
+        public isBookCountLimitMessageVisible = ko.pureComputed(() => {
+            if (this.selectedUser()) {
+                if (Application.instance.userMaximumBookCount - this.selectedUser().borrowedBooksCount < this.selectedBooks().length) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
         public booksGridOptions = {
             columns: [
                 {
@@ -60,7 +78,7 @@ module hj.library.pages {
         };
 
         public canBorrowBook: KnockoutComputed<boolean> = ko.pureComputed<boolean>(() => {
-            if (this.selectedUserId() && this.selectedBooks().length > 0) {
+            if (this.selectedUserId() && this.selectedBooks().length > 0 && !this.isBookCountLimitMessageVisible()) {
                 return true;
             }
 
@@ -68,8 +86,6 @@ module hj.library.pages {
         });
 
         // TODO: Add confirming dialog, show user, and books
-        // TODO: When user selected, update a message display how many books this user can borrow, and 
-        // control the borrow button state and display message (beside the button) based on this number
 
         constructor() {
             super();
@@ -123,11 +139,10 @@ module hj.library.pages {
             }).done((users: Array<any>) => {
                 this.usersDataSource.removeAll();
                 users.forEach((user) => {
-                    this.usersDataSource.push({
-                        id: user.id,
+                    this.usersDataSource.push($.extend(user, {
                         text: user.firstName + ' ' + user.lastName + ' [' + user.email + ']',
-                        disabled: user.borrowedBooksCount >= 3
-                    });
+                        disabled: user.borrowedBooksCount >= Application.instance.userMaximumBookCount
+                    }));
                 });
                 deferredObj.resolve(null);
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {

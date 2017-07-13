@@ -14,6 +14,10 @@ $app-header-height: 50px;
 $app-header-border-color: #cccccc;
 $app-header-background-color: #f5f5f6;
 
+.error-message {
+    color: red;
+}
+
 .app-header {
     height: $app-header-height;
     background-color: white;
