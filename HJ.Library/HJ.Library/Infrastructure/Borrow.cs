@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HJ.Library.Infrastructure
 {
@@ -19,7 +20,12 @@ namespace HJ.Library.Infrastructure
 
         public DateTime EndDate { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         public virtual Book Book { get; set; }
+
+        [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
     }
 }

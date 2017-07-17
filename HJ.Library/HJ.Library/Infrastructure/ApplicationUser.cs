@@ -19,6 +19,19 @@ namespace HJ.Library.Infrastructure
         [MaxLength(100)]
         public string LastName { get; set; }
 
+        public override string Id
+        {
+            get
+            {
+                return base.Id;
+            }
+
+            set
+            {
+                base.Id = value;
+            }
+        }
+
         // Count how many books user already borrowed
         public int BorrowedBooksCount { get; set; }
 
