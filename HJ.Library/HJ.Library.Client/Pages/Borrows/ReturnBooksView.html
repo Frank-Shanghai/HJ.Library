@@ -1,0 +1,19 @@
+﻿<hj-flex-container>
+    <hj-flex-shrink>
+        <div id="return-books-toolbar" class="grid-toolbar">
+            <button class="btn btn-default" data-bind="click: returnBooks, enable: canReturnBook">
+                <i class="fa fa-sign-in"></i>Return
+            </button>
+        </div>
+
+        <h3>Select User</h3>
+        <span>* Here only display users who already borrowed 1 or more books.</span>
+        <hj-searchable-dropdownlist params="{context: userListOptions}"></hj-searchable-dropdownlist>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <h3>Select Book(s)</h3>
+            <table data-bind="grid: {options: borrowsGridOptions, selectionChanged: refreshBorrowsSelection, dataSource: borrowsDataSource}"></table>
+        </hj-flex-scroll>
+    </hj-flex-grow>
+</hj-flex-container>

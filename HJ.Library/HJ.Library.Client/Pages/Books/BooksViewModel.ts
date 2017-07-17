@@ -103,10 +103,12 @@ module hj.library.pages {
                 this.isProcessing(true);
                 var promises = [];
                 for (var i = 0; i < this.selectedBooks().length; i++) {
+                    // $.ajax(..) return JQueryXHR, JQueryXHR is one sub-class of JQueryPromise<any>
+                    // so the way here to handle promise is correct
                     var promise = $.ajax({
                         type: 'delete',
                         url: '/api/books/' + this.selectedBooks()[i].bookId
-                    })
+                    });
 
                     promises.push(promise);
                 }

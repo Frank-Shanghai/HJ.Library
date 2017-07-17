@@ -11,7 +11,6 @@ namespace HJ.Library.Infrastructure
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Borrow> Borrows { get; set; }
-
         public ApplicationDbContext(): base("DefaultConnection", throwIfV1Schema: false)
         {
             Configuration.ProxyCreationEnabled = false;

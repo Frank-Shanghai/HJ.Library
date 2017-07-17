@@ -34,9 +34,12 @@ namespace HJ.Library.Infrastructure
 
         public string Comment { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         // Refer to the following link about why to add JsonIgnore attribute
         // https://stackoverflow.com/questions/5769200/serialize-one-to-many-relationships-in-json-net
         [JsonIgnore]
-        public virtual ICollection<Borrow> BeBorrwedRecords { get; set; }
+        public virtual ICollection<Borrow> BeBorrowedRecords { get; set; }
     }
 }

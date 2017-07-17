@@ -98,6 +98,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -173,6 +174,18 @@
     <Compile Include="Migrations\201707080704194_RenamedBorrowedBooksColumnInUserTable.Designer.cs">
       <DependentUpon>201707080704194_RenamedBorrowedBooksColumnInUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707160444419_RenameBeBorrowedRecords.cs" />
+    <Compile Include="Migrations\201707160444419_RenameBeBorrowedRecords.Designer.cs">
+      <DependentUpon>201707160444419_RenameBeBorrowedRecords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707160511490_AddForeignKeyAttributeToBorrow.cs" />
+    <Compile Include="Migrations\201707160511490_AddForeignKeyAttributeToBorrow.Designer.cs">
+      <DependentUpon>201707160511490_AddForeignKeyAttributeToBorrow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707170913531_AddRowVersionColumn.cs" />
+    <Compile Include="Migrations\201707170913531_AddRowVersionColumn.Designer.cs">
+      <DependentUpon>201707170913531_AddRowVersionColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BorrowInfoDTO.cs" />
     <Compile Include="Models\ChangePasswordDto.cs" />
@@ -215,6 +228,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707080704194_RenamedBorrowedBooksColumnInUserTable.resx">
       <DependentUpon>201707080704194_RenamedBorrowedBooksColumnInUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707160444419_RenameBeBorrowedRecords.resx">
+      <DependentUpon>201707160444419_RenameBeBorrowedRecords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707160511490_AddForeignKeyAttributeToBorrow.resx">
+      <DependentUpon>201707160511490_AddForeignKeyAttributeToBorrow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707170913531_AddRowVersionColumn.resx">
+      <DependentUpon>201707170913531_AddRowVersionColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

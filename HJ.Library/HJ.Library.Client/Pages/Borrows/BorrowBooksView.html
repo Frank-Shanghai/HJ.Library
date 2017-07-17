@@ -12,8 +12,10 @@
         <hj-searchable-dropdownlist params="{context: userListOptions}"></hj-searchable-dropdownlist>
     </hj-flex-shrink>
     <hj-flex-grow>
-        <h3>Select Book(s)</h3>
-        <span>* Here only displays the available books</span>
-        <table data-bind="grid: {options: booksGridOptions, selectionChanged: refreshBooksSelection, dataSource: booksDataSource}"></table>
+        <hj-flex-scroll>
+            <h3>Select Book(s)</h3>
+            <span>* Here only displays the available books</span>
+            <table data-bind="grid: {options: booksGridOptions, selectionChanged: refreshBooksSelection, dataSource: booksDataSource}"></table>
+        </hj-flex-scroll>
     </hj-flex-grow>
 </hj-flex-container>
