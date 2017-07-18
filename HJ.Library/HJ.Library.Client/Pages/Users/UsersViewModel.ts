@@ -104,12 +104,21 @@ module hj.library.pages {
                 this.isProcessing(true);
                 var promises = [];
                 for (var i = 0; i < this.selectedUsers().length; i++) {
-                    var promise = $.ajax({
-                        type: 'delete',
-                        url: '/api/accounts/user/' + this.selectedUsers()[i].id
-                    });
+                    var deferredObject = $.Deferred();
+                    var promise = () => {
+                        $.ajax({
+                            type: 'delete',
+                            url: '/api/accounts/user/' + this.selectedUsers()[i].id
+                        }).done(() => {
+                            deferredObject.resolve();
+                        }).fail((jqXhr: any, textStatus: any, err: any) => {
+                            deferredObject.reject(jqXhr, textStatus, err);
+                        });
 
-                    promises.push(promise);
+                        return deferredObject.promise();
+                    };
+
+                    promises.push(promise());
                 }
 
                 $.when.apply($, promises).done(() => {

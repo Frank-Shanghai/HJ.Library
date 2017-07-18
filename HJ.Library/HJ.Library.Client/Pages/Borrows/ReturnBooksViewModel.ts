@@ -114,7 +114,7 @@
                 url: '/api/borrows/user/' + this.selectedUserId()
             }).done((borrows: Array<any>) => {
                 this.borrowsDataSource.removeAll();
-                if (borrows) {                 
+                if (borrows) {
                     borrows.forEach((borrow) => {
                         if ((new Date(borrow.endDate)).getFullYear() === 1970) {//TODO: Enable endData column to null to update chekcing condition here 
                             this.borrowsDataSource.push(borrow);
@@ -191,7 +191,7 @@
 
                 var promise = () => {
                     var deferredObject = $.Deferred();
-                    
+
                     $.ajax({
                         type: 'put',
                         contentType: 'application/json',
@@ -199,8 +199,8 @@
                         url: '/api/borrows/' + borrow.borrowId
                     }).done(() => {
                         deferredObject.resolve();
-                    }).fail(() => {
-                        deferredObject.reject();
+                    }).fail((jqXhr: any, textStatus: any, err: any) => {
+                        deferredObject.reject(jqXhr, textStatus, err);
                     });
 
                     return deferredObject.promise();
@@ -215,9 +215,7 @@
                 this.intialize();
             }).fail((jqXhr: JQueryXHR) => {
                 var error: IError = new Error("Failed to return books.");
-                if (jqXhr) {
-                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
-                }
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
                 ErrorHandler.report(error, null, this);
             }).always(() => {
