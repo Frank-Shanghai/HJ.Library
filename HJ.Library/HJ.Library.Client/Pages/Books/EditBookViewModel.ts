@@ -99,7 +99,7 @@
                 contentType: 'application/json',
                 url: '/api/books/' + this.bookId,
                 data: JSON.stringify({
-                    BookId: this.bookId,
+                    BookId: this.book.bookId,
                     ISBN: this.isbn(),
                     Name: this.bookTitle(),
                     Author: this.author(),
@@ -109,7 +109,8 @@
                     Copies: this.copies(),
                     AvailableCopies: this.book.availableCopies + parseInt(this.copies().toString()) - this.book.copies,
                     Owner: this.owner(),
-                    Comment: this.comment()
+                    Comment: this.comment(),
+                    RowVersion: this.book.rowVersion
                 })
             }).done((data: any, textStatus: any, jqXHR: any) => {
                 this.space.removePage(this);
