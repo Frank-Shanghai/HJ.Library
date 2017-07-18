@@ -105,12 +105,21 @@ module hj.library.pages {
                 for (var i = 0; i < this.selectedBooks().length; i++) {
                     // $.ajax(..) return JQueryXHR, JQueryXHR is one sub-class of JQueryPromise<any>
                     // so the way here to handle promise is correct
-                    var promise = $.ajax({
-                        type: 'delete',
-                        url: '/api/books/' + this.selectedBooks()[i].bookId
-                    });
+                    var promise = () => {
+                        var deferredObject = $.Deferred();
+                        $.ajax({
+                            type: 'delete',
+                            url: '/api/books/' + this.selectedBooks()[i].bookId
+                        }).done(() => {
+                            deferredObject.resolve();
+                        }).fail((jqXhr: any, textStatus: any, err: any) => {
+                            deferredObject.reject(jqXhr, textStatus, err);
+                        });
 
-                    promises.push(promise);
+                        return deferredObject.promise();
+                    };
+
+                    promises.push(promise());
                 }
 
                 $.when.apply($, promises).done((data) => {
