@@ -79,6 +79,7 @@
                     Comment: this.comment()
                 })
             }).done(() => {
+                this.space.removePage(this);
                 this.space.addPage(new BooksViewModel(), null);
                 //Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
@@ -111,6 +112,7 @@
                     Comment: this.comment()
                 })
             }).done((data: any, textStatus: any, jqXHR: any) => {
+                this.space.removePage(this);
                 this.space.addPage(new BooksViewModel(), null);
                 //Application.instance.activePage(new BooksViewModel());
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
@@ -124,6 +126,7 @@
         }
 
         private cancel = () => {
+            this.space.removePage(this);
             this.space.addPage(new BooksViewModel(), null);
             //Application.instance.activePage(new BooksViewModel());
         }
