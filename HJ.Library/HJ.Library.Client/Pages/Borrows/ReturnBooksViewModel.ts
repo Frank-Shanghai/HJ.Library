@@ -115,8 +115,9 @@
             }).done((borrows: Array<any>) => {
                 this.borrowsDataSource.removeAll();
                 if (borrows) {
+                    // Only show books that hasn't been returned
                     borrows.forEach((borrow) => {
-                        if ((new Date(borrow.endDate)).getFullYear() === 1970) {//TODO: Enable endData column to null to update chekcing condition here 
+                        if ((new Date(borrow.endDate)).getFullYear() === 1970) {// Which means the book hasn't been returned yet. 
                             this.borrowsDataSource.push(borrow);
                         }
                     });

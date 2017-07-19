@@ -186,6 +186,10 @@
     <Compile Include="Migrations\201707170913531_AddRowVersionColumn.Designer.cs">
       <DependentUpon>201707170913531_AddRowVersionColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707190603432_UpdateBorrowEntity.cs" />
+    <Compile Include="Migrations\201707190603432_UpdateBorrowEntity.Designer.cs">
+      <DependentUpon>201707190603432_UpdateBorrowEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BorrowInfoDTO.cs" />
     <Compile Include="Models\ChangePasswordDto.cs" />
@@ -237,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707170913531_AddRowVersionColumn.resx">
       <DependentUpon>201707170913531_AddRowVersionColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707190603432_UpdateBorrowEntity.resx">
+      <DependentUpon>201707190603432_UpdateBorrowEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
