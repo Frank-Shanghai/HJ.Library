@@ -10,11 +10,11 @@
         <h3>Select User</h3>
         <span>* For users who already borrowed more than 3 (including 3) books are not selectable</span>
         <hj-searchable-dropdownlist params="{context: userListOptions}"></hj-searchable-dropdownlist>
+        <h3>Select Book(s)</h3>
+        <span>* Here only displays the available books</span>
     </hj-flex-shrink>
     <hj-flex-grow>
-        <hj-flex-scroll>
-            <h3>Select Book(s)</h3>
-            <span>* Here only displays the available books</span>
+        <hj-flex-scroll>            
             <table data-bind="grid: {options: booksGridOptions, selectionChanged: refreshBooksSelection, dataSource: booksDataSource}"></table>
         </hj-flex-scroll>
     </hj-flex-grow>

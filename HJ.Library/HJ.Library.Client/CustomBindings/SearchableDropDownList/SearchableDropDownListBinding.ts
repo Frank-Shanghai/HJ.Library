@@ -19,6 +19,8 @@
                 tags: _options.tags
             });
 
+            $(element).siblings("span.select2-container").first().css("width", "100%");
+
             setOptionsState();
 
             if (!($.isFunction(_options.select)) || ko.isObservable(_options.select)) {

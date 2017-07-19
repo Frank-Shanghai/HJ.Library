@@ -9,10 +9,10 @@
         <h3>Select User</h3>
         <span>* Here only display users who already borrowed 1 or more books.</span>
         <hj-searchable-dropdownlist params="{context: userListOptions}"></hj-searchable-dropdownlist>
+        <h3>Select Book(s)</h3>
     </hj-flex-shrink>
     <hj-flex-grow>
-        <hj-flex-scroll>
-            <h3>Select Book(s)</h3>
+        <hj-flex-scroll>            
             <table data-bind="grid: {options: borrowsGridOptions, selectionChanged: refreshBorrowsSelection, dataSource: borrowsDataSource}"></table>
         </hj-flex-scroll>
     </hj-flex-grow>
