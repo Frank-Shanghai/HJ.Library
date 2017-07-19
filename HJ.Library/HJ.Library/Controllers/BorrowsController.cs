@@ -176,6 +176,11 @@ namespace HJ.Library.Controllers
                     BookId = bookId,
                     StartDate = DateTime.Now,
                     EndDate = new DateTime(1970, 1, 1)
+                    // Do Not set it as null since we take it as non-nullable (Entity Model and Database) in this applicaiton,
+                    // because it's harder to handle if allow it to be null, refer to:
+                    // https://stackoverflow.com/questions/25623542/nullable-datetime-property-in-entity-framework-6-thows-exception-on-save-when-va
+                    // https://stackoverflow.com/questions/26568488/how-to-insert-null-datetime-in-database-with-entity-framework-codefirst
+                    // So, we set it as the oldest value that JavaScript can recogonize, which is 1/1/1970.
                 };
 
                 db.Borrows.Add(newBorrow);
