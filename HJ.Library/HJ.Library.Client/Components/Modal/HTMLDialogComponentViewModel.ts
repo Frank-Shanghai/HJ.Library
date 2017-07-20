@@ -11,7 +11,7 @@
         private _isDismissButtonFocused: any;
         private _isMaximizeButtonVisible: any;
         private _customButtons: any;
-        private _size: string;//currently not used
+        private _size: string;
 
         private _maximized = ko.observable<boolean>(false);
 
@@ -52,7 +52,7 @@
         }
 
         private getSize(size: string) {
-            if (size === "small" || size === "large" || size === "maximized" || size === "auto")
+            if (size === "small" || size === "large" || size === "maximized")
                 return size;
 
             return "small";

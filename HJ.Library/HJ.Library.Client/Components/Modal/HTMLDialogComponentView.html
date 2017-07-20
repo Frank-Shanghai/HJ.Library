@@ -1,7 +1,7 @@
 ﻿<div class="dialog-overlay-layer">
     <!-- ** Here used the hj-set-scoped-context to extend the binding context to make the component's markup (which represented by $componentTemplateNodes) accessable for all child elements -->
     <!-- because we need to get the markup in the dialog content segment -->
-    <div class="dialog-container" data-bind="css: {'dialog-maximized': _maximized}, 'hj-set-scoped-context': {$$dialogNodes: $componentTemplateNodes}">
+    <div data-bind="css: {'dialog-maximized': _maximized, 'dialog-container-large': _size === 'large', 'dialog-container': _size !== 'large'}, 'hj-set-scoped-context': {$$dialogNodes: $componentTemplateNodes}">
         <hj-flex-container>
             <hj-flex-shrink>
                 <div class="dialog-header">

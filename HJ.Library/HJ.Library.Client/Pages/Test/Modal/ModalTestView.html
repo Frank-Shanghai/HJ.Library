@@ -9,8 +9,9 @@
 <button class="btn btn-default" data-bind="click: showApplicationLevelDialog">Application Level Dialog</button>
 
 <h3>HTML Dialog</h3>
-<button class="btn btn-default" data-bind="click: displayHTMLDialogWithSubComponents">HTML Dialog With SubComponents</button>
-<button class="btn btn-default" data-bind="click: displayHTMLDialogWithTemplate">HTML Dialog with Template</button>
+<button class="btn btn-default" data-bind="click: displayHTMLDialogWithSubComponents">HTML Dialog With SubComponents - Default Size (small)</button>
+<button class="btn btn-default" data-bind="click: displayHTMLDialogWithTemplateLargeSize">HTML Dialog with Template - Large Size</button>
+<button class="btn btn-default" data-bind="click: displayHTMLDialogWithTemplateMaximizedSize">HTML Dialog with Template - Maximized Size</button>
 
 <!-- ko if: htmlDialogWithSubComponents() -->
 <hj-html-dialog params="context: htmlDialogWithSubComponents()">

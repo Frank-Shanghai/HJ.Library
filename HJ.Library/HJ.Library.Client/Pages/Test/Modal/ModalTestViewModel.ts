@@ -92,15 +92,31 @@
             });
         }
 
-        private displayHTMLDialogWithTemplate = () => {
+        private displayHTMLDialogWithTemplateLargeSize = () => {
             HTMLDialogHandler.report({
                 title: "HTML Dialog with Template",
                 data: new HTMLDialogTemplateViewModel(),
                 templateName: test.modal.HTMLDialogTemplateViewId,
+                size: 'large',
                 onClose: () => {
                     alert("You are going to close the HTML dialog.");
                 }
-            });
+            },
+                this.space.activePage());
         }
+
+        private displayHTMLDialogWithTemplateMaximizedSize = () => {
+            HTMLDialogHandler.report({
+                title: "HTML Dialog with Template",
+                data: new HTMLDialogTemplateViewModel(),
+                templateName: test.modal.HTMLDialogTemplateViewId,
+                size: 'maximized',
+                onClose: () => {
+                    alert("You are going to close the HTML dialog.");
+                }
+            },
+                this.space.activePage());
+        }
+
     }
 }
