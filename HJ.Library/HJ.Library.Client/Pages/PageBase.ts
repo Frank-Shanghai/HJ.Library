@@ -12,6 +12,7 @@
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public informationDialog: KnockoutObservable<IInformationDialogComponentParameters> = ko.observable(null);
         public errorDialog: KnockoutObservable<IErrorDialogParameters> = ko.observable(null);
+        public htmlDialog: KnockoutObservable<IHTMLDialogComponentParameters> = ko.observable(null);
 
         public onBeforeNavigateAway(navigate: () => void, cancel?: () => void) {
             // Do anything you want to do here

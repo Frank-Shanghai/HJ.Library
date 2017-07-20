@@ -47,6 +47,10 @@
                     <!-- ko if: errorDialog -->
                     <hj-error-dialog params="context: errorDialog"></hj-error-dialog>
                     <!-- /ko -->
+                    <!-- HTML Dialog -->
+                    <!-- ko if: htmlDialog -->
+                    <hj-html-dialog params="context: htmlDialog"></hj-html-dialog>
+                    <!-- /ko -->
                     <!-- ko if: isProcessing -->
                     <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>
                     <!-- /ko -->
@@ -64,6 +68,10 @@
     <!-- Error Dialog -->
     <!-- ko if: errorDialog -->
     <hj-error-dialog params="context: errorDialog"></hj-error-dialog>
+    <!-- /ko -->
+    <!-- HTML Dialog -->
+    <!-- ko if: htmlDialog -->
+    <hj-html-dialog params="context: htmlDialog"></hj-html-dialog>
     <!-- /ko -->
     <!-- ko if: isProcessing -->
     <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView', data: {}}"></div>

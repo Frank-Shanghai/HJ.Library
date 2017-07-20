@@ -18,8 +18,10 @@ $dialog-height-large: 500px;
 }
 
 .dialog-container {
-    width: $dialog-width;
-    height: $dialog-height;
+    height: 100%;
+    width: 100%;
+    max-width: $dialog-width;
+    max-height: $dialog-height;
     background-color: white;
     padding: 0;
     border-radius: 3px;
@@ -92,8 +94,8 @@ $dialog-height-large: 500px;
 
 .dialog-container-large {
     @extend .dialog-container;
-    width: $dialog-width-large;
-    height: $dialog-height-large;
+    max-width: $dialog-width-large;
+    max-height: $dialog-height-large;
 }
 
 .dialog-maximized {

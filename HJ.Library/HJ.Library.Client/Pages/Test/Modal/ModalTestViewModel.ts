@@ -80,5 +80,43 @@
                 }
             });
         }
+
+        private htmlDialogWithSubComponents = ko.observable(null);
+        private displayHTMLDialogWithSubComponents = () => {
+            this.htmlDialogWithSubComponents({
+                title: "HTML Dialog with Subcomponent",
+                data: { firstName: 'Frank', lastName: 'Sun' },
+                onClose: () => {
+                    this.htmlDialogWithSubComponents(null);
+                }
+            });
+        }
+
+        private displayHTMLDialogWithTemplateLargeSize = () => {
+            HTMLDialogHandler.report({
+                title: "HTML Dialog with Template",
+                data: new HTMLDialogTemplateViewModel(),
+                templateName: test.modal.HTMLDialogTemplateViewId,
+                size: 'large',
+                onClose: () => {
+                    alert("You are going to close the HTML dialog.");
+                }
+            },
+                this.space.activePage());
+        }
+
+        private displayHTMLDialogWithTemplateMaximizedSize = () => {
+            HTMLDialogHandler.report({
+                title: "HTML Dialog with Template",
+                data: new HTMLDialogTemplateViewModel(),
+                templateName: test.modal.HTMLDialogTemplateViewId,
+                size: 'maximized',
+                onClose: () => {
+                    alert("You are going to close the HTML dialog.");
+                }
+            },
+                this.space.activePage());
+        }
+
     }
 }

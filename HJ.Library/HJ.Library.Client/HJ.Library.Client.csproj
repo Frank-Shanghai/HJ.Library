@@ -78,6 +78,7 @@
     <Content Include="Components\FlexContainer\FlexGrowComponentView.html" />
     <Content Include="Components\FlexContainer\FlexScrollComponentView.html" />
     <Content Include="Components\FlexContainer\FlexShrinkComponentView.html" />
+    <Content Include="Components\Modal\HTMLDialogComponentView.html" />
     <Content Include="Components\SearchableDropDownList\SearchableDropDownListComponentView.html" />
     <Content Include="Content\bootstrap-1.1.0.css" />
     <Content Include="Content\bootstrap-1.1.0.min.css" />
@@ -134,6 +135,7 @@
     <Content Include="Pages\Test\FlexContainer\CanReAddGrowView.html" />
     <Content Include="Pages\Test\FlexContainer\CanScrollView.html" />
     <Content Include="Pages\Test\FlexContainer\MultipleFlexElementsView.html" />
+    <Content Include="Pages\Test\Modal\HTMLDialogTemplateView.html" />
     <Content Include="Pages\Test\Modal\ModalTestView.html" />
     <Content Include="Pages\Test\SearchableDropDownList\SearchableDropDownListTestView.html" />
     <Content Include="Pages\Users\EditUserView.html" />
@@ -205,10 +207,13 @@
     <TypeScriptCompile Include="Components\FlexContainer\FlexGrowComponentViewModel.ts" />
     <TypeScriptCompile Include="Components\FlexContainer\FlexScrollComponentViewModel.ts" />
     <TypeScriptCompile Include="Components\FlexContainer\FlexShrinkComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\Modal\HTMLDialogComponentViewModel.ts" />
+    <TypeScriptCompile Include="Components\Modal\IHTMLDialogComponentParameters.ts" />
     <TypeScriptCompile Include="Components\SearchableDropDownList\ISearchableDropDownListComponentParameters.ts" />
     <TypeScriptCompile Include="Components\SearchableDropDownList\SearchableDropDownListComponentViewModel.ts" />
     <TypeScriptCompile Include="CustomBindings\Bindings.ts" />
     <TypeScriptCompile Include="CustomBindings\CloseOverlayBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\Context\SetScopeContext.ts" />
     <TypeScriptCompile Include="CustomBindings\ExpandToAvailableHeightBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\FlexContainer\FlexContainerBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\FlexContainer\FlexGrowBinding.ts" />
@@ -218,8 +223,9 @@
     <TypeScriptCompile Include="CustomBindings\KnockoutBindingContextExtensions.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuItemStateBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\SearchableDropDownList\SearchableDropDownListBinding.ts" />
-    <TypeScriptCompile Include="CustomBindings\SetBindingContext.ts" />
+    <TypeScriptCompile Include="CustomBindings\Context\SetBindingContext.ts" />
     <TypeScriptCompile Include="ErrorHandler.ts" />
+    <TypeScriptCompile Include="HTMLDialogHandler.ts" />
     <TypeScriptCompile Include="InformationHandler.ts" />
     <TypeScriptCompile Include="Infrastructure\IDialogContainer.ts" />
     <TypeScriptCompile Include="JQueryXHRErrorFormatter.ts" />
@@ -240,6 +246,7 @@
     <TypeScriptCompile Include="Pages\Test\FlexContainer\CanReAddGrowViewModel.ts" />
     <TypeScriptCompile Include="Pages\Test\FlexContainer\CanScrollViewModel.ts" />
     <TypeScriptCompile Include="Pages\Test\FlexContainer\MultipleFlexElementsViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Test\Modal\HTMLDialogTemplateViewModel.ts" />
     <TypeScriptCompile Include="Pages\Test\Modal\ModalTestViewModel.ts" />
     <TypeScriptCompile Include="Pages\Test\SearchableDropDownList\SearchableDropDownListTestViewModel.ts" />
     <TypeScriptCompile Include="Pages\Users\EditUserViewModel.ts" />

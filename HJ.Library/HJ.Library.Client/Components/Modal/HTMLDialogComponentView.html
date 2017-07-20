@@ -1,0 +1,48 @@
+﻿<div class="dialog-overlay-layer">
+    <!-- ** Here used the hj-set-scoped-context to extend the binding context to make the component's markup (which represented by $componentTemplateNodes) accessable for all child elements -->
+    <!-- because we need to get the markup in the dialog content segment -->
+    <div data-bind="css: {'dialog-maximized': _maximized, 'dialog-container-large': _size === 'large', 'dialog-container': _size !== 'large'}, 'hj-set-scoped-context': {$$dialogNodes: $componentTemplateNodes}">
+        <hj-flex-container>
+            <hj-flex-shrink>
+                <div class="dialog-header">
+                    <span class="dialog-title" data-bind="text: _title"></span>
+                </div>
+            </hj-flex-shrink>
+            <hj-flex-grow>
+                <hj-flex-scroll>
+                    <div class="dialog-content">
+                        <!-- Explicit HTML content, like the ... between <hj-html-dialog>...</hj-html-dialog> -->
+                        <!-- ** Here we get the markup by the field $$dialogNodes which is the extended content of the binding context. -->
+                        <!-- We couldn't use the $componentTemplateNode here directly because it will cause circle reference and cause infinite loop,
+                             this might becasue the hj-felx-scroll container is also implemented by using the $componentTemplateNode, so have to use the 
+                             hj-set-scoped-context bindng here to avoid the infinite loop  -->
+
+                        <!-- ko if: $$dialogNodes && $$dialogNodes.length > 0 -->
+                        <!-- ko template: { nodes: $$dialogNodes, data: _data} --><!-- /ko -->
+                        <!-- /ko -->
+
+
+                        <!-- Template view content -->
+                        <!-- ko if: _templateName -->
+                        <!-- ko template: {name: _templateName, data: _data } --><!--/ko -->
+                        <!-- /ko -->
+                    </div>
+                </hj-flex-scroll>
+            </hj-flex-grow>
+            <hj-flex-shrink>
+                <div class="dialog-footer">
+                    <!-- ko if: _isDismissButtonVisible -->
+                    <button class="btn btn-default" data-bind="text:_dismissButtonText, click: dismissClick, hasFocus: _isDismissButtonFocused"></button>
+                    <!-- /ko -->
+                    <!-- ko if: _isMaximizeButtonVisible -->
+                    <button class="btn btn-default" data-bind="text:_maximizeButtonText, click: maxClick, visible:!_maximized()"></button>
+                    <button class="btn btn-default" data-bind="text:_restoreButtonText, click: maxClick, visible:_maximized"></button>
+                    <!-- /ko -->
+                    <!-- ko foreach: _customButtons -->
+                    <button class="btn btn-default" data-bind="text: $data.text, click: $data.click, visible: $data.visible, hasFocus: $data.hasFocus, enable: $data.enable"></button>
+                    <!-- /ko -->
+                </div>
+            </hj-flex-shrink>
+        </hj-flex-container>
+    </div>
+</div>
