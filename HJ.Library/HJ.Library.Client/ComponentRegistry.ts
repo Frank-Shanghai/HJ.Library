@@ -15,11 +15,7 @@
 
             // Register hj-html-dialog
             ko.components.register("hj-html-dialog", {
-                viewModel: {
-                    createViewModel: function (params, componentInfo) {
-                        return new HTMLDialogComponentViewModel(params);
-                    }
-                },
+                viewModel: HTMLDialogComponentViewModel,
                 template: components.modal.HTMLDialogComponentView,
                 synchronous: true
             });
