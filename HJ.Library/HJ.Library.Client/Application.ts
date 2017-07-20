@@ -25,6 +25,7 @@ module hj.library {
         public changePasswordDialog: dialogs.ChangePasswordViewModel = new dialogs.ChangePasswordViewModel();
         public informationDialog: KnockoutObservable<IInformationDialogComponentParameters> = ko.observable(null);
         public errorDialog: KnockoutObservable<IErrorDialogParameters> = ko.observable(null);
+        public htmlDialog: KnockoutObservable<IHTMLDialogComponentParameters> = ko.observable(null);
         public isAuthenticated: KnockoutObservable<boolean> = ko.observable(false);
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public sessionUser = ko.observable(null); // type return user

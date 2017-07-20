@@ -7,3 +7,17 @@
 <button class="btn btn-default" data-bind="click: showPageLevelDialog">Page Level Dialog</button>
 <button class="btn btn-default" data-bind="click: showSpaceLevelDialog">Space Level Dialog</button>
 <button class="btn btn-default" data-bind="click: showApplicationLevelDialog">Application Level Dialog</button>
+
+<h3>HTML Dialog</h3>
+<button class="btn btn-default" data-bind="click: displayHTMLDialogWithSubComponents">HTML Dialog With SubComponents</button>
+<button class="btn btn-default" data-bind="click: displayHTMLDialogWithTemplate">HTML Dialog with Template</button>
+
+<!-- ko if: htmlDialogWithSubComponents() -->
+<hj-html-dialog params="context: htmlDialogWithSubComponents()">
+    <div style="border: solid 2px black">
+        <span data-bind="text: firstName" style="color: blue"></span>
+        <br />
+        <span data-bind="text: lastName" style="color: red"></span>
+    </div>
+</hj-html-dialog>
+<!-- /ko -->

@@ -17,6 +17,7 @@
         public isProcessing: KnockoutObservable<boolean> = ko.observable(false);
         public informationDialog: KnockoutObservable<IInformationDialogComponentParameters> = ko.observable(null);
         public errorDialog: KnockoutObservable<IErrorDialogParameters> = ko.observable(null);
+        public htmlDialog: KnockoutObservable<IHTMLDialogComponentParameters> = ko.observable(null);
 
         constructor(title: string, isSinglePageSpace: boolean = false, canClose: boolean = true) {
             this.id = Utils.guid();

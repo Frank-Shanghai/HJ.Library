@@ -80,5 +80,27 @@
                 }
             });
         }
+
+        private htmlDialogWithSubComponents = ko.observable(null);
+        private displayHTMLDialogWithSubComponents = () => {
+            this.htmlDialogWithSubComponents({
+                title: "HTML Dialog with Subcomponent",
+                data: { firstName: 'Frank', lastName: 'Sun' },
+                onClose: () => {
+                    this.htmlDialogWithSubComponents(null);
+                }
+            });
+        }
+
+        private displayHTMLDialogWithTemplate = () => {
+            HTMLDialogHandler.report({
+                title: "HTML Dialog with Template",
+                data: new HTMLDialogTemplateViewModel(),
+                templateName: test.modal.HTMLDialogTemplateViewId,
+                onClose: () => {
+                    alert("You are going to close the HTML dialog.");
+                }
+            });
+        }
     }
 }

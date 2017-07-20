@@ -53,6 +53,11 @@
     <!-- /ko -->
     <!-- /ko -->
 
+    <!-- HTML Dialog -->
+    <!-- ko if: htmlDialog -->
+    <hj-html-dialog params="context: htmlDialog"></hj-html-dialog>
+    <!-- /ko -->
+
     <!-- Progress Bar -->
     <!-- ko if: isProcessing -->
     <div data-bind="template: {name: 'hj-library-pages-dialogs-ProgressBarView'}"></div>

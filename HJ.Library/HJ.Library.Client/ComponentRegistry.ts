@@ -13,6 +13,17 @@
                 synchronous: true
             });
 
+            // Register hj-html-dialog
+            ko.components.register("hj-html-dialog", {
+                viewModel: {
+                    createViewModel: function (params, componentInfo) {
+                        return new HTMLDialogComponentViewModel(params);
+                    }
+                },
+                template: components.modal.HTMLDialogComponentView,
+                synchronous: true
+            });
+
             // Register hj-flex-container
             ko.components.register("hj-flex-container", {
                 viewModel: FlexContainerComponentViewModel,

@@ -1,4 +1,4 @@
-﻿/// <reference path="Bindings.ts" />
+﻿/// <reference path="../Bindings.ts" />
 module hj.library {
     export class SetBindingContext implements KnockoutBindingHandler{
         public init(element: any, valueAccessor: any, allBindings: any, viewModel: any, bindingContext: KnockoutBindingContext) {
