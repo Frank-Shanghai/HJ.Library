@@ -153,6 +153,29 @@ module hj.library.pages {
         }
 
         private borrowBooks = () => {
+            HTMLDialogHandler.report({
+                title: "Confirm the books you are going to borrow",
+                templateName: pages.borrows.BorrowReturnContentTemplateViewId,
+                data: new BorrowReturnContentTemplateViewModel((this.selectedUser().firstName + ' ' + this.selectedUser().lastName),
+                    this.selectedUser().email, this.selectedBooks()),
+                size: 'large',
+                isDismissButtonFocused: false,
+                customButtons: [
+                    {
+                        text: "Confirm",
+                        hasFocus: true, 
+                        visible: true,
+                        enable: true,
+                        click: () => {
+                            this.htmlDialog(null);
+                            this.doBorrowBooks();
+                        }
+                    }
+                ]
+            }, this);
+        }
+
+        private doBorrowBooks = () => {
             this.isProcessing(true);
 
             var books = [];

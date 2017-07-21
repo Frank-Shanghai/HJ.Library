@@ -1,12 +1,20 @@
-﻿<div id="books-toolbar" class="grid-toolbar">
-    <button id="books-add" class="btn btn-default" data-bind="click: add">
-        <i class="glyphicon glyphicon-plus"></i>Add
-    </button>
-    <button id="books-edit" class="btn btn-default" data-bind="click: edit, enable: selectedBooks().length === 1 ? true : false">
-        <i class="glyphicon glyphicon-edit"></i>Edit
-    </button>
-    <button id="books-remove" class="btn btn-danger" data-bind="click: remove, enable: selectedBooks().length > 0 ? true : false">
-        <i class="glyphicon glyphicon-remove"></i>Delete
-    </button>
-</div>
-<table data-bind="grid: {options: gridOptions, selectionChanged: refreshSelection, dataSource: dataSource}"></table>
+﻿<hj-flex-container>
+    <hj-flex-shrink>
+        <div id="books-toolbar" class="grid-toolbar">
+            <button id="books-add" class="btn btn-default" data-bind="click: add">
+                <i class="glyphicon glyphicon-plus"></i>Add
+            </button>
+            <button id="books-edit" class="btn btn-default" data-bind="click: edit, enable: selectedBooks().length === 1 ? true : false">
+                <i class="glyphicon glyphicon-edit"></i>Edit
+            </button>
+            <button id="books-remove" class="btn btn-danger" data-bind="click: remove, enable: selectedBooks().length > 0 ? true : false">
+                <i class="glyphicon glyphicon-remove"></i>Delete
+            </button>
+        </div>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <table data-bind="grid: {options: gridOptions, selectionChanged: refreshSelection, dataSource: dataSource}"></table>
+        </hj-flex-scroll>
+    </hj-flex-grow>
+</hj-flex-container>

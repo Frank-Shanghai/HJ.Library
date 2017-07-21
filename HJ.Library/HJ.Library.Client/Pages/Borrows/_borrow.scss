@@ -2,3 +2,18 @@
     padding-right: 0; 
     padding-left: 5px
 }
+
+.borrow-return-content-template {
+    .title-container {
+        padding-bottom: 5px; 
+        margin-bottom: 10px; 
+        border-bottom: 1px dotted; 
+        font-weight: bold; 
+        font-size: 1.2em;
+    }
+
+    .books-title-container{
+        @extend .title-container;
+        margin-top: 20px;
+    }
+}
