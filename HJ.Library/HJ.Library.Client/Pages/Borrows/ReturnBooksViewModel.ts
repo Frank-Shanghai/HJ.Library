@@ -154,6 +154,30 @@
         }
 
         private returnBooks = () => {
+            HTMLDialogHandler.report({
+                title: "Confirm the books you are going to return",
+                templateName: pages.borrows.BorrowReturnContentTemplateViewId,
+                data: new BorrowReturnContentTemplateViewModel((this.selectedUser().firstName + ' ' + this.selectedUser().lastName),
+                    this.selectedUser().email, this.getSelectedBooks()),
+                size: 'large',
+                isDismissButtonFocused: false,
+                customButtons: [
+                    {
+                        text: "Confirm",
+                        hasFocus: true,
+                        visible: true,
+                        enable: true,
+                        click: () => {
+                            this.htmlDialog(null);
+                            this.doReturnBooks();
+                        }
+                    }
+                ]
+            }, this);
+        }
+
+
+        private doReturnBooks = () => {
             this.isProcessing(true);
 
             var promises = [];
@@ -222,6 +246,15 @@
             }).always(() => {
                 this.isProcessing(false);
             });
+        }
+
+        private getSelectedBooks() {
+            var books = [];
+            this.selectedBorrows().forEach((borrow) => {
+                books.push(borrow.book);
+            });
+
+            return books;
         }
     }
 }

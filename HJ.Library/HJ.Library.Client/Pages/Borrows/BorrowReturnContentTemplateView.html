@@ -1,0 +1,20 @@
+﻿<hj-flex-container class="borrow-return-content-template">
+    <hj-flex-shrink>
+        <div class="title-container">
+            <span>[User Information]</span>
+        </div>
+        <div>
+            <span data-bind="text: userName"></span>
+            <br />
+            <span data-bind="text: userEmail"></span>
+        </div>
+        <div class="books-title-container">
+            <span>[Books]</span>
+        </div>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <table data-bind="grid: {options: booksGridOptions, dataSource: books}"></table>
+        </hj-flex-scroll>
+    </hj-flex-grow>
+</hj-flex-container>
