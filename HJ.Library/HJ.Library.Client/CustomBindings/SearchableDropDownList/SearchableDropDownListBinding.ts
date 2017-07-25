@@ -30,19 +30,31 @@
                 $select2.val(null).trigger("change");
             }
 
+            var triggeredByDataModel = false; // Use this flag here to distinguish the change event is triggered by UI change or select data (data model) changed
+            if (ko.isObservable(_options.select)) {
+                _options.select.subscribe((newValue) => {
+                    triggeredByDataModel = true;
+                    $select2.val(newValue).trigger("change");
+                });
+            }
+
             var updateControlState = (disabled: boolean) => {
                 $select2.prop("disabled", disabled);
             };
 
             $(element).on("change", (e: any) => {
-                var select = _options.select;
+                if (triggeredByDataModel !== true) {
+                    var select = _options.select;
 
-                if (ko.isObservable(select)) {
-                    select($select2.val());
+                    if (ko.isObservable(select)) {
+                        select($select2.val());
+                    }
+                    else if ($.isFunction(select)) {
+                        select($select2.val());
+                    }
                 }
-                else if ($.isFunction(select)) {
-                    select($select2.val());
-                }
+
+                triggeredByDataModel = false;
             });
 
             updateControlState(ko.unwrap(_options.enabled) === false ? true : false);

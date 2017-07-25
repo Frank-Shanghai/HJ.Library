@@ -77,8 +77,6 @@
             return false;
         });
 
-        // TODO: Add confirming dialog, show user, and books to return
-
         constructor() {
             super();
             this.templateId = borrows.ReturnBooksViewId;
@@ -108,6 +106,7 @@
         }
 
         private initializeBorrows() {
+            this.isProcessing(true);
             $.ajax({
                 type: 'get',
                 dataType: 'json',
@@ -127,6 +126,8 @@
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
                 ErrorHandler.report(error, null, this);
+            }).always(() => {
+                this.isProcessing(false);
             });
         }
 

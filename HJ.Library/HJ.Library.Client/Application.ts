@@ -88,7 +88,8 @@ module hj.library {
                         targetPageName: "ReturnBooksViewModel"
                     },
                     {
-                        text: "B/R Record"
+                        text: "B/R Record",
+                        targetPageName: "BorrowingRecordsViewModel"
                     }
                 ]
             },

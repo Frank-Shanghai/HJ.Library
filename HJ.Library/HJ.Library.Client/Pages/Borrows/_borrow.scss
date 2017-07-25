@@ -17,3 +17,18 @@
         margin-top: 20px;
     }
 }
+
+.search-container {
+    border: solid 1px #337ab7;
+    border-radius: 10px;
+    padding: 10px 0;
+    margin-bottom: 20px;
+
+    .form-group { width: 100%; }
+
+    .field-container { padding: 2px 0 0 0; }
+
+    .to { text-align: center; padding-left: 0 ; padding-right: 0;}
+
+    .buttons-container { text-align: right; padding-right: 50px; }
+}

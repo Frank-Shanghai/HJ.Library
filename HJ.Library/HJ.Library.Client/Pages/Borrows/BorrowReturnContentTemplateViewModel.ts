@@ -1,4 +1,4 @@
-﻿module hj.library {
+﻿module hj.library.pages {
     export class BorrowReturnContentTemplateViewModel {
         public booksGridOptions = {
             columns: [

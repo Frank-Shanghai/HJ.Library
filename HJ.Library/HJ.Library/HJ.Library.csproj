@@ -192,6 +192,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BorrowInfoDTO.cs" />
+    <Compile Include="Models\BorrowingRecordQueryDTO.cs" />
     <Compile Include="Models\ChangePasswordDto.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\RoleDto.cs" />

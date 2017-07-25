@@ -27,6 +27,107 @@ namespace HJ.Library.Controllers
             return db.Borrows;
         }
 
+        // POST: api/borrows/includeAll
+        // I take it as an post instead of get because it's not easy to handle complex data structure with http get.
+        // To use get, you can use [FromUri] to get parameters from URL, because get will append data to the URL instead of request body,
+        // but get can just handle simple data type like int/string. Althought you do can use something like queryData={keyword:'key', keyworkFields:'dfd'....}
+        // But a http post will be much simple
+        [HttpPost]
+        [Route("includeAll", Name = "GetBorrowsIncludeBookAndUser")]
+        public IList<Borrow> GetBorrowsIncludeBookAndUser(BorrowingRecordQueryDTO queryData)
+        {
+            if (queryData == null)
+            {
+                return db.Borrows.Include("Book").Include("User").ToList();
+            }
+            else
+            {
+                List<Borrow> results = new List<Borrow>();
+                if (queryData.DateQueryOptions.Count == 0 || queryData.DateQueryOptions.Count > 1)
+                {
+                    results = (from b in db.Borrows.Include("Book").Include("User")
+                               where b.StartDate >= queryData.StartDate && b.StartDate <= queryData.EndDate
+                               && b.EndDate >= queryData.StartDate && b.EndDate <= queryData.EndDate
+                               select b).ToList();
+                }
+                else
+                {
+                    switch (queryData.DateQueryOptions[0])
+                    {
+                        case DateQueryOption.BorrowedDate:
+                            results = (from b in db.Borrows.Include("Book").Include("User")
+                                       where b.StartDate >= queryData.StartDate && b.StartDate <= queryData.EndDate
+                                       select b).ToList();
+                            break;
+                        case DateQueryOption.ReturnedDate:
+                            results = (from b in db.Borrows.Include("Book").Include("User")
+                                       where b.EndDate >= queryData.StartDate && b.EndDate <= queryData.EndDate
+                                       select b).ToList();
+                            break;
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(queryData.Keyword))
+                {
+                    if (queryData.KeywordFields.Count == 0 || queryData.KeywordFields.Contains(KeywordOption.All))
+                    {
+                        results = (from b in results
+                                   where ((b.User.FirstName + " " + b.User.LastName).IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1) || b.User.Email.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                                   b.Book.Name.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 || b.Book.Author.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 || 
+                                   b.Book.ISBN.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                                   b.Book.Owner.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                   select b).ToList();
+                    }
+                    else
+                    {
+                        if (queryData.KeywordFields.Contains(KeywordOption.UserName))
+                        {
+                            results = (from b in results
+                                       where (b.User.FirstName + " " + b.User.LastName).IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                       select b).ToList();
+                        }
+
+                        if (queryData.KeywordFields.Contains(KeywordOption.UserEmail))
+                        {
+                            results = (from b in results
+                                       where b.User.Email.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                       select b).ToList();
+                        }
+
+                        if (queryData.KeywordFields.Contains(KeywordOption.BookTitle))
+                        {
+                            results = (from b in results
+                                       where b.Book.Name.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                       select b).ToList();
+                        }
+
+                        if (queryData.KeywordFields.Contains(KeywordOption.BookAuthor))
+                        {
+                            results = (from b in results
+                                       where b.Book.Author.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                       select b).ToList();
+                        }
+
+                        if (queryData.KeywordFields.Contains(KeywordOption.ISBN))
+                        {
+                            results = (from b in results
+                                       where b.Book.ISBN.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                       select b).ToList();
+                        }
+
+                        if (queryData.KeywordFields.Contains(KeywordOption.BookOwner))
+                        {
+                            results = (from b in results
+                                       where b.Book.Owner.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                       select b).ToList();
+                        }
+                    }
+                }
+
+                return results;
+            }
+        }
+
         // GET: api/borrows/5
         [ResponseType(typeof(Borrow))]
         [Route("{id:guid}", Name = "GetBorrowById")]
