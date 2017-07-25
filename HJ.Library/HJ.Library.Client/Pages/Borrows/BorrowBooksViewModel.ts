@@ -85,8 +85,6 @@ module hj.library.pages {
             return false;
         });
 
-        // TODO: Add confirming dialog, show user, and books
-
         constructor() {
             super();
             this.templateId = borrows.BorrowBooksViewId;

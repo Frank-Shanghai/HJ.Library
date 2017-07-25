@@ -110,6 +110,7 @@
     <Content Include="Note.txt" />
     <Content Include="Components\Modal\ErrorDialogComponentView.html" />
     <Content Include="Pages\Borrows\BorrowBooksView.html" />
+    <Content Include="Pages\Borrows\BorrowingRecordsView.html" />
     <Content Include="Pages\Borrows\BorrowReturnContentTemplateView.html" />
     <Content Include="Pages\Borrows\ReturnBooksView.html" />
     <Content Include="Pages\Dialogs\ProgressBarView.html" />
@@ -240,6 +241,7 @@
     <TypeScriptCompile Include="Components\Modal\IInformationDialogComponentParameters.ts" />
     <TypeScriptCompile Include="Components\Modal\InformationDialogComponentViewModel.ts" />
     <TypeScriptCompile Include="Pages\Borrows\BorrowBooksViewModel.ts" />
+    <TypeScriptCompile Include="Pages\Borrows\BorrowingRecordsViewModel.ts" />
     <TypeScriptCompile Include="Pages\Borrows\BorrowReturnContentTemplateViewModel.ts" />
     <TypeScriptCompile Include="Pages\Borrows\ReturnBooksViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
