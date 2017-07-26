@@ -32,3 +32,16 @@
 
     .buttons-container { text-align: right; padding-right: 50px; }
 }
+
+.books-query-container {
+    display: flex;
+    padding: 0 10px 10px 10px;
+
+    .keyword {
+        flex: 1;
+    }
+
+    .options { flex: none; width: 180px; margin: 0 10px; }
+
+    .query-button { flex: none; width: 80px; }
+}

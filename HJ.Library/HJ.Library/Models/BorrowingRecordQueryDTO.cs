@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HJ.Library.Models
 {
-    public enum KeywordOption
+    public enum BorrowingRecordKeywordOption
     {
         All = 0,
         UserName = 1,
@@ -16,7 +16,7 @@ namespace HJ.Library.Models
         BookOwner = 6
     }
 
-    public enum DateQueryOption
+    public enum BorrowingRecordDateQueryOption
     {
         All = 0,
         BorrowedDate = 1,
@@ -26,18 +26,18 @@ namespace HJ.Library.Models
     public class BorrowingRecordQueryDTO
     {
         public string Keyword { get; set; }
-        public List<KeywordOption> KeywordFields { get; set; }
+        public List<BorrowingRecordKeywordOption> KeywordFields { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public List<DateQueryOption> DateQueryOptions { get; set; }
+        public List<BorrowingRecordDateQueryOption> DateQueryOptions { get; set; }
 
         public BorrowingRecordQueryDTO()
         {
             this.Keyword = "";
-            this.KeywordFields = new List<KeywordOption>();
+            this.KeywordFields = new List<BorrowingRecordKeywordOption>();
             this.EndDate = DateTime.Now;
             this.StartDate = DateTime.Now.AddDays(-28);// Update this value if user borrow maximum time span changed, keep consistence with client side
-            this.DateQueryOptions = new List<DateQueryOption>();
+            this.DateQueryOptions = new List<BorrowingRecordDateQueryOption>();
         }
     }
 }

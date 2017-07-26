@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HJ.Library.Infrastructure;
+using HJ.Library.Models;
 
 namespace HJ.Library.Controllers
 {
@@ -19,14 +20,65 @@ namespace HJ.Library.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Books
+        // GET: api/books
         [Route( "" )]
         public IQueryable<Book> GetBooks()
         {
             return db.Books;
         }
 
-        // GET: api/Books/5
+        // GET: api/books/query
+        [Route("query")]
+        public List<Book> GetBooksByQueryData([FromUri] string queryString)
+        {
+            BooksQueryDTO queryData = Newtonsoft.Json.JsonConvert.DeserializeObject<BooksQueryDTO>(queryString);
+
+            List<Book> results = db.Books.ToList<Book>();
+            if (queryData != null && string.IsNullOrWhiteSpace(queryData.Keyword) == false)
+            {
+                if (queryData.QueryOptions.Count == 0 || queryData.QueryOptions.Contains(BooksQueryOption.All))
+                {
+                    results = (from b in results
+                               where (b.Name.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1) || b.Author.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                               b.ISBN.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 || b.Publisher.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                               select b).ToList();
+                }
+                else
+                {
+                    if (queryData.QueryOptions.Contains(BooksQueryOption.Title))
+                    {
+                        results = (from b in results
+                                   where b.Name.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                   select b).ToList();
+                    }
+
+                    if (queryData.QueryOptions.Contains(BooksQueryOption.Author))
+                    {
+                        results = (from b in results
+                                   where b.Author.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                   select b).ToList();
+                    }
+
+                    if (queryData.QueryOptions.Contains(BooksQueryOption.ISBN))
+                    {
+                        results = (from b in results
+                                   where b.ISBN.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                   select b).ToList();
+                    }
+
+                    if (queryData.QueryOptions.Contains(BooksQueryOption.Publisher))
+                    {
+                        results = (from b in results
+                                   where b.Publisher.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
+                                   select b).ToList();
+                    }
+                }
+            }
+
+            return results;        
+        }
+
+        // GET: api/books/5
         [ResponseType(typeof(Book))]
         [Route( "{id:guid}", Name = "GetBookById" )]
         public async Task<IHttpActionResult> GetBook(Guid id)
@@ -40,7 +92,7 @@ namespace HJ.Library.Controllers
             return Ok(book);
         }
 
-        // PUT: api/Books/5
+        // PUT: api/books/5
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(void))]
         [Route( "{id:guid}", Name = "UpdateBook" )]
@@ -77,7 +129,7 @@ namespace HJ.Library.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Books
+        // POST: api/books
         [Authorize( Roles = "Admin" )]
         [ResponseType(typeof(Book))]
         [Route( "" )]
@@ -112,7 +164,7 @@ namespace HJ.Library.Controllers
             return Created( locationHeader, book );
        }
 
-        // DELETE: api/Books/5
+        // DELETE: api/books/5
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Book))]
         [Route("{id:guid}", Name = "DeleteBook")]

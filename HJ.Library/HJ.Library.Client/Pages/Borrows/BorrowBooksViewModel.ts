@@ -1,6 +1,14 @@
 ﻿///<reference path="../PageBase.ts" />
 
 module hj.library.pages {
+    export enum BooksQueryOption {
+        All = 0,
+        Title = 1,
+        Author = 2,
+        ISBN = 3,
+        Publisher = 4
+    }
+
     export class BorrowBooksViewModel extends PageBase {
         public booksDataSource = ko.observableArray([]);
         public usersDataSource = ko.observableArray([]);
@@ -13,6 +21,21 @@ module hj.library.pages {
                 }
             }
         });
+
+        public keyword = ko.observable('');
+        public selectedKeywordFilterFields = ko.observableArray([]);
+        public keywordFilterOptions = {
+            data: [
+                { id: BooksQueryOption.Title, text: "Title" },
+                { id: BooksQueryOption.Author, text: "Author" },
+                { id: BooksQueryOption.ISBN, text: "ISBN" },
+                { id: BooksQueryOption.Publisher, text: "Publisher" },
+                { id: BooksQueryOption.All, text: "All" }
+            ],
+            placeholder: "Select fields to filt",
+            select: this.selectedKeywordFilterFields,
+            multiple: true
+        };
 
         public isBookCountLimitMessageVisible = ko.pureComputed(() => {
             if (this.selectedUser()) {
@@ -128,6 +151,32 @@ module hj.library.pages {
             return deferredObj.promise();
         }
 
+        private searchBooks() {
+            this.isProcessing(true);
+            $.ajax({
+                type: 'get',
+                contentType: "application/json",                
+                data: {
+                    queryString: JSON.stringify({
+                        keyword: this.keyword(),
+                        queryOptions: this.selectedKeywordFilterFields()
+                    })
+                },
+                url: '/api/books/query'
+            }).done((books: Array<any>) => {
+                this.booksDataSource(books.filter((value: any) => {
+                    return value.availableCopies > 0;
+                }));
+            }).fail((jqXhr: JQueryXHR) => {
+                var error: IError = new Error("Failed to query books.");
+                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                ErrorHandler.report(error, null, this);
+            }).always(() => {
+                this.isProcessing(false);
+            });
+        }
+
         private initializeUsers() {
             var deferredObj = $.Deferred<any>();
             $.ajax({
@@ -161,7 +210,7 @@ module hj.library.pages {
                 customButtons: [
                     {
                         text: "Confirm",
-                        hasFocus: true, 
+                        hasFocus: true,
                         visible: true,
                         enable: true,
                         click: () => {

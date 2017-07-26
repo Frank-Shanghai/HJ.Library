@@ -1,5 +1,5 @@
 ﻿module hj.library.pages {
-    export enum KeywordOption {
+    export enum BorrowingRecordKeywordOption {
         All = 0,
         UserName = 1,
         UserEmail = 2,
@@ -9,18 +9,17 @@
         BookOwner = 6
     }
 
-    export enum DateQueryOption {
-        All = 0,
+    export enum BorrowingRecordDateQueryOption {
         BorrowedDate = 1,
         ReturnedDate = 2
     }
 
     export interface IQueryData {
         Keyword: string;
-        KeywordFields: Array<KeywordOption>;
+        KeywordFields: Array<BorrowingRecordKeywordOption>;
         StartDate: Date;
         EndDate: Date;
-        DateQueryOptions: Array<DateQueryOption>;
+        DateQueryOptions: Array<BorrowingRecordDateQueryOption>;
     }
 
     export class BorrowingRecordsViewModel extends PageBase {
@@ -85,15 +84,15 @@
         public selectedKeywordFilterFields = ko.observableArray([]);
         public keywordFilterOptions = {
             data: [
-                { id: KeywordOption.UserName, text: "User Name" },
-                { id: KeywordOption.UserEmail, text: "User Email" },
-                { id: KeywordOption.BookTitle, text: "Book Title" },
-                { id: KeywordOption.BookAuthor, text: "Book Author" },
-                { id: KeywordOption.ISBN, text: "ISBN" },
-                { id: KeywordOption.BookOwner, text: "Book Owner" },
-                { id: KeywordOption.All, text: "All" }
+                { id: BorrowingRecordKeywordOption.UserName, text: "User Name" },
+                { id: BorrowingRecordKeywordOption.UserEmail, text: "User Email" },
+                { id: BorrowingRecordKeywordOption.BookTitle, text: "Book Title" },
+                { id: BorrowingRecordKeywordOption.BookAuthor, text: "Book Author" },
+                { id: BorrowingRecordKeywordOption.ISBN, text: "ISBN" },
+                { id: BorrowingRecordKeywordOption.BookOwner, text: "Book Owner" },
+                { id: BorrowingRecordKeywordOption.All, text: "All" }
             ],
-            placeholder: "Select fields to filter",
+            placeholder: "Select fields to filt",
             select: this.selectedKeywordFilterFields,
             multiple: true
         };
@@ -103,8 +102,8 @@
         public selectedDateTypes = ko.observableArray([]);
         public dateQueryOptions = {
             data: [
-                { id: DateQueryOption.BorrowedDate, text: "Borrowed Date" },
-                { id: DateQueryOption.ReturnedDate, text: "Returned Date" }
+                { id: BorrowingRecordDateQueryOption.BorrowedDate, text: "Borrowed Date" },
+                { id: BorrowingRecordDateQueryOption.ReturnedDate, text: "Returned Date" }
             ],
             placeholder: "Select date type",
             multiple: true,
