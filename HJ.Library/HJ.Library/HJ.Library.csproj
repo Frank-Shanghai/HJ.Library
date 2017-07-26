@@ -191,6 +191,7 @@
       <DependentUpon>201707190603432_UpdateBorrowEntity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BooksQueryDTO.cs" />
     <Compile Include="Models\BorrowInfoDTO.cs" />
     <Compile Include="Models\BorrowingRecordQueryDTO.cs" />
     <Compile Include="Models\ChangePasswordDto.cs" />

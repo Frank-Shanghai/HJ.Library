@@ -30,7 +30,12 @@ namespace HJ.Library.Controllers
         // POST: api/borrows/includeAll
         // I take it as an post instead of get because it's not easy to handle complex data structure with http get.
         // To use get, you can use [FromUri] to get parameters from URL, because get will append data to the URL instead of request body,
-        // but get can just handle simple data type like int/string. Althought you do can use something like queryData={keyword:'key', keyworkFields:'dfd'....}
+        // but get can just handle simple data type like int/string. 
+        // Another solution is json serialize the object and take it as one singe parameter as data like {query: json.stringify({..}}, and 
+        // on serverside you can de-serialize the json object into one .net object
+        // Refer to http://www.cnblogs.com/landeanfen/p/5337072.html#_label0_1
+        // In borrow books page (BooksController.cs), I am going to use the json serialization and de-serialization way to implement book searching
+
         // But a http post will be much simple
         [HttpPost]
         [Route("includeAll", Name = "GetBorrowsIncludeBookAndUser")]
@@ -54,12 +59,12 @@ namespace HJ.Library.Controllers
                 {
                     switch (queryData.DateQueryOptions[0])
                     {
-                        case DateQueryOption.BorrowedDate:
+                        case BorrowingRecordDateQueryOption.BorrowedDate:
                             results = (from b in db.Borrows.Include("Book").Include("User")
                                        where b.StartDate >= queryData.StartDate && b.StartDate <= queryData.EndDate
                                        select b).ToList();
                             break;
-                        case DateQueryOption.ReturnedDate:
+                        case BorrowingRecordDateQueryOption.ReturnedDate:
                             results = (from b in db.Borrows.Include("Book").Include("User")
                                        where b.EndDate >= queryData.StartDate && b.EndDate <= queryData.EndDate
                                        select b).ToList();
@@ -69,7 +74,7 @@ namespace HJ.Library.Controllers
 
                 if (!string.IsNullOrWhiteSpace(queryData.Keyword))
                 {
-                    if (queryData.KeywordFields.Count == 0 || queryData.KeywordFields.Contains(KeywordOption.All))
+                    if (queryData.KeywordFields.Count == 0 || queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.All))
                     {
                         results = (from b in results
                                    where ((b.User.FirstName + " " + b.User.LastName).IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1) || b.User.Email.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 ||
@@ -80,42 +85,42 @@ namespace HJ.Library.Controllers
                     }
                     else
                     {
-                        if (queryData.KeywordFields.Contains(KeywordOption.UserName))
+                        if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.UserName))
                         {
                             results = (from b in results
                                        where (b.User.FirstName + " " + b.User.LastName).IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
                                        select b).ToList();
                         }
 
-                        if (queryData.KeywordFields.Contains(KeywordOption.UserEmail))
+                        if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.UserEmail))
                         {
                             results = (from b in results
                                        where b.User.Email.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
                                        select b).ToList();
                         }
 
-                        if (queryData.KeywordFields.Contains(KeywordOption.BookTitle))
+                        if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.BookTitle))
                         {
                             results = (from b in results
                                        where b.Book.Name.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
                                        select b).ToList();
                         }
 
-                        if (queryData.KeywordFields.Contains(KeywordOption.BookAuthor))
+                        if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.BookAuthor))
                         {
                             results = (from b in results
                                        where b.Book.Author.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
                                        select b).ToList();
                         }
 
-                        if (queryData.KeywordFields.Contains(KeywordOption.ISBN))
+                        if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.ISBN))
                         {
                             results = (from b in results
                                        where b.Book.ISBN.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
                                        select b).ToList();
                         }
 
-                        if (queryData.KeywordFields.Contains(KeywordOption.BookOwner))
+                        if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.BookOwner))
                         {
                             results = (from b in results
                                        where b.Book.Owner.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1

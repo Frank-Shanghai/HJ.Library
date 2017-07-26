@@ -14,7 +14,14 @@
         <span>* Here only displays the available books</span>
     </hj-flex-shrink>
     <hj-flex-grow>
-        <hj-flex-scroll>            
+        <hj-flex-scroll>          
+            <div class="books-query-container">
+                <input type="text" class="form-control keyword" data-bind="value: keyword" />
+                <div class="options">
+                    <hj-searchable-dropdownlist params="{context: keywordFilterOptions}"></hj-searchable-dropdownlist>
+                </div>
+                <button class="btn btn-default query-button" data-bind="click: searchBooks">Search</button>                                
+            </div>  
             <table data-bind="grid: {options: booksGridOptions, selectionChanged: refreshBooksSelection, dataSource: booksDataSource}"></table>
         </hj-flex-scroll>
     </hj-flex-grow>
