@@ -79,6 +79,7 @@
             }
         };
         public dataSource = ko.observableArray([]);
+        public isSearchPanelVisible = ko.observable(false);
 
         public keyword = ko.observable('');
         public selectedKeywordFilterFields = ko.observableArray([]);
@@ -168,6 +169,10 @@
             this.selectedDateTypes.removeAll();
             this.endDate(new Date());
             this.startDate(new Date(this.endDate().getTime() - Application.instance.userMaximumTimespan * 24 * 60 * 60 * 1000));
+        }
+
+        private toggleSearchPanel() {
+            this.isSearchPanelVisible(!this.isSearchPanelVisible());
         }
     }
 }

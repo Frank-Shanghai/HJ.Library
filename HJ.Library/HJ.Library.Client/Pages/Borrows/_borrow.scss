@@ -1,36 +1,76 @@
 ﻿.borrow-button-icon {
-    padding-right: 0; 
-    padding-left: 5px
+    padding-right: 0;
+    padding-left: 5px;
 }
 
 .borrow-return-content-template {
     .title-container {
-        padding-bottom: 5px; 
-        margin-bottom: 10px; 
-        border-bottom: 1px dotted; 
-        font-weight: bold; 
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        border-bottom: 1px dotted;
+        font-weight: bold;
         font-size: 1.2em;
     }
 
-    .books-title-container{
+    .books-title-container {
         @extend .title-container;
         margin-top: 20px;
     }
 }
 
+.search-panel-bar {
+    > span { padding: 5px; }
+
+    background-color: gainsboro; 
+    font-weight: bold; 
+    font-size: 1.2em; 
+    padding: 5px;
+
+    a:link {
+        text-decoration: none;
+    }
+
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:active {
+        text-decoration: none;
+    }
+
+    a:focus {
+        text-decoration: none;
+    }
+}
+
 .search-container {
-    border: solid 1px #337ab7;
-    border-radius: 10px;
+    border: solid 1px gainsboro;
+    //border: solid 1px #337ab7;
+    border-top-width: 0;
     padding: 10px 0;
-    margin-bottom: 20px;
 
-    .form-group { width: 100%; }
+    .form-group {
+        width: 100%;
+    }
 
-    .field-container { padding: 2px 0 0 0; }
+    .field-container {
+        padding: 2px 0 0 0;
+    }
 
-    .to { text-align: center; padding-left: 0 ; padding-right: 0;}
+    .to {
+        text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
 
-    .buttons-container { text-align: right; padding-right: 50px; }
+    .buttons-container {
+        text-align: right;
+        padding-right: 50px;
+    }
 }
 
 .books-query-container {
@@ -41,7 +81,14 @@
         flex: 1;
     }
 
-    .options { flex: none; width: 180px; margin: 0 10px; }
+    .options {
+        flex: none;
+        width: 180px;
+        margin: 0 10px;
+    }
 
-    .query-button { flex: none; width: 80px; }
+    .query-button {
+        flex: none;
+        width: 80px;
+    }
 }

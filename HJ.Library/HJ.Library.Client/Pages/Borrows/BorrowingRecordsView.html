@@ -1,6 +1,20 @@
 ﻿<hj-flex-container>
     <hj-flex-shrink>
-        <div class="search-container">
+        <div class="search-panel-bar">
+            <!-- ko ifnot: isSearchPanelVisible -->
+            <a data-bind="click: toggleSearchPanel">
+                <i class="fa fa-plus"></i>
+            </a>
+            <!-- /ko -->
+            <!-- ko if: isSearchPanelVisible -->
+            <a data-bind="click: toggleSearchPanel">
+                <i class="fa fa-minus"></i>
+            </a>
+            <!-- /ko -->
+            <span>Search Panel</span>
+        </div>
+        <!-- ko if: isSearchPanelVisible -->
+        <div class="search-container">            
             <div class="form-horizontal">
                 <div class="form-group">
                     <label class="col-xs-3 col-sm-2 col-lg-2 control-label" for="keyword">Keyword: </label>
@@ -40,8 +54,10 @@
             <div class="buttons-container">
                 <button class="btn btn-default" data-bind="click: search">Query</button>
                 <button class="btn btn-default" data-bind="click: clear">Clear</button>
-            </div>
+            </div>            
         </div>
+        <!-- /ko -->
+        <br />
     </hj-flex-shrink>
     <hj-flex-grow>
         <hj-flex-scroll>
