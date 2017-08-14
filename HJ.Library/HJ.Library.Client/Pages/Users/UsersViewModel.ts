@@ -85,8 +85,6 @@ module hj.library.pages {
         }
 
         private remove = () => {
-            //TODO: 
-            // 2. Check if it has any books not returned or owned any books, handle these things first and then delete it
             InformationHandler.report({
                 title: "Delete",
                 header: "Please Confirm",
@@ -96,11 +94,66 @@ module hj.library.pages {
                 isCancelButtonVisible: true,
                 cancelButtonText: "Cancel",
                 onConfirm: () => {
-                    removeHandler();
+                    removeUsers();
                 }
             }, this);
 
-            var removeHandler = () => {
+            var usersUnableToDelete = [];
+            var removeUsers = () => {
+                this.isProcessing(true);
+                usersUnableToDelete = [];
+                let promises = [];
+                for (let i = 0; i < this.selectedUsers().length; i++) {
+                    let promise = () => {
+                        let deferredObject = $.Deferred();
+                        $.ajax({
+                            type: 'get',
+                            url: '/api/borrows/user/' + this.selectedUsers()[i].id + '/notReturned'
+                        }).done((data: any) => {
+                            if (data) {
+                                usersUnableToDelete.push(this.selectedUsers()[i].userName);
+                            }
+                            deferredObject.resolve();
+                        }).fail((jqXhr: any, textStatus: any, err: any) => {
+                            deferredObject.reject(jqXhr, textStatus, err);
+                        });
+
+                        return deferredObject.promise();
+                    };
+
+                    promises.push(promise());
+                }
+
+                $.when.apply($, promises).done((data) => {
+                    if (usersUnableToDelete.length > 0) {
+                        let userNames = usersUnableToDelete.toString();
+                        InformationHandler.report({
+                            title: "Failed to delete",
+                            header: "Please Confirm",
+                            message: "You couldn't delete users [" + userNames + "] since they have books that not returned.",
+                            isOKButtonVisible: true,
+                            okButtonText: "OK",
+                            isCancelButtonVisible: false,
+                            cancelButtonText: "Cancel",
+                            onConfirm: () => {
+                            }
+                        }, this);
+                    }
+                    else {
+                        doRemoveUsers();
+                    }
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to remove selected users.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error, null, this);
+                }).always(() => {
+                    this.isProcessing(false);
+                });
+            };
+
+
+            var doRemoveUsers = () => {
                 this.isProcessing(true);
                 var promises = [];
                 for (var i = 0; i < this.selectedUsers().length; i++) {

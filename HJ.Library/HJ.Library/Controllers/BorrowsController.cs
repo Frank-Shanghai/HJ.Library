@@ -38,21 +38,23 @@ namespace HJ.Library.Controllers
 
         // But a http post will be much simple
         [HttpPost]
-        [Route("includeAll", Name = "GetBorrowsIncludeBookAndUser")]
+        [Route("records/includeAll", Name = "GetBorrowsIncludeBookAndUser")]
         public IList<Borrow> GetBorrowsIncludeBookAndUser(BorrowingRecordQueryDTO queryData)
         {
             if (queryData == null)
             {
-                return db.Borrows.Include("Book").Include("User").ToList();
+                return db.Borrows.Where(b => b.EndDate.Year != 1970).Include("Book").Include("User").ToList();
             }
             else
             {
                 List<Borrow> results = new List<Borrow>();
+                queryData.EndDate = queryData.EndDate.AddDays(1);
                 if (queryData.DateQueryOptions.Count == 0 || queryData.DateQueryOptions.Count > 1)
                 {
                     results = (from b in db.Borrows.Include("Book").Include("User")
-                               where b.StartDate >= queryData.StartDate && b.StartDate <= queryData.EndDate
-                               && b.EndDate >= queryData.StartDate && b.EndDate <= queryData.EndDate
+                               where b.EndDate.Year != 1970 
+                               && b.StartDate >= queryData.StartDate && b.StartDate < queryData.EndDate
+                               && b.EndDate >= queryData.StartDate && b.EndDate < queryData.EndDate
                                select b).ToList();
                 }
                 else
@@ -61,12 +63,14 @@ namespace HJ.Library.Controllers
                     {
                         case BorrowingRecordDateQueryOption.BorrowedDate:
                             results = (from b in db.Borrows.Include("Book").Include("User")
-                                       where b.StartDate >= queryData.StartDate && b.StartDate <= queryData.EndDate
+                                       where b.EndDate.Year != 1970
+                                       && b.StartDate >= queryData.StartDate && b.StartDate < queryData.EndDate
                                        select b).ToList();
                             break;
                         case BorrowingRecordDateQueryOption.ReturnedDate:
                             results = (from b in db.Borrows.Include("Book").Include("User")
-                                       where b.EndDate >= queryData.StartDate && b.EndDate <= queryData.EndDate
+                                       where b.EndDate.Year != 1970
+                                       && b.EndDate >= queryData.StartDate && b.EndDate < queryData.EndDate
                                        select b).ToList();
                             break;
                     }
@@ -148,12 +152,60 @@ namespace HJ.Library.Controllers
         }
 
         [HttpGet]
-        [Route("user/{userId}", Name = "GetBooksByUserId")]
+        [Route("user/{userId}", Name = "GetBorrowsByUserId")]
         // The parameter name "userId" must be the same as the parameter name in the following action
         public IList<Borrow> GetBorrowsByUserId(string userId)
         {
             IEnumerable<Borrow> borrows = from b in db.Borrows.Include("Book")
                                           where b.UserId == userId
+                                          select b;
+            if (borrows == null || borrows.Count() == 0)
+            {
+                return null;
+            }
+
+            return borrows.ToList<Borrow>();
+        }
+
+        [HttpGet]
+        [Route("user/{userId}/notReturned", Name = "GetNotReturnedBorrowsByUserId")]
+        // The parameter name "userId" must be the same as the parameter name in the following action
+        public IList<Borrow> GetNotReturnedBorrowsByUserId(string userId)
+        {
+            IEnumerable<Borrow> borrows = from b in db.Borrows.Include("Book")
+                                          where b.UserId == userId && b.EndDate.Year == 1970
+                                          select b;
+            if (borrows == null || borrows.Count() == 0)
+            {
+                return null;
+            }
+
+            return borrows.ToList<Borrow>();
+        }
+
+        [HttpGet]
+        [Route("book/{bookId}", Name = "GetBorrowsByBookId")]
+        // The parameter name "bookId" must be the same as the parameter name in the following action
+        public IList<Borrow> GetBorrowsByBookId(Guid bookId)
+        {
+            IEnumerable<Borrow> borrows = from b in db.Borrows
+                                          where b.BookId == bookId
+                                          select b;
+            if (borrows == null || borrows.Count() == 0)
+            {
+                return null;
+            }
+
+            return borrows.ToList<Borrow>();
+        }
+
+        [HttpGet]
+        [Route("book/{bookId}/notReturned", Name = "GetNotReturnedBorrowsByBookId")]
+        // The parameter name "bookId" must be the same as the parameter name in the following action
+        public IList<Borrow> GetNotReturnedBorrowsByBookId(Guid bookId)
+        {
+            IEnumerable<Borrow> borrows = from b in db.Borrows
+                                          where b.BookId == bookId && b.EndDate.Year == 1970
                                           select b;
             if (borrows == null || borrows.Count() == 0)
             {
