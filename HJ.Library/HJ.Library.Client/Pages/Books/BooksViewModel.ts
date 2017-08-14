@@ -84,8 +84,8 @@ module hj.library.pages {
         }
 
         private remove = () => {
-            //TODO: 
-            // 2. Check if it is borrowed by any users/readers, handle these things first and then delete it
+            let booksUnableToDelete = [];
+
             InformationHandler.report({
                 title: "Delete",
                 header: "Please Confirm",
@@ -95,18 +95,71 @@ module hj.library.pages {
                 isCancelButtonVisible: true,
                 cancelButtonText: "Cancel",
                 onConfirm: () => {
-                    removeHandler();
+                    removeBooks();
                 }
             }, this);
 
-            var removeHandler = () => {
+            var removeBooks = () => {
                 this.isProcessing(true);
-                var promises = [];
-                for (var i = 0; i < this.selectedBooks().length; i++) {
+                booksUnableToDelete = [];
+                let promises = [];
+                for (let i = 0; i < this.selectedBooks().length; i++) {
+                    let promise = () => {
+                        let deferredObject = $.Deferred();
+                        $.ajax({
+                            type: 'get',
+                            url: '/api/borrows/book/' + this.selectedBooks()[i].bookId + '/notReturned'
+                        }).done((data: any) => {
+                            if (data) {
+                                booksUnableToDelete.push(this.selectedBooks()[i].name);
+                            }
+                            deferredObject.resolve();
+                        }).fail((jqXhr: any, textStatus: any, err: any) => {
+                            deferredObject.reject(jqXhr, textStatus, err);
+                        });
+
+                        return deferredObject.promise();
+                    };
+
+                    promises.push(promise());
+                }
+
+                $.when.apply($, promises).done((data) => {
+                    if (booksUnableToDelete.length > 0) {
+                        let bookNames = booksUnableToDelete.toString();
+                        InformationHandler.report({
+                            title: "Failed to delete",
+                            header: "Please Confirm",
+                            message: "You couldn't delete books [" + bookNames + "] since they are borrowed by some users and not returned yet.",
+                            isOKButtonVisible: true,
+                            okButtonText: "OK",
+                            isCancelButtonVisible: false,
+                            cancelButtonText: "Cancel",
+                            onConfirm: () => {                                
+                            }
+                        }, this);
+                    }
+                    else {
+                        doRemoveBooks();
+                    }            
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to remove selected books.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error, null, this);
+                }).always(() => {
+                    this.isProcessing(false);
+                });
+            };
+
+            var doRemoveBooks = () => {
+                this.isProcessing(true);
+                let promises = [];
+                for (let i = 0; i < this.selectedBooks().length; i++) {
                     // $.ajax(..) return JQueryXHR, JQueryXHR is one sub-class of JQueryPromise<any>
                     // so the way here to handle promise is correct
-                    var promise = () => {
-                        var deferredObject = $.Deferred();
+                    let promise = () => {
+                        let deferredObject = $.Deferred();
                         $.ajax({
                             type: 'delete',
                             url: '/api/books/' + this.selectedBooks()[i].bookId

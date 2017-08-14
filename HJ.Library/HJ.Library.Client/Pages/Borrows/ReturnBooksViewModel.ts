@@ -110,17 +110,9 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/api/borrows/user/' + this.selectedUserId()
+                url: '/api/borrows/user/' + this.selectedUserId() + '/notReturned'
             }).done((borrows: Array<any>) => {
-                this.borrowsDataSource.removeAll();
-                if (borrows) {
-                    // Only show books that hasn't been returned
-                    borrows.forEach((borrow) => {
-                        if ((new Date(borrow.endDate)).getFullYear() === 1970) {// Which means the book hasn't been returned yet. 
-                            this.borrowsDataSource.push(borrow);
-                        }
-                    });
-                }
+                this.borrowsDataSource(borrows);
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 var error: IError = new Error("Failed to get books list.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);

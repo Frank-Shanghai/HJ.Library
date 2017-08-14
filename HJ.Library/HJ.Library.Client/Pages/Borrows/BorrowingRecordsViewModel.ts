@@ -132,17 +132,9 @@
                 type: 'post',
                 contentType: 'application/json',
                 data: JSON.stringify(this.queryData),
-                url: '/api/borrows/includeAll'
+                url: '/api/borrows/records/includeAll'
             }).done((borrows: Array<any>) => {
-                this.dataSource.removeAll();
-                if (borrows) {
-                    // Only show books that have been returned
-                    borrows.forEach((borrow) => {
-                        if ((new Date(borrow.endDate)).getFullYear() !== 1970) {// Which means the book is already returned. 
-                            this.dataSource.push(borrow);
-                        }
-                    });
-                }
+                this.dataSource(borrows);
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 var error: IError = new Error("Failed to get books list.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
