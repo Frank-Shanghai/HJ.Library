@@ -68,6 +68,8 @@
             ],
             striped: true,
             sortable: true,
+            sortName: 'endDate',
+            sortOrder: 'desc',
             pagination: true,
             pageNumber: 1,
             pageSize: 10,

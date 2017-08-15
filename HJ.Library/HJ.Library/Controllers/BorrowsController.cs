@@ -15,6 +15,7 @@ using HJ.Library.Models;
 namespace HJ.Library.Controllers
 {
     [RoutePrefix("api/borrows")]
+    [Authorize]
     public class BorrowsController : BaseApiController
     {
         private static object thisLock = new object();
@@ -38,6 +39,7 @@ namespace HJ.Library.Controllers
 
         // But a http post will be much simple
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("records/includeAll", Name = "GetBorrowsIncludeBookAndUser")]
         public IList<Borrow> GetBorrowsIncludeBookAndUser(BorrowingRecordQueryDTO queryData)
         {
@@ -139,6 +141,7 @@ namespace HJ.Library.Controllers
 
         // GET: api/borrows/5
         [ResponseType(typeof(Borrow))]
+        [Authorize(Roles = "Admin")]
         [Route("{id:guid}", Name = "GetBorrowById")]
         public async Task<IHttpActionResult> GetBorrow(Guid id)
         {
@@ -184,6 +187,7 @@ namespace HJ.Library.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("book/{bookId}", Name = "GetBorrowsByBookId")]
         // The parameter name "bookId" must be the same as the parameter name in the following action
         public IList<Borrow> GetBorrowsByBookId(Guid bookId)
@@ -200,6 +204,7 @@ namespace HJ.Library.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("book/{bookId}/notReturned", Name = "GetNotReturnedBorrowsByBookId")]
         // The parameter name "bookId" must be the same as the parameter name in the following action
         public IList<Borrow> GetNotReturnedBorrowsByBookId(Guid bookId)
@@ -218,6 +223,7 @@ namespace HJ.Library.Controllers
         // PUT: api/borrows/5
         [ResponseType(typeof(void))]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Admin")]
         //public async Task<IHttpActionResult> PutBorrow(Guid id, Borrow borrow)
         public IHttpActionResult PutBorrow(Guid id, Borrow borrow)
         {
@@ -311,6 +317,7 @@ namespace HJ.Library.Controllers
         // POST: api/borrows
         [ResponseType(typeof(Borrow))]
         [Route("")]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> PostBorrow(BorrowInfoDTO borrow)
         {
             if (!ModelState.IsValid)
@@ -373,6 +380,7 @@ namespace HJ.Library.Controllers
         // DELETE: api/borrows/5
         [ResponseType(typeof(Borrow))]
         [Route("{id:guid}", Name = "DeleteBorrow")]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> DeleteBorrow(Guid id)
         {
             Borrow borrow = await db.Borrows.FindAsync(id);
