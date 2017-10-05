@@ -4,19 +4,16 @@ module hj.library {
         public update(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
             var context = ko.unwrap(valueAccessor());
             var options = ko.unwrap(context.options);
-            if (ko.isObservable(context.dataSource)) {
+            if (!(options.url) && context.dataSource) {
+                if (ko.isObservable(context.dataSource)) {
+                    context.dataSource.subscribe((newValue) => {
+                        options.data = newValue;
+                        (<any>$(element)).bootstrapTable("load", options);
+                    });
+                }
+
                 $.extend(options, {
                     data: ko.unwrap(context.dataSource)
-                });
-
-                context.dataSource.subscribe((newValue) => {
-                    options.data = newValue;
-                    (<any>$(element)).bootstrapTable("load", options);
-                });
-            }
-            else {
-                $.extend(options, {
-                    data: context.dataSource
                 });
             }
 
@@ -86,7 +83,24 @@ module hj.library {
                     configSelectionChangedEvent(element, context);
                 }
 
-                (<any>$(element)).bootstrapTable(options);
+                if (options.customQueryParameters) {
+                    // here the customQueryParameters is not one parameter mentioned in the bootstrap table document, but dynamically added when set up grid options.
+                    // by setting it as an observable object, can implement the query functionality as the following code shows
+                    // it would be good if there is one document can specify this feature
+                    $.extend(options, {
+                        queryParams: (params: any) => {
+                            return $.extend(params, { queryData: ko.unwrap(options.customQueryParameters) });
+                        }
+                    });
+
+                    if (ko.isObservable(options.customQueryParameters)) {
+                        options.customQueryParameters.subscribe((newValue: any) => {
+                            (<any>$(element)).bootstrapTable('refresh', {pageNumber: 1});
+                        });
+                    }
+                }
+
+                (<any>$(element)).bootstrapTable(options);                
             }
         }
     }

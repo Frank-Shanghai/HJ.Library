@@ -31,8 +31,8 @@ module hj.library.pages {
             sortable: true,
             pagination: true,
             pageNumber: 1,
-            pageSize: 10,
-            pageList: [10, 20, 50, 100],
+            pageSize: 3,
+            pageList: [3, 10, 20, 50, 100],
             clickToSelect: true,
             detailView: true,
             detailFormatter: (index, row, element: JQuery) => {
