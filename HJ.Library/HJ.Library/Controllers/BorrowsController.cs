@@ -41,23 +41,20 @@ namespace HJ.Library.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("records/includeAll", Name = "GetBorrowsIncludeBookAndUser")]
-        public IList<Borrow> GetBorrowsIncludeBookAndUser(BorrowingRecordQueryDTO queryData)
+        public object GetBorrowsIncludeBookAndUser(dynamic parameters)
         {
-            if (queryData == null)
+            var results = db.Borrows.Where(b => b.EndDate.Year != 1970).Include("Book").Include("User");
+            BorrowingRecordQueryDTO queryData = Newtonsoft.Json.JsonConvert.DeserializeObject<BorrowingRecordQueryDTO>(Convert.ToString(parameters.queryData));
+            if (queryData != null)
             {
-                return db.Borrows.Where(b => b.EndDate.Year != 1970).Include("Book").Include("User").ToList();
-            }
-            else
-            {
-                List<Borrow> results = new List<Borrow>();
                 queryData.EndDate = queryData.EndDate.AddDays(1);
                 if (queryData.DateQueryOptions.Count == 0 || queryData.DateQueryOptions.Count > 1)
                 {
                     results = (from b in db.Borrows.Include("Book").Include("User")
-                               where b.EndDate.Year != 1970 
+                               where b.EndDate.Year != 1970
                                && b.StartDate >= queryData.StartDate && b.StartDate < queryData.EndDate
                                && b.EndDate >= queryData.StartDate && b.EndDate < queryData.EndDate
-                               select b).ToList();
+                               select b);
                 }
                 else
                 {
@@ -67,13 +64,13 @@ namespace HJ.Library.Controllers
                             results = (from b in db.Borrows.Include("Book").Include("User")
                                        where b.EndDate.Year != 1970
                                        && b.StartDate >= queryData.StartDate && b.StartDate < queryData.EndDate
-                                       select b).ToList();
+                                       select b);
                             break;
                         case BorrowingRecordDateQueryOption.ReturnedDate:
                             results = (from b in db.Borrows.Include("Book").Include("User")
                                        where b.EndDate.Year != 1970
                                        && b.EndDate >= queryData.StartDate && b.EndDate < queryData.EndDate
-                                       select b).ToList();
+                                       select b);
                             break;
                     }
                 }
@@ -83,60 +80,70 @@ namespace HJ.Library.Controllers
                     if (queryData.KeywordFields.Count == 0 || queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.All))
                     {
                         results = (from b in results
-                                   where ((b.User.FirstName + " " + b.User.LastName).IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1) || b.User.Email.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                                   b.Book.Name.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 || b.Book.Author.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 || 
-                                   b.Book.ISBN.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                                   b.Book.Owner.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
-                                   select b).ToList();
+                                   where ((b.User.FirstName + " " + b.User.LastName).ToLower().Contains(queryData.Keyword.ToLower())) ||
+                                   b.User.Email.ToLower().Contains(queryData.Keyword.ToLower()) ||
+                                   b.Book.Name.ToLower().Contains(queryData.Keyword.ToLower()) ||
+                                   b.Book.Author.ToLower().Contains(queryData.Keyword.ToLower()) ||
+                                   b.Book.ISBN.ToLower().Contains(queryData.Keyword.ToLower()) ||
+                                   b.Book.Owner.ToLower().Contains(queryData.Keyword.ToLower())
+                                   select b);
                     }
                     else
                     {
                         if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.UserName))
                         {
                             results = (from b in results
-                                       where (b.User.FirstName + " " + b.User.LastName).IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
-                                       select b).ToList();
+                                       where ((b.User.FirstName + " " + b.User.LastName).ToLower().Contains(queryData.Keyword.ToLower()))
+                                       select b);
                         }
 
                         if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.UserEmail))
                         {
                             results = (from b in results
-                                       where b.User.Email.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
-                                       select b).ToList();
+                                       where b.User.Email.ToLower().Contains(queryData.Keyword.ToLower())
+                                       select b);
                         }
 
                         if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.BookTitle))
                         {
                             results = (from b in results
-                                       where b.Book.Name.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
-                                       select b).ToList();
+                                       where b.Book.Name.ToLower().Contains(queryData.Keyword.ToLower())
+                                       select b);
                         }
 
                         if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.BookAuthor))
                         {
                             results = (from b in results
-                                       where b.Book.Author.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
-                                       select b).ToList();
+                                       where b.Book.Author.ToLower().Contains(queryData.Keyword.ToLower())
+                                       select b);
                         }
 
                         if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.ISBN))
                         {
                             results = (from b in results
-                                       where b.Book.ISBN.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
-                                       select b).ToList();
+                                       where b.Book.ISBN.ToLower().Contains(queryData.Keyword.ToLower())
+                                       select b);
                         }
 
                         if (queryData.KeywordFields.Contains(BorrowingRecordKeywordOption.BookOwner))
                         {
                             results = (from b in results
-                                       where b.Book.Owner.IndexOf(queryData.Keyword, StringComparison.InvariantCultureIgnoreCase) > -1
-                                       select b).ToList();
+                                       where b.Book.Owner.ToLower().Contains(queryData.Keyword.ToLower())
+                                       select b);
                         }
                     }
                 }
-
-                return results;
             }
+
+            // Bootstrap table need to return queried rows and also the total count for paging purpose
+            return new
+            {
+                total = results.Count(),
+                rows = (from b in results select b)
+                .OrderBy(b => b.EndDate)
+                .Skip<Borrow>((int)(parameters.offset))
+                .Take((int)(parameters.limit)).ToArray()
+            };
         }
 
         // GET: api/borrows/5
