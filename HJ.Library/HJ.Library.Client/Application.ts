@@ -35,6 +35,23 @@ module hj.library {
             }
         });
 
+        public isMenuBarVisible = ko.observable(true);
+        public isSpaceBarVisible = ko.observable(false);
+
+        public toggleMenuBar = () => {            
+            this.isMenuBarVisible(!this.isMenuBarVisible());   
+            this.isSpaceBarVisible(false);         
+        }
+
+        public toggleSpaceBar = () => {            
+            this.isSpaceBarVisible(!this.isSpaceBarVisible());     
+            this.isMenuBarVisible(false);       
+        }
+
+        public isNavigationViewVisible = ko.computed(() => {
+            return this.isMenuBarVisible() || this.isSpaceBarVisible();
+        });        
+
         public navigationMenus: Array<any> = [];
         //public navigationMenus: Array<any> = [
         //    {
