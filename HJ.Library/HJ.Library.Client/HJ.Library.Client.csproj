@@ -224,6 +224,7 @@
     <TypeScriptCompile Include="CustomBindings\IndentBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\KnockoutBindingContextExtensions.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuItemStateBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\Navigation\CollapseNavPanelBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\SearchableDropDownList\SearchableDropDownListBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\Context\SetBindingContext.ts" />
     <TypeScriptCompile Include="ErrorHandler.ts" />
