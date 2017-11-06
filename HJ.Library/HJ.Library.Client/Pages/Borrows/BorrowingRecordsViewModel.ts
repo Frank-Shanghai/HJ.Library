@@ -24,7 +24,7 @@
 
     export class BorrowingRecordsViewModel extends PageBase {
         public dataSource = ko.observableArray([]);
-        public isSearchPanelVisible = ko.observable(false);
+        public isSearchPanelVisible = ko.observable(true);
 
         public keyword = ko.observable('');
         public selectedKeywordFilterFields = ko.observableArray([]);
