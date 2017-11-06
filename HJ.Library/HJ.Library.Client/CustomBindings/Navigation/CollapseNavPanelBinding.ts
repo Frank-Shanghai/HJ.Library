@@ -4,14 +4,14 @@ module hj.library {
         private widthPercentage: number;
 
         public update(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
-            var isNavigatinPanelVisible = valueAccessor();
+            var isNavigationPanelVisible = valueAccessor();
             var $element = $(element);
             var $quickNavBar = $element.find("nav.quick-nav").first();
             var $mainScreen = $(document).find("section#content.app-main-screen").first();
 
             this.widthPercentage = $element.width() / window.innerWidth * 100;
 
-            <any>isNavigatinPanelVisible.subscribe((newValue) => {
+            var handler = (newValue) => {
                 window.setTimeout(() => {
                     // Reason: There is one time issue if you try to only find the active tab pane.
                     // When all tabs are collapsed, when you click any one of them, the bootstrap first works, make the corresponding tab appear, no animation here.
@@ -20,7 +20,7 @@ module hj.library {
                     // Seems this subscriber happened before bootstrap making the corresponding tab appear
                     // To solve this timing issue, you can find all tabs and apply animations to all of them, but only the active (visible in UI) tab effects.
                     //var $activeTabPane = $element.find("div.tab-content>nav.app-navigation-bar.active");
-                    
+
                     var $activeTabPane = $element.find("div.tab-content>nav.app-navigation-bar");
                     if (newValue === true) {
                         // First make the tab invisible, because as the bunch of comments above said, bootstrap will make tab appear immediately. To apply animation,
@@ -43,6 +43,29 @@ module hj.library {
                         $mainScreen.animate({ left: $quickNavBar.width() }, 500);
                     }
                 }, 10);
+            };
+
+            var isNavigationPanelVisibleSubscription = (<KnockoutObservable<boolean>>isNavigationPanelVisible).subscribe(handler);
+
+
+            var windowResizeHandler = () => {
+                if (!ko.unwrap(isNavigationPanelVisible)) {
+                    var $activeTabPane = $element.find("div.tab-content>nav.app-navigation-bar");
+                    var width = window.innerHeight * this.widthPercentage;
+                    $activeTabPane.css("margin-right", width - $quickNavBar.width());
+                    $activeTabPane.css("margin-left", -(width - $quickNavBar.width() - $quickNavBar.width()));
+                    $mainScreen.css("left", $quickNavBar.width());
+                }
+            };
+
+            // on window resizing, need to update navigaition panel layout [defect #89]
+            $(window).on("resize", windowResizeHandler);
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, () => {
+                $(window).off("resize", windowResizeHandler);
+                if (isNavigationPanelVisibleSubscription) {
+                    isNavigationPanelVisibleSubscription.dispose();
+                }
             });
         }
     }
