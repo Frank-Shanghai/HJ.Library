@@ -134,6 +134,9 @@
     <Content Include="Pages\Dialogs\ChangePasswordDialogView.html" />
     <Content Include="Components\Modal\InformationDialogComponentView.html" />
     <Content Include="Pages\Dialogs\UserProfileDialogView.html" />
+    <Content Include="Pages\NonAdmin\AllBooksView.html" />
+    <Content Include="Pages\NonAdmin\BorrowedBooksView.html" />
+    <Content Include="Pages\NonAdmin\BorrowingHistoryView.html" />
     <Content Include="Pages\Test\FlexContainer\CanReAddGrowView.html" />
     <Content Include="Pages\Test\FlexContainer\CanScrollView.html" />
     <Content Include="Pages\Test\FlexContainer\MultipleFlexElementsView.html" />
@@ -247,6 +250,9 @@
     <TypeScriptCompile Include="Pages\Borrows\ReturnBooksViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\Dialogs\ChangePasswordDialogViewModel.ts" />
+    <TypeScriptCompile Include="Pages\NonAdmin\AllBooksViewModel.ts" />
+    <TypeScriptCompile Include="Pages\NonAdmin\BorrowedBooksViewModel.ts" />
+    <TypeScriptCompile Include="Pages\NonAdmin\BorrowingHistoryViewModel.ts" />
     <TypeScriptCompile Include="Pages\PageBase.ts" />
     <TypeScriptCompile Include="Pages\Test\FlexContainer\CanReAddGrowViewModel.ts" />
     <TypeScriptCompile Include="Pages\Test\FlexContainer\CanScrollViewModel.ts" />

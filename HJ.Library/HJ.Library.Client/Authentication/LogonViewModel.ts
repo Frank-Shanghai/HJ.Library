@@ -50,19 +50,44 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/api/accounts/user/name/' + this.name()
-            }).done((data) => {
-                library.Application.instance.openHomePageSpace();
-                Application.instance.sessionUser(data);
+                // It's not safe to allow all users get user information by login name.
+                // So, make the API that get user by name as Admin authorized.
+                // For normal user, first getCurrentUserId, and then use this Id to get detailed user information as session user.
+                // It's safter than make get user by name API be available to all  users because Id is just one GUID string
+                //url: '/api/accounts/user/name/' + this.name()
+                url: '/api/accounts/user/getCurrentUserId'
+            }).done((currentUserId) => {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/api/accounts/user/id/' + currentUserId
+                }).done((data) => {
+                    library.Application.instance.openHomePageSpace();
+                    Application.instance.sessionUser($.extend({}, data, { isAdmin: this.isAdmin(data) }));
+                    Application.instance.initializeNavigationMenu();
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to get user information.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error);
+                });
             }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                 var error: IError = new Error("Failed to get user information.");
                 error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
                 ErrorHandler.report(error);
             });
-            
+
             //library.Application.instance.activePage(new pages.HomePageViewModel());
             //library.Application.instance.sammyApp.run("#/Welcome");
+        }
+
+        private isAdmin(user: any) {
+            if ((<Array<string>>user.roles).indexOf("Admin") > -1 || (<Array<string>>user.roles).indexOf("SuperAdmin") > -1) {
+                return true;
+            }
+
+            return false;
         }
 
         //private onLogonFail(jqXhr: JQueryXHR) {

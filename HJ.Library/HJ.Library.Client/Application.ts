@@ -38,21 +38,21 @@ module hj.library {
         public isMenuBarVisible = ko.observable(true);
         public isSpaceBarVisible = ko.observable(false);
 
-        public toggleMenuBar = () => {            
-            this.isMenuBarVisible(!this.isMenuBarVisible());   
-            this.isSpaceBarVisible(false);         
+        public toggleMenuBar = () => {
+            this.isMenuBarVisible(!this.isMenuBarVisible());
+            this.isSpaceBarVisible(false);
         }
 
-        public toggleSpaceBar = () => {            
-            this.isSpaceBarVisible(!this.isSpaceBarVisible());     
-            this.isMenuBarVisible(false);       
+        public toggleSpaceBar = () => {
+            this.isSpaceBarVisible(!this.isSpaceBarVisible());
+            this.isMenuBarVisible(false);
         }
 
         public isNavigationViewVisible = ko.computed(() => {
             return this.isMenuBarVisible() || this.isSpaceBarVisible();
-        });        
+        });
 
-        public navigationMenus: Array<any> = [];
+        public navigationMenus: KnockoutObservableArray<any> = ko.observableArray([]);
         //public navigationMenus: Array<any> = [
         //    {
         //        title: "Home", route: "#/Welcome", isActive: true,
@@ -82,80 +82,100 @@ module hj.library {
         //    }
         //];
 
-        public menuNodes: Array<IMenuNode> = [
-            {
-                text: "Users",
-                // No need the full namespace path since it has been handled when generating menu items in Menu.ts
-                targetPageName: "UsersViewModel" // Should be the class name
-            },
-            {
-                text: "Books",
-                // No need the full namespace path since it has been handled when generating menu items in Menu.ts
-                targetPageName: "BooksViewModel"
-            },
-            {
-                text: "Borrow/Return Mgr",
-                nodes: [
-                    {
-                        text: "Borrow",
-                        targetPageName: "BorrowBooksViewModel"
-                    }, 
-                    {
-                        text: "Return",
-                        targetPageName: "ReturnBooksViewModel"
-                    },
-                    {
-                        text: "B/R Record",
-                        targetPageName: "BorrowingRecordsViewModel"
-                    }
-                ]
-            },
-            {
-                text: "Test Pages",
-                nodes: [
-                    {
-                        text: "Modal",
-                        targetPageName: "ModalTestViewModel"
-                    },
-                    {
-                        text: "FlexContainer",
-                        nodes: [
-                            {
-                                text: "CanScroll",
-                                targetPageName: "CanScrollViewModel"
-                            },
-                            {
-                                text: "CanReAddGrow",
-                                targetPageName: "CanReAddGrowViewModel"
-                            },
-                            {
-                                text: "MultipleFlexElements",
-                                targetPageName: "MultipleFlexElementsViewModel"
-                            }
-                        ]
-                    },
-                    {
-                        text: "SearchableDropDownList",
-                        nodes: [
-                            {
-                                text: "Searchable DDL",
-                                targetPageName: "SearchableDropDownListTestViewModel"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
-
-        public menu = new Menu(this.menuNodes);
-
         constructor() {
             this.spaceList = new SpaceList();
             this.user = new authentication.LogonViewModel();
-            this.navigationMenus = this.menu.navigationMenu; 
-            //this.initializeRouters();
-        }        
-        
+        }
+
+        public initializeNavigationMenu() {
+            var menuNodes: Array<IMenuNode> = [];
+            if (this.sessionUser().isAdmin === true) {
+                menuNodes = [
+                    {
+                        text: "Users",
+                        // No need the full namespace path since it has been handled when generating menu items in Menu.ts
+                        targetPageName: "UsersViewModel" // Should be the class name
+                    },
+                    {
+                        text: "Books",
+                        // No need the full namespace path since it has been handled when generating menu items in Menu.ts
+                        targetPageName: "BooksViewModel"
+                    },
+                    {
+                        text: "Borrow/Return Mgr",
+                        nodes: [
+                            {
+                                text: "Borrow",
+                                targetPageName: "BorrowBooksViewModel"
+                            },
+                            {
+                                text: "Return",
+                                targetPageName: "ReturnBooksViewModel"
+                            },
+                            {
+                                text: "B/R Record",
+                                targetPageName: "BorrowingRecordsViewModel"
+                            }
+                        ]
+                    },
+                    {
+                        text: "Test Pages",
+                        nodes: [
+                            {
+                                text: "Modal",
+                                targetPageName: "ModalTestViewModel"
+                            },
+                            {
+                                text: "FlexContainer",
+                                nodes: [
+                                    {
+                                        text: "CanScroll",
+                                        targetPageName: "CanScrollViewModel"
+                                    },
+                                    {
+                                        text: "CanReAddGrow",
+                                        targetPageName: "CanReAddGrowViewModel"
+                                    },
+                                    {
+                                        text: "MultipleFlexElements",
+                                        targetPageName: "MultipleFlexElementsViewModel"
+                                    }
+                                ]
+                            },
+                            {
+                                text: "SearchableDropDownList",
+                                nodes: [
+                                    {
+                                        text: "Searchable DDL",
+                                        targetPageName: "SearchableDropDownListTestViewModel"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ];
+            }
+            else {
+                menuNodes = [
+                    {
+                        text: "All Books",
+                        // No need the full namespace path since it has been handled when generating menu items in Menu.ts
+                        targetPageName: "AllBooksViewModel" // Should be the class name
+                    },
+                    {
+                        text: "Borrowed Books",
+                        targetPageName: "BorrowedBooksViewModel"
+                    },
+                    {
+                        text: "Borrowing History",
+                        targetPageName: "BorrowingHistoryViewModel"
+                    }
+                ];
+            }
+
+            this.navigationMenus(new Menu(menuNodes).navigationMenu);
+        }
+
         public openHomePageSpace = () => {
             if (!this.homePageSpace) {
                 this.homePageSpace = new Space("Home", true, false);
