@@ -3,9 +3,10 @@ module hj.library {
     export class MenuItemStatusBinding implements KnockoutBindingHandler {
         public init(element: any, valueAccessor: () => any, allowBindingAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
             var li = $(element);
-            var menuItem: MenuItem = valueAccessor();
+            var menuItem: MenuItem | Space = valueAccessor();
             var clickHandler = () => {
-                if (!menuItem.hasChildren()) {
+                // For space menu, the menu item is not an MenuItem instance
+                if (!(<any>menuItem).hasChildren || !(<any>menuItem).hasChildren()) {
                     var navBar = li.parents("nav.app-navigation-bar").first();
                     navBar.find("li").removeClass("active");
                     li.addClass("active");

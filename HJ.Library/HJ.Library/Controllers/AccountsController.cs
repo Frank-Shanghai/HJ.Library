@@ -39,7 +39,7 @@ namespace HJ.Library.Controllers
             }
         }
 
-        [Authorize(Roles="Admin")]
+        // Authorize to all users, they can use user id to get user details
         [Route( "user/id/{id}", Name = "GetUserById" )]
         //In Web API, every route has a name. Route names are useful for generating links, so that you can include a link in an HTTP response，
         //for example, refer to ModelFactory.cs, like: Url = this.urlHelper.Link( "GetRoleById", new { id = appRole.Id } )
@@ -53,6 +53,14 @@ namespace HJ.Library.Controllers
             }
 
             return NotFound();
+        }
+
+        // Get logged on user id, and use this id to get user details. Instead of athorizing all users the right to 
+        // get user details by userName, it's much safter to get them by user id since it's just a Guid string
+        [Route("user/getCurrentUserId")]
+        public IHttpActionResult GetCurrentUserId()
+        {
+            return Ok(User.Identity.GetUserId());
         }
 
         [Authorize(Roles="Admin")]
