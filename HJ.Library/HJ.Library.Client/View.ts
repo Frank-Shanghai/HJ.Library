@@ -68,7 +68,7 @@ module hj.library.pages.dialogs {
 	export var UserProfileDialogViewId:string = "hj-library-pages-dialogs-UserProfileDialogView";
 }
 module hj.library.pages.nonadmin {
-	export var AllBooksView:string = "\u003ch1\u003eAll Books\u003c/h1\u003e\r\n";
+	export var AllBooksView:string = "\u003chj-flex-container\u003e\r\n    \u003chj-flex-shrink\u003e\r\n        \u003cdiv class=\"books-query-container\"\u003e\r\n            \u003cinput type=\"text\" class=\"form-control keyword\" data-bind=\"value: keyword\" /\u003e\r\n            \u003cdiv class=\"options\"\u003e\r\n                \u003chj-searchable-dropdownlist params=\"{context: keywordFilterOptions}\"\u003e\u003c/hj-searchable-dropdownlist\u003e\r\n            \u003c/div\u003e\r\n            \u003cbutton class=\"btn btn-default query-button\" data-bind=\"click: searchBooks\"\u003eSearch\u003c/button\u003e\r\n        \u003c/div\u003e\r\n        \u003cdiv class=\"form-check\"\u003e\r\n            \u003clabel class=\"form-check-label\"\u003e\u003cinput class=\"form-check-input\" type=\"checkbox\" data-bind=\"checked: onlyDisplayAvailableBooks\" /\u003e Only display available books\u003c/label\u003e\r\n        \u003c/div\u003e\r\n    \u003c/hj-flex-shrink\u003e\r\n    \u003chj-flex-grow\u003e\r\n        \u003chj-flex-scroll\u003e\r\n            \u003ctable data-bind=\"grid: {options: gridOptions, dataSource: dataSource}\"\u003e\u003c/table\u003e\r\n        \u003c/hj-flex-scroll\u003e\r\n    \u003c/hj-flex-grow\u003e\r\n\u003c/hj-flex-container\u003e";
 	export var AllBooksViewId:string = "hj-library-pages-nonadmin-AllBooksView";
 	export var BorrowedBooksView:string = "\u003ch1\u003eBorrowed Books\u003c/h1\u003e";
 	export var BorrowedBooksViewId:string = "hj-library-pages-nonadmin-BorrowedBooksView";
