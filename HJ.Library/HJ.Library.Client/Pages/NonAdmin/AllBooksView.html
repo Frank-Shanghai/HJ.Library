@@ -1,1 +1,19 @@
-﻿<h1>All Books</h1>
+﻿<hj-flex-container>
+    <hj-flex-shrink>
+        <div class="books-query-container">
+            <input type="text" class="form-control keyword" data-bind="value: keyword" />
+            <div class="options">
+                <hj-searchable-dropdownlist params="{context: keywordFilterOptions}"></hj-searchable-dropdownlist>
+            </div>
+            <button class="btn btn-default query-button" data-bind="click: searchBooks">Search</button>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" data-bind="checked: onlyDisplayAvailableBooks" /> Only display available books</label>
+        </div>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <table data-bind="grid: {options: gridOptions, dataSource: dataSource}"></table>
+        </hj-flex-scroll>
+    </hj-flex-grow>
+</hj-flex-container>
