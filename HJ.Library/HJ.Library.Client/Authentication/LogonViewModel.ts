@@ -63,7 +63,7 @@
                     url: '/api/accounts/user/id/' + currentUserId
                 }).done((data) => {
                     library.Application.instance.openHomePageSpace();
-                    Application.instance.sessionUser($.extend({}, data, { isAdmin: this.isAdmin(data) }));
+                    Application.instance.sessionUser($.extend({}, data, { isAdmin: this.isAdmin(data), userId: currentUserId }));
                     Application.instance.initializeNavigationMenu();
                 }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
                     var error: IError = new Error("Failed to get user information.");

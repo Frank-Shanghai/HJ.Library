@@ -5,9 +5,11 @@ module hj.library {
         public homePageSpace: Space;
 
         // Books can be borrowed for 4 weeks/28 days
+        // Loan period
         public userMaximumTimespan = 28;
 
         // One user can borrow at most 3 books
+        // Users have up to 3 items on loan
         public userMaximumBookCount = 3;
 
         private static _instance: Application;
