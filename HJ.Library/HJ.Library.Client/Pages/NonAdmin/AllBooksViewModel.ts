@@ -4,22 +4,26 @@
             columns: [
                 {
                     title: 'Title',
-                    field: 'name'
+                    field: 'name',
+                    sortable: true
                 },
                 {
                     title: 'Author',
-                    field: 'author'
+                    field: 'author',
+                    sortable: true
                 },
                 {
                     title: 'Publisher',
-                    field: "publisher"
+                    field: "publisher",
+                    sortable: true
                 },
                 {
                     title: "Publication Date",
                     field: 'publicationDate',
                     formatter: (value) => {
                         return moment(value).format("MM-DD-YYYY");
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     title: "Available Copies",
@@ -43,7 +47,8 @@
                                 'background-color': '#8fa65d'
                             }
                         };
-                    }
+                    },
+                    sortable: true
                 }
             ],
             striped: true,

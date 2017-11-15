@@ -1,1 +1,11 @@
-﻿<h1>Borrowed Books</h1>
+﻿<hj-flex-container>
+    <hj-flex-shrink>        
+        <h3>You have up to <span data-bind="text: hj.library.Application.instance.userMaximumBookCount"></span> items on loan, and the loan period is <span data-bind="text: hj.library.Application.instance.userMaximumTimespan"></span> days.</h3>
+        <h4>Please always return books in time.</h4>
+    </hj-flex-shrink>
+    <hj-flex-grow>
+        <hj-flex-scroll>
+            <table data-bind="grid: {options: borrowsGridOptions, dataSource: borrowsDataSource}"></table>
+        </hj-flex-scroll>
+    </hj-flex-grow>
+</hj-flex-container>

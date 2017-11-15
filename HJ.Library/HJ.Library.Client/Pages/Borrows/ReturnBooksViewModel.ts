@@ -42,11 +42,12 @@
                     formatter: (value) => {
                         var latestReturnDate = (new Date(value)).getTime() + Application.instance.userMaximumTimespan * 24 * 60 * 60 * 1000;
                         if (Date.now() > latestReturnDate) {
-                            return moment(latestReturnDate).format("MM-DD-YYYY") + '  EXPIRED!';
+                            return "<span style='color: red; font-weight: 700'>" + moment(latestReturnDate).format("MM-DD-YYYY") + '  EXPIRED!' + "</span>";
                         }
 
                         return moment(latestReturnDate).format("MM-DD-YYYY");
-                    }
+                    },
+                    sortable: true
                 }
             ],
             striped: true,
