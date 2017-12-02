@@ -89,7 +89,7 @@ module hj.library {
                     // it would be good if there is one document can specify this feature
                     $.extend(options, {
                         queryParams: (params: any) => {
-                            return $.extend(params, { queryData: ko.unwrap(options.customQueryParameters) });
+                            return $.extend(params, { customQueryParameters: ko.unwrap(options.customQueryParameters) });
                         }
                     });
 

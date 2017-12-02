@@ -41,10 +41,11 @@ namespace HJ.Library.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("records/includeAll", Name = "GetBorrowsIncludeBookAndUser")]
-        public object GetBorrowsIncludeBookAndUser(dynamic parameters)
+        public object GetBorrowsIncludeBookAndUser(dynamic parameters)// Returned books
         {
+            // By specifying the end date year not equals to 1970, make sure it's returned book.
             var results = db.Borrows.Where(b => b.EndDate.Year != 1970).Include("Book").Include("User");
-            BorrowingRecordQueryDTO queryData = Newtonsoft.Json.JsonConvert.DeserializeObject<BorrowingRecordQueryDTO>(Convert.ToString(parameters.queryData));
+            BorrowingRecordQueryDTO queryData = Newtonsoft.Json.JsonConvert.DeserializeObject<BorrowingRecordQueryDTO>(Convert.ToString(parameters.customQueryParameters));
             if (queryData != null)
             {
                 queryData.EndDate = queryData.EndDate.AddDays(1);
@@ -143,6 +144,63 @@ namespace HJ.Library.Controllers
                 .OrderBy(b => b.EndDate)
                 .Skip<Borrow>((int)(parameters.offset))
                 .Take((int)(parameters.limit)).ToArray()
+            };
+        }
+
+        [HttpPost]
+        [Route("records/individual", Name = "GetIndividualLoanHistory")]
+        public object GetIndividualLoanHistory(dynamic parameters)
+        {
+
+            //string userId, DateTime startDate, DateTime endDate, List<BorrowingRecordDateQueryOption> dateQueryOptions, int offset, int limit
+            IndividualBorrowingRecordQueryDTO queryData = Newtonsoft.Json.JsonConvert.DeserializeObject<IndividualBorrowingRecordQueryDTO>(Convert.ToString(parameters.customQueryParameters));
+            IQueryable<Borrow> results; 
+            if (queryData.UserId != null)
+            {
+                // By specifying the end date year not equals to 1970, make sure it's returned book.
+                results= db.Borrows.Where(b => b.EndDate.Year != 1970 && b.UserId == queryData.UserId).Include("Book");
+                queryData.EndDate = queryData.EndDate.AddDays(1);
+                if (queryData.DateQueryOptions.Count == 0 || queryData.DateQueryOptions.Count > 1)
+                {
+                    results = (from b in results
+                               where b.EndDate.Year != 1970
+                               && b.StartDate >= queryData.StartDate && b.StartDate < queryData.EndDate
+                               && b.EndDate >= queryData.StartDate && b.EndDate < queryData.EndDate
+                               select b);
+                }
+                else
+                {
+                    switch (queryData.DateQueryOptions[0])
+                    {
+                        case BorrowingRecordDateQueryOption.BorrowedDate:
+                            results = (from b in results
+                                       where b.EndDate.Year != 1970
+                                       && b.StartDate >= queryData.StartDate && b.StartDate < queryData.EndDate
+                                       select b);
+                            break;
+                        case BorrowingRecordDateQueryOption.ReturnedDate:
+                            results = (from b in results
+                                       where b.EndDate.Year != 1970
+                                       && b.EndDate >= queryData.StartDate && b.EndDate < queryData.EndDate
+                                       select b);
+                            break;
+                    }
+                }
+
+                return new
+                {
+                    total = results.Count(),
+                    rows = (from b in results select b)
+                            .OrderBy(b => b.EndDate)
+                            .Skip<Borrow>((int)(parameters.offset))
+                            .Take((int)(parameters.limit)).ToArray()
+                            };
+            }
+
+            return new
+            {
+                total = 0,
+                rows = new Borrow[] { }
             };
         }
 
