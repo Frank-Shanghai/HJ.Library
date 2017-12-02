@@ -1,1 +1,26 @@
-﻿<h1>Borrowing History</h1>
+﻿<hj-flex-container>
+    <hj-flex-shrink>
+        <div class="container-fluid" style="padding-bottom: 10px;">
+            <div class="row">
+                <div class="col-xs-5 col-sm-3 col-lg-3">
+                    <div style="max-width:330px; padding-left: 0">
+                        <hj-searchable-dropdownlist params="{context: dateQueryOptions}"></hj-searchable-dropdownlist>
+                    </div>
+                </div>
+                <div class="col-xs-5 col-sm-4 col-lg-3">
+                    <input type="text" class="form-control" placeholder="Select Date" data-bind="datepicker: startDate, datepickerOptions: {format: 'MM/DD/YYYY'}" />
+                </div>
+                <span class="col-xs-2 col-sm-1 col-lg-1" style="align-content: center; padding-top: 10px;">To</span>
+                <div class="col-xs-5 col-sm-4 col-lg-3">
+                    <input type="text" class="form-control" placeholder="Select Date" data-bind="datepicker: endDate, datepickerOptions: {format: 'MM/DD/YYYY'}" />
+                </div>
+                <div class="col-xs-4 col-sm-3 col-lg-2" style="padding-right: 0; text-align: right;">
+                    <button class="btn btn-default" data-bind="click: query">Query</button>
+                </div>
+            </div>
+        </div>
+    </hj-flex-shrink>
+    <hj-flext-grow>
+        <table data-bind="grid: {options: gridOptions}"></table>
+    </hj-flext-grow>
+</hj-flex-container>

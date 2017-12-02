@@ -40,4 +40,20 @@ namespace HJ.Library.Models
             this.DateQueryOptions = new List<BorrowingRecordDateQueryOption>();
         }
     }
+
+    public class IndividualBorrowingRecordQueryDTO
+    {
+        public string UserId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public List<BorrowingRecordDateQueryOption> DateQueryOptions { get; set; }
+
+        public IndividualBorrowingRecordQueryDTO()
+        {
+            this.UserId = "";
+            this.EndDate = DateTime.Now;
+            this.StartDate = DateTime.Now.AddDays(-28);// Update this value if user borrow maximum time span changed, keep consistence with client side
+            this.DateQueryOptions = new List<BorrowingRecordDateQueryOption>();
+        }
+    }
 }
