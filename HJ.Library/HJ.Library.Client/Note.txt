@@ -40,3 +40,12 @@ public userFullName = ko.computed(() => {
 上面一段简单的代码却始终不能正常工作。切换tab时，并不显示相应的内容。
 最后，究其原因是，如果id中加了空格，那么bootstrap就不能正常工作了。所以，要用bootstrap，就避免在id中出现空格。其实，无论
 什么时候，都要避免id中出现空格。
+
+6. 12/8/2017 从highjump切换到truecommerce。所以用户也变了，由以前的hjmp\franks,变成了现在的tccom\frank.sun.
+	然后打开source tree看到有许多新添加的文件，大多数都是些类库的dll等文件。哪来的呢？
+	最后发现是由于账户切换的问题，原来source tree有一些ignorelist文件在users\franks下面，无奈现在的用户已经没有办法访问那个用户文件夹了。所以很多原来被ignore的文件现在都跑出来了，
+	并不是由于什么更新软件，类库才导致的。
+	设置：menu tools->Options, 打开options对话框。在Git tab中，把路径修改一下，如从C:\Users\frank.sun\Documents\gitignore_global.txt to C:\Users\franks\Documents\gitignore_global.txt.
+	同样，在Mercurial下面，把路径也修改一下，同上修改方式。
+	最后，还要把Authentication tab页的Saved Passwords文本框中的项目双击，重新输入一下密码。
+	问题解决。不再有新添加的dll文件，也能正常commit代码了。
