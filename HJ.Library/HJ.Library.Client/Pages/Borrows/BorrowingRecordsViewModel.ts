@@ -68,6 +68,7 @@
             columns: [
                 {
                     title: "User Name",
+                    field: "user.fullName", // Here it's OK to be a string which is not an existed field name.
                     sortable: true,
                     formatter: (value, row) => {
                         return row.user.firstName + ' ' + row.user.lastName;
@@ -75,26 +76,32 @@
                 },
                 {
                     title: "Email",
+                    field: "user.email",
                     sortable: true,
-                    formatter: (value, row) => {
-                        return row.user.email;
-                    }
+                    //formatter: (value, row) => {
+                    //    return row.user.email;
+                    //}
                 },
                 {
                     title: 'Book Title',
-                    formatter: (value, row) => {
-                        return row.book.name;
-                    }
+                    field: "book.name",
+                    sortable: true,
+                    //formatter: (value, row) => {
+                    //    return row.book.name;
+                    //}
                 },
                 {
                     title: 'Author',
-                    formatter: (value, row) => {
-                        return row.book.author;
-                    }
+                    field: "book.author",
+                    sortable: true,
+                    //formatter: (value, row) => {
+                    //    return row.book.author;
+                    //}
                 },
                 {
                     title: 'Borrowed Date',
                     field: "startDate",
+                    sortable: true,
                     formatter: (value) => {
                         return moment(value).format("MM-DD-YYYY");
                     }
@@ -102,13 +109,14 @@
                 {
                     title: "Returned Date",
                     field: 'endDate',
+                    sortable: true,
                     formatter: (value) => {
                         return moment(value).format("MM-DD-YYYY");
                     }
                 }
             ],
             striped: true,
-            sortable: true,
+            //sortable: true, // It's true by default, so no need to specify the true value here
             sortName: 'endDate',
             sortOrder: 'desc',
             pagination: true,

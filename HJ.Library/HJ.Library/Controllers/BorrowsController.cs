@@ -136,12 +136,51 @@ namespace HJ.Library.Controllers
                 }
             }
 
+            switch ((string)parameters.sort)
+            {
+                case "user.fullName":
+                    if ((string)parameters.order == "desc")
+                        results = results.OrderByDescending(b => (b.User.FirstName + b.User.LastName));
+                    else
+                        results = results.OrderBy(b => (b.User.FirstName + b.User.LastName));
+                    break;
+                case "user.email":
+                    if ((string)parameters.order == "desc")
+                        results = results.OrderByDescending(b => b.User.Email);
+                    else
+                        results = results.OrderBy(b => b.User.Email);
+                    break;
+                case "book.name":
+                    if ((string)parameters.order == "desc")
+                        results = results.OrderByDescending(b => b.Book.Name);
+                    else
+                        results = results.OrderBy(b => b.Book.Name);
+                    break;
+                case "book.author":
+                    if ((string)parameters.order == "desc")
+                        results = results.OrderByDescending(b => b.Book.Author);
+                    else
+                        results = results.OrderBy(b => b.Book.Author);
+                    break;
+                case "startDate":
+                    if ((string)parameters.order == "desc")
+                        results = results.OrderByDescending(b => b.StartDate);
+                    else
+                        results = results.OrderBy(b => b.StartDate);
+                    break;
+                case "endDate":
+                    if ((string)parameters.order == "desc")
+                        results = results.OrderByDescending(b => b.EndDate);
+                    else
+                        results = results.OrderBy(b => b.EndDate);
+                    break;
+            }
+
             // Bootstrap table need to return queried rows and also the total count for paging purpose
             return new
             {
                 total = results.Count(),
                 rows = (from b in results select b)
-                .OrderBy(b => b.EndDate)
                 .Skip<Borrow>((int)(parameters.offset))
                 .Take((int)(parameters.limit)).ToArray()
             };
@@ -187,11 +226,44 @@ namespace HJ.Library.Controllers
                     }
                 }
 
+                switch ((string)parameters.sort)
+                {
+                    case "book.name":
+                        if ((string)parameters.order == "desc")
+                            results = results.OrderByDescending(b => b.Book.Name);
+                        else
+                            results = results.OrderBy(b => b.Book.Name);
+                        break;
+                    case "book.author":
+                        if ((string)parameters.order == "desc")
+                            results = results.OrderByDescending(b => b.Book.Author);
+                        else
+                            results = results.OrderBy(b => b.Book.Author);
+                        break;
+                    case "book.publisher":
+                        if ((string)parameters.order == "desc")
+                            results = results.OrderByDescending(b => b.Book.Publisher);
+                        else
+                            results = results.OrderBy(b => b.Book.Publisher);
+                        break;
+                    case "startDate":
+                        if ((string)parameters.order == "desc")
+                            results = results.OrderByDescending(b => b.StartDate);
+                        else
+                            results = results.OrderBy(b => b.StartDate);
+                        break;
+                    case "endDate":
+                        if ((string)parameters.order == "desc")
+                            results = results.OrderByDescending(b => b.EndDate);
+                        else
+                            results = results.OrderBy(b => b.EndDate);
+                        break;
+                }
+
                 return new
                 {
                     total = results.Count(),
-                    rows = (from b in results select b)
-                            .OrderBy(b => b.EndDate)
+                    rows = (from b in results select b)                            
                             .Skip<Borrow>((int)(parameters.offset))
                             .Take((int)(parameters.limit)).ToArray()
                             };

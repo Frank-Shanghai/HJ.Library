@@ -39,7 +39,6 @@
                 }
             ],
             striped: true,
-            sortable: true,
             pagination: true,
             pageNumber: 1,
             pageSize: 10,
