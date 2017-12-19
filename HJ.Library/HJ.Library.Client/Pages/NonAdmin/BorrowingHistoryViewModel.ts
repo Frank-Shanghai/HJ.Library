@@ -33,9 +33,10 @@
             columns: [
                 {
                     title: 'Book Title',
-                    formatter: (value, row) => {
-                        return row.book.name;
-                    },
+                    field: 'book.name',
+                    //formatter: (value, row) => {
+                    //    return row.book.name;
+                    //},
                     sortable: true
                 },
                 {
@@ -48,9 +49,10 @@
                 },
                 {
                     title: 'Publisher',
-                    formatter: (value, row) => {
-                        return row.book.publisher;
-                    },
+                    field: 'book.publisher',
+                    //formatter: (value, row) => {
+                    //    return row.book.publisher;
+                    //},
                     sortable: true
                 },
                 {
@@ -71,7 +73,7 @@
                 }
             ],
             striped: true,
-            sortable: true,
+            //sortable: true, // It's true by default, so no need to specify the true value here
             sortName: 'endDate',
             sortOrder: 'desc',
             pagination: true,

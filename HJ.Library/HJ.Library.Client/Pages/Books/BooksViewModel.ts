@@ -9,19 +9,23 @@ module hj.library.pages {
                 },
                 {
                     title: 'Title',
-                    field: 'name'
+                    field: 'name',
+                    sortable: true
                 },
                 {
                     title: 'Author',
-                    field: 'author'
+                    field: 'author',
+                    sortable: true
                 },
                 {
                     title: 'Publisher',
-                    field: "publisher"
+                    field: "publisher",
+                    sortable: true
                 },
                 {
                     title: "Publication Date",
                     field: 'publicationDate',
+                    sortable: true,
                     formatter: (value) => {
                         return moment(value).format("MM-DD-YYYY");
                     }

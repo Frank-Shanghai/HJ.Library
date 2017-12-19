@@ -54,30 +54,36 @@ module hj.library.pages {
                 },
                 {
                     title: 'Title',
-                    field: 'name'
+                    field: 'name',
+                    sortable: true
                 },
                 {
                     title: 'Author',
-                    field: 'author'
+                    field: 'author',
+                    sortable: true
                 },
                 {
                     title: 'Publisher',
-                    field: "publisher"
+                    field: "publisher",
+                    sortable: true
                 },
                 {
                     title: "Publication Date",
                     field: 'publicationDate',
                     formatter: (value) => {
                         return moment(value).format("MM-DD-YYYY");
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     title: "Copies",
-                    field: "copies"
+                    field: "copies",
+                    sortable: true
                 },
                 {
                     title: "Available Copies",
-                    field: "availableCopies"
+                    field: "availableCopies",
+                    sortable: true
                 }
             ],
             striped: true,

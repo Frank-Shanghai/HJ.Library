@@ -11,22 +11,26 @@ module hj.library.pages {
                     title: "Name",
                     formatter: (value, row) => {
                         return row.firstName + ' ' + row.lastName;
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     title: "Logon Name",
-                    field: "userName"
+                    field: "userName",
+                    sortable: true
                 },
                 {
                     title: "Email",
-                    field: "email"
+                    field: "email",
+                    sortable: true
                 },
                 {
                     title: "Roles",
                     field: "roles",
                     formatter: (value) => {
                         return value.toString();
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     title: "Id",

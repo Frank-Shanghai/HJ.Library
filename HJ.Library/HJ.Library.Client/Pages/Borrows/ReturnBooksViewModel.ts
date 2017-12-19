@@ -21,20 +21,23 @@
                     title: 'Book Title',
                     formatter: (value, row) => {
                         return row.book.name;
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     title: 'Author',
                     formatter: (value, row) => {
                         return row.book.author;
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     title: 'Borrowed Date',
                     field: "startDate",
                     formatter: (value) => {
                         return moment(value).format("MM-DD-YYYY");
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     title: "Latest Return Date",
