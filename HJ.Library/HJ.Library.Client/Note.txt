@@ -49,3 +49,6 @@ public userFullName = ko.computed(() => {
 	同样，在Mercurial下面，把路径也修改一下，同上修改方式。
 	最后，还要把Authentication tab页的Saved Passwords文本框中的项目双击，重新输入一下密码。
 	问题解决。不再有新添加的dll文件，也能正常commit代码了。
+
+7. 修改了_logon.scss中的样式，build之后并不起作用（已经run 过View.tt了）。查看app.css，里面并没有新添加的样式，说明scss没有重新编绎。在app.scss中加空格，换行尝试重新build都不成。最后re-build project，
+   这样新的css style才被编绎，app.css中才出现。

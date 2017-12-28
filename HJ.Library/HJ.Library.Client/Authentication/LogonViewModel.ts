@@ -2,42 +2,55 @@
     export class LogonViewModel {
         public name: KnockoutObservable<string> = ko.observable<string>("SuperFrank");
         public password: KnockoutObservable<string> = ko.observable<string>("Abc_1234");
+        private nameValidationError = ko.observable('');
         private token: string = "";
         private tokenType: string = "";
 
         constructor()
         { }
 
-        public logon = () => {
-            Application.instance.isProcessing(true);
-            $.ajax({
-                type: 'post',
-                contentType: "application/x-www-form-urlencoded",
-                url: '/oauth/token',
-                data: {
-                    grant_type: 'password',
-                    username: this.name(),
-                    password: this.password()
-                }
-            })
-                .done(this.handleLogonResponse)
-                .fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                    var error: IError = new Error("Failed to log on.");
-                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
-
-                    ErrorHandler.report(error);
+        public logon = () => {            
+            if (!this.name()) {
+                this.nameValidationError("Cannot be empty.");
+            }
+            else {
+                this.clearValidationErrors();
+                Application.instance.isProcessing(true);
+                $.ajax({
+                    type: 'post',
+                    contentType: "application/x-www-form-urlencoded",
+                    url: '/oauth/token',
+                    data: {
+                        grant_type: 'password',
+                        username: this.name(),
+                        password: this.password()
+                    }
                 })
-                .always(() => {
-                    Application.instance.isProcessing(false);
-                });
+                    .done(this.handleLogonResponse)
+                    .fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                        var error: IError = new Error("Failed to log on.");
+                        error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                        ErrorHandler.report(error);
+                    })
+                    .always(() => {
+                        Application.instance.isProcessing(false);
+                    });
+            }
         }
 
         private reset = () => {
+            this.clearValidationErrors();
             this.name('');
             this.password('');
         }
 
+        private clearValidationErrors = () => {
+            this.nameValidationError('');
+        }
+
         private handleLogonResponse = (data: any) => {
+            this.nameValidationError('');
             this.token = data.access_token;
             this.tokenType = data.token_type;
             library.Application.instance.isAuthenticated(true);
