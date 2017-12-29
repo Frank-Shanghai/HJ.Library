@@ -11,6 +11,7 @@
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="password" data-bind="value: password" />
             </div>
+            <span class="error-text" data-bind="text: serverValidationError, visible: (serverValidationError()!= '')"></span>
             <div class="footer">
                 <button class="btn btn-default" data-bind="click: reset">Reset</button>
                 <button class="btn btn-default" data-bind="click: logon">Sign In</button>

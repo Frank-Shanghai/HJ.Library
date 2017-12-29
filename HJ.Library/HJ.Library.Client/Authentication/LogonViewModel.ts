@@ -1,8 +1,9 @@
 ﻿module hj.library.authentication {
     export class LogonViewModel {
-        public name: KnockoutObservable<string> = ko.observable<string>("SuperFrank");
-        public password: KnockoutObservable<string> = ko.observable<string>("Abc_1234");
+        private name: KnockoutObservable<string> = ko.observable<string>("SuperFrank");
+        private password: KnockoutObservable<string> = ko.observable<string>("Abc_1234");
         private nameValidationError = ko.observable('');
+        private serverValidationError = ko.observable('');
         private token: string = "";
         private tokenType: string = "";
 
@@ -28,10 +29,11 @@
                 })
                     .done(this.handleLogonResponse)
                     .fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                        var error: IError = new Error("Failed to log on.");
-                        error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+                        //var error: IError = new Error("Failed to log on. Incorrect user or password.");
+                        //error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                        ErrorHandler.report(error);
+                        //ErrorHandler.report(error);
+                        this.serverValidationError("* Failed to log on. Incorrect user or password.");
                     })
                     .always(() => {
                         Application.instance.isProcessing(false);
@@ -47,6 +49,7 @@
 
         private clearValidationErrors = () => {
             this.nameValidationError('');
+            this.serverValidationError('');
         }
 
         private handleLogonResponse = (data: any) => {
