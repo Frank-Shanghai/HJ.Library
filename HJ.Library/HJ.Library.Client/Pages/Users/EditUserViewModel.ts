@@ -19,6 +19,9 @@ module hj.library.pages {
 
         public isEditingMode = ko.observable(false);
 
+        private emailValidationError = ko.observable(null);
+        private userNameValidationError = ko.observable(null);
+
         constructor(user?: any) {
             super();
             this.title('Create User');
@@ -54,59 +57,91 @@ module hj.library.pages {
             }
         }
 
-        private createUser = () => {
-            this.isProcessing(true);
-            $.ajax({
-                type: 'post',
-                contentType: 'application/json',
-                url: '/api/accounts/create',
-                dataType: 'json',
-                data: JSON.stringify({
-                    FirstName: this.firstName(),
-                    LastName: this.lastName(),
-                    UserName: this.userName(),
-                    Email: this.email(),
-                    RoleName: this.selectedRoles().toString(),
-                    Password: this.password()
-                })
-            }).done(() => {
-                this.space.removePage(this);
-                this.space.addPage(new UsersViewModel(), null);
-                //Application.instance.activePage(new UsersViewModel());
-            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                var error: IError = new Error("Failed to create new user.");
-                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+        private validate(): boolean {
+            var result = true;
+            if (!this.email()) {
+                result = false;
+                this.emailValidationError("Email cannot be empty.");
+            }
+            else {
+                this.emailValidationError(null);
+            }
 
-                ErrorHandler.report(error, null, this);
-            }).always(() => {
-                this.isProcessing(false);
-            });
+            if (!this.userName()) {
+                result = false;
+                this.userNameValidationError("Logon Name cannot be empty.");
+            }
+            else {
+                this.userNameValidationError(null);
+            }
+
+            return result;
+        }
+
+        private clearValidationError() {
+            this.emailValidationError(null);
+            this.userNameValidationError(null);
+        }
+
+        private createUser = () => {
+            if (this.validate()) {
+                this.clearValidationError();
+                this.isProcessing(true);
+                $.ajax({
+                    type: 'post',
+                    contentType: 'application/json',
+                    url: '/api/accounts/create',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        FirstName: this.firstName(),
+                        LastName: this.lastName(),
+                        UserName: this.userName(),
+                        Email: this.email(),
+                        RoleName: this.selectedRoles().toString(),
+                        Password: this.password()
+                    })
+                }).done(() => {
+                    this.space.removePage(this);
+                    this.space.addPage(new UsersViewModel(), null);
+                    //Application.instance.activePage(new UsersViewModel());
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to create new user.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+
+                    ErrorHandler.report(error, null, this);
+                }).always(() => {
+                    this.isProcessing(false);
+                });
+            }
         }
 
         private updateUser = () => {
-            this.isProcessing(true);
-            $.ajax({
-                type: 'put',
-                contentType: 'application/json',
-                url: '/api/accounts/user',
-                data: JSON.stringify({
-                    Id: this.userId,
-                    FirstName: this.firstName(),
-                    LastName: this.lastName(),
-                    RoleName: this.selectedRoles().toString()
-                })
-            }).done(() => {
-                this.space.removePage(this);
-                this.space.addPage(new UsersViewModel(), null);
-                //Application.instance.activePage(new UsersViewModel());
-            }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
-                var error: IError = new Error("Failed to update user.");
-                error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
+            if (this.validate()) {
+                this.clearValidationError();
+                this.isProcessing(true);
+                $.ajax({
+                    type: 'put',
+                    contentType: 'application/json',
+                    url: '/api/accounts/user',
+                    data: JSON.stringify({
+                        Id: this.userId,
+                        FirstName: this.firstName(),
+                        LastName: this.lastName(),
+                        RoleName: this.selectedRoles().toString()
+                    })
+                }).done(() => {
+                    this.space.removePage(this);
+                    this.space.addPage(new UsersViewModel(), null);
+                    //Application.instance.activePage(new UsersViewModel());
+                }).fail((jqXhr: JQueryXHR, textStatus: any, err: any) => {
+                    var error: IError = new Error("Failed to update user.");
+                    error.raw = JQueryXHRErrorFormatter.toString(jqXhr, error.message);
 
-                ErrorHandler.report(error, null, this);
-            }).always(() => {
-                this.isProcessing(false);
-            });
+                    ErrorHandler.report(error, null, this);
+                }).always(() => {
+                    this.isProcessing(false);
+                });
+            }
         }
 
         private cancel = () => {

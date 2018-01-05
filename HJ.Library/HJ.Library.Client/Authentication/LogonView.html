@@ -4,9 +4,11 @@
             <div class="header">
                 <span>Login</span>
             </div>
-            <div class="form-group" data-bind="css: {'validation-error': (nameValidationError() != '')}">
+            <div class="form-group" data-bind="css: {'validation-error-container': (nameValidationError() != '')}">
                 <input type="text" class="form-control" placeholder="account" data-bind="value: name" />
-                <span class="error-text" data-bind="text: nameValidationError, visible: (nameValidationError() != '')"></span>
+                <!-- ko if: nameValidationError() -->
+                <span class="error-text" data-bind="text: nameValidationError"></span>
+                <!-- /ko -->
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="password" data-bind="value: password" />

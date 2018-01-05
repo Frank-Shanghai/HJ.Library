@@ -21,7 +21,7 @@ public userFullName = ko.computed(() => {
             }
         });
 中的代码错误提示，this.sessionUser不是一个function.
-先Ctrl + F5强制刷新浏览器试试看。
+先Ctrl + F5强制刷新浏览器试试看。因为直接刷新浏览器，而不是Logout，所以session没有清理掉，这时尝试ctrl + F5清理缓存，应该可以，不行的话可以手动清理一下浏览器缓存。
 先comment out 这段代码，并把View中的html代码comment掉，然后编绎，没问题之后，再un-comment两外代码，重新编绎应该可以解决问题。目前不知道原因，可能是顺序问题。
 
 4. 关于将Navigation Menu设计成HJ1那样强大的样子。多级（层层展开时只显示父，父父...结点，其他全部收缩），展开，状态，搜索等等很多复杂功能，可以参考研究HJ1的相关代码。以后有时间可自行参考设计
