@@ -52,3 +52,7 @@ public userFullName = ko.computed(() => {
 
 7. 修改了_logon.scss中的样式，build之后并不起作用（已经run 过View.tt了）。查看app.css，里面并没有新添加的样式，说明scss没有重新编绎。在app.scss中加空格，换行尝试重新build都不成。最后re-build project，
    这样新的css style才被编绎，app.css中才出现。
+
+8. Visual Studio突然之间有了git来跟踪代码了，然而一团乱。怎么样去除VS中自己的git呢。
+   Tools -> Options -> Source Control Current Source Control plug in: None
+   https://stackoverflow.com/questions/32304977/remove-git-mapping-in-visual-studio-2015#
