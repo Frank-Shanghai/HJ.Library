@@ -56,3 +56,7 @@ public userFullName = ko.computed(() => {
 8. Visual Studio突然之间有了git来跟踪代码了，然而一团乱。怎么样去除VS中自己的git呢。
    Tools -> Options -> Source Control Current Source Control plug in: None
    https://stackoverflow.com/questions/32304977/remove-git-mapping-in-visual-studio-2015#
+
+9. JS Email regular expression
+   https://stackoverflow.com/questions/46155/how-can-you-validate-an-email-address-in-javascript
+   http://jsfiddle.net/ghvj4gy9/embedded/result,js/

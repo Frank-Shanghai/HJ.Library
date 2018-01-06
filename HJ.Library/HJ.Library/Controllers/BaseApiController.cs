@@ -61,7 +61,7 @@ namespace HJ.Library.Controllers
                 {
                     foreach (string error in result.Errors)
                     {
-                        ModelState.AddModelError("", error);
+                        ModelState.AddModelError("unexpected", error);
                     }
                 }
 

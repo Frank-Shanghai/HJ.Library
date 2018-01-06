@@ -1,18 +1,18 @@
 ﻿<hj-flex-container>
     <hj-flex-grow>
         <hj-flex-scroll>
-            <div class="form-group" data-bind="css:{'validation-error-container': !!emailValidationError()}">
+            <div class="form-group" data-bind="css:{'validation-error-container': (emailValidationErrors().length > 0)}">
                 <label>Email</label>
                 <input type="email" class="form-control" placeholder="email address" data-bind="value: email, enable: !isEditingMode()" />
-                <!-- ko if: emailValidationError() -->
-                <span class="error-text" data-bind="text: emailValidationError"></span>
+                <!-- ko foreach: emailValidationErrors -->
+                <span class="error-text" style="display: block" data-bind="text: $data"></span>
                 <!-- /ko -->
             </div>
-            <div class="form-group" data-bind="css:{'validation-error-container': !!userNameValidationError()}">
+            <div class="form-group" data-bind="css:{'validation-error-container': (userNameValidationErrors().length > 0)}">
                 <label>Login Name</label>
                 <input type="text" class="form-control" placeholder="Login Name" data-bind="value: userName, enable: !isEditingMode()" />
-                <!-- ko if: userNameValidationError() -->
-                <span class="error-text" data-bind="text: userNameValidationError"></span>
+                <!-- ko foreach: userNameValidationErrors -->
+                <span class="error-text" style="display: block" data-bind="text: $data"></span>
                 <!-- /ko -->
             </div>
             <div class="form-group">
@@ -38,6 +38,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- ko if: roleValidationError -->
+                <span class="error-text" style="display: block" data-bind="text: roleValidationError"></span>
+                <!-- /ko -->
             </div>
             <!-- TODO: Add the option to use default password -->
             <div class="form-group" data-bind="visible: !isEditingMode()">
@@ -47,6 +50,14 @@
             <div class="form-group" data-bind="visible: !isEditingMode()">
                 <label>Confirm Password</label>
                 <input type="password" class="form-control" placeholder="Confirm Password" data-bind="value: confirmPassword" />
+                <!-- ko if: passwordEquivalenceValidationError -->
+                <span class="error-text" style="display: block" data-bind="text: passwordEquivalenceValidationError"></span>
+                <!-- /ko -->
+            </div>
+            <div class="form-group">
+                <!-- ko foreach: unexpectedErrors -->
+                <span class="error-text" style="display: block" data-bind="text: $data"></span>
+                <!-- /ko -->
             </div>
         </hj-flex-scroll>
     </hj-flex-grow>
