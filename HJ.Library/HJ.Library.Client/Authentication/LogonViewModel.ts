@@ -10,6 +10,12 @@
         constructor()
         { }
 
+        private onKeyUp = (data, event) => {
+            if (event.keyCode == 13) {
+                this.logon();
+            }
+        }
+
         public logon = () => {            
             if (!this.name()) {
                 this.nameValidationError("Cannot be empty.");
