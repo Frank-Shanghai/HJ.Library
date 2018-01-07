@@ -66,7 +66,7 @@ module hj.library.pages {
         private validate(): boolean {
             this.clearValidationError();
             var result = true;
-            if (!this.email()) {
+            if (!this.email().trim()) {
                 result = false;
                 this.emailValidationErrors.push("Email cannot be empty.");
             }
@@ -77,7 +77,7 @@ module hj.library.pages {
                 }
             }
 
-            if (!this.userName()) {
+            if (!this.userName().trim()) {
                 result = false;
                 this.userNameValidationErrors.push("Logon Name cannot be empty.");
             }
