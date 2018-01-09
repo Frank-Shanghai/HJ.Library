@@ -60,3 +60,9 @@ public userFullName = ko.computed(() => {
 9. JS Email regular expression
    https://stackoverflow.com/questions/46155/how-can-you-validate-an-email-address-in-javascript
    http://jsfiddle.net/ghvj4gy9/embedded/result,js/
+
+10. 图片的路径问题。使用相对路径不起作用。这是因为deployment的情况导致的。
+	以home page中的背景图为例，使用相对路径../Resource/home.jpg. 不能正常工作，查找图片的request path为http://localhohst:8010/Resource/home.jpg, 报404找不到。
+	其实真正的deployment的状态下其路径应该为http://localhost:8010/client/Resource/home.jpg.
+	上面相对路径中的../正是让其寻找路径在runtime时，由  ...:8010/client/Resource/home.jpg 变成了  ...:8010/Resource/home.jpg.
+	所以，fix的方法就是将上面的相对路径修改成 src="Resource/home.jpg"

@@ -6,6 +6,7 @@
     <!-- ko with: spaceList.activeSpace() -->
     <hj-flex-container>
         <hj-flex-shrink>
+            <!-- ko ifnot: isSinglePageSpace -->
             <div class="page-title">
                 <div class="navigation-button">
                     <a href="#" data-hj-test-id="active-thread-previous-button" data-bind="css: { 'disabled': !isPreviousButtonEnabled() }, click: goToPreviousPage">
@@ -32,6 +33,7 @@
                     </ul>
                 </div>
             </div>
+            <!-- /ko -->
         </hj-flex-shrink>
         <hj-flex-grow>
             <hj-flex-scroll>

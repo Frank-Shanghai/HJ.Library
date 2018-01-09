@@ -148,6 +148,7 @@
     <Content Include="Resource\books.jpg" />
     <Content Include="Resource\books2.jpg" />
     <Content Include="Resource\books1.jpg" />
+    <Content Include="Resource\home.jpg" />
     <Content Include="Scripts\App\Startup.js" />
     <Content Include="Scripts\bootstrap-table\bootstrap-table.css" />
     <Content Include="Scripts\bootstrap-table\bootstrap-table.js" />

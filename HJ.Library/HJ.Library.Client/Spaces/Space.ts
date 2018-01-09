@@ -7,7 +7,7 @@
         private _onBeforeAddPage: BeforeAddPageHandler;
 
         public id: string;
-        public isSinglePageSpace: boolean;
+        public isSinglePageSpace: KnockoutObservable<boolean>;
         public title: KnockoutObservable<string>;
         public pages: KnockoutObservableArray<pages.PageBase> = ko.observableArray([]);
         public activePage: KnockoutObservable<pages.PageBase> = ko.observable(null);
@@ -22,7 +22,7 @@
         constructor(title: string, isSinglePageSpace: boolean = false, canClose: boolean = true) {
             this.id = Utils.guid();
             this.title = ko.observable(title);
-            this.isSinglePageSpace = isSinglePageSpace;
+            this.isSinglePageSpace = ko.observable(isSinglePageSpace);
             this.canClose = canClose;
         }
 
