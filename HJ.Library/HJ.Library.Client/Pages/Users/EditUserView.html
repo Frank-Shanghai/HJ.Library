@@ -43,6 +43,13 @@
                 <!-- /ko -->
             </div>
             <!-- TODO: Add the option to use default password -->
+            <div class="checkbox" data-bind="visible: !isEditingMode()">
+                <label>
+                    <input type="checkbox" data-bind="checked: useDefaultPassword" />
+                    Use default password We@rW01v3s.
+                </label>
+            </div>
+            <!-- ko ifnot: useDefaultPassword -->
             <div class="form-group" data-bind="visible: !isEditingMode()">
                 <label>Password</label>
                 <input type="password" class="form-control" placeholder="Password" data-bind="value: password" />
@@ -54,6 +61,7 @@
                 <span class="error-text" style="display: block" data-bind="text: passwordEquivalenceValidationError"></span>
                 <!-- /ko -->
             </div>
+            <!-- /ko -->
             <div class="form-group">
                 <!-- ko foreach: unexpectedErrors -->
                 <span class="error-text" style="display: block" data-bind="text: $data"></span>

@@ -23,6 +23,7 @@ module hj.library.pages {
         private userNameValidationErrors = ko.observableArray([]);
         private roleValidationError = ko.observable(null);
         private passwordEquivalenceValidationError = ko.observable(null);
+        private useDefaultPassword: KnockoutObservable<boolean> = ko.observable(true);
 
         // errors that not validated by DTO model field attributes, but raised when creating/updating an user
         // raised by the IdentityUser, so it's still part of Model State
@@ -31,6 +32,8 @@ module hj.library.pages {
         constructor(user?: any) {
             super();
             this.title('Create User');
+            this.useDefaultPassword.subscribe(this.toggleDefaultPassword);
+            this.useDefaultPassword.valueHasMutated(); // manually trigger the subscription to update the UI throught binding
             this.templateId = users.EditUserViewId;
             this.initialize(user);
         }
@@ -87,7 +90,7 @@ module hj.library.pages {
                 this.roleValidationError("Select at least one role.");
             }
 
-            if (this.password() !== this.confirmPassword()) {
+            if (this.useDefaultPassword() === false && this.password() !== this.confirmPassword()) {
                 this.passwordEquivalenceValidationError("The 2 inputted passwords are not identical.");
             }
 
@@ -108,6 +111,13 @@ module hj.library.pages {
             this.roleValidationError(null);
             this.passwordEquivalenceValidationError(null);
             this.unexpectedErrors([]);
+        }
+
+        private toggleDefaultPassword = (newValue: boolean) => {
+            if (newValue === true)
+                this.password("We@rW01v3s");
+            else
+                this.password('');
         }
 
         private createUser = () => {
