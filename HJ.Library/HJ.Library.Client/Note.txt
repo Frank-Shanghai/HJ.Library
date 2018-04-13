@@ -4,6 +4,37 @@ a. 如果迁移到其他PC上工作，在HJ.Library中的web.config中设置好d
 b. 当然，如果数据库版本一致的话，可以直接attach database file.
 c. 当然，也可以从本机上导出数据库脚本，然后中另外一台机器上运行，来创建数据库及添加数据。
 
+代码中的ajax请求的url的问题。
+http://www.3023.com/6318/092943996027138.html
+https://my.oschina.net/daladida/blog/854173
+其实使用的是绝对路径。
+1. 绝对路径 url开头为一个斜杠"/"，这个斜杠说明这个请求从根目录去访问,这个是绝对路径。 例子：
+
+$.ajax({
+    url:'/index/list',
+    type:'json',
+    success:function(){
+        console.log('OK');
+    }
+});
+2. 相对路径 相对路径就是相对于html页面路径的路径，记住，不是相对于请求的JS文件的路径。 例子：
+
+示例1：请求地址为
+
+url:'userinfo'
+
+最终请求的地址为：
+
+www.demo.com/user/profile/userinfo
+
+示例2：请求地址为
+
+url:'../account'
+
+则最终请求结果为：
+
+www.demo.com/user/account
+
 1. About Progress Bar
 If you want to display the progress bar only when the operation takes longer than 500ms(0.5 second). Use showProgressingIndicator and hideProgressingIndicator function, inside of the function,
 update the count. And use setTimeout to call showProgressingIndicator after 500ms, or add count after 500ms in the showProgressIndictor (seems better) function.

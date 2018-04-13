@@ -26,6 +26,7 @@
                 $.ajax({
                     type: 'post',
                     contentType: "application/x-www-form-urlencoded",
+                    // 下面的url是使用绝对路径。第一个'/'指明从网站部署的根目录开始加上这里url指定的数据。https://my.oschina.net/daladida/blog/854173 http://www.3023.com/6318/092943996027138.html
                     url: '/oauth/token',
                     data: {
                         grant_type: 'password',
