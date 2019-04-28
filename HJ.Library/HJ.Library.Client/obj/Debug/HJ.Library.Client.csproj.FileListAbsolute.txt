@@ -9,7 +9,6 @@ D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\HJ.Library.Client
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\HJ.Library.Client.pdb
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.dll
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.pdb
-D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\TypeLite.dll
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\TypeLite.Net4.dll
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\TypeLite.pdb
@@ -43,7 +42,6 @@ D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Thinktecture.Iden
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\System.IdentityModel.Tokens.Jwt.pdb
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\System.IdentityModel.Tokens.Jwt.xml
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\EntityFramework.xml
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.AspNet.Identity.Owin.xml
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.xml
@@ -53,3 +51,8 @@ D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Newtonsoft.Json.x
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.Security.Cookies.xml
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.Host.SystemWeb.dll
 D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\HJ.Library.dll.config
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.csprojAssemblyReference.cache
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.csproj.CoreCompileInputs.cache
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\obj\Debug\HJ.Library.Client.csproj.CopyComplete
+D:\Projects\GitHub\HJ.Library\HJ.Library\HJ.Library.Client\bin\EntityFramework.xml

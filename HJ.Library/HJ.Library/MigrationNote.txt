@@ -1,0 +1,44 @@
+﻿Also have the following notes on OneNote:
+
+从一台机器上迁移到另一台机器上。
+
+VS打开。
+Re-build whole solution.
+Open Package Manager Console window.
+Run Command "Enable-Migrations"
+可能会遇到下面error: 
+Exception calling "LoadFrom" with "1" argument(s): "Could not load file or assembly 'file:///E:\Working\wingtoysdl\C#\packages\EntityFramework.5.0.0\tools\EntityFramework.PowerShell.Utility.dll' or one of its dependencies. ….
+
+这是由于EF相关的东西无法正确加载导致的。
+
+没什么好的解决办法。
+卸载EF， 然后重新安装。
+在nuget packages manager中可能无法卸载，因为有其他library dependents on it.
+所以用命令行卸载：
+ 
+I've run into this issue twice now. Both times I've had to uninstall entity framework then re-install it for each project in the solution. One thing that took me a while to figure out the second time I did this is that I had to re-start Visual Studio (2012) after re-installing Entity Framework (or I continued to get the "Could not load file or assembly '[path]\packages\EntityFramework.5 .0.0\tools\EntityFramework.PowerShell.Utility.dll'" error).
+To get to the Package Manager Console go to: Tools -> Library Package Manager -> Package Manager Console
+In the Package Manager uninstall Entity Framework for each project (I selected each project from the Default Project dropdown at the top of the Package Manager Console):
+Uninstall-Package EntityFramework -Force
+Then install it for each project:
+Install-Package EntityFramework
+At this point attempting to run the Enable-Migrations command gave the error still, until I closed and restarted Visual Studio. Then it was successful, as was the Update-Database command (after setting AutomaticMigrationsEnabled to true in the Migrations.Configuration file).
+
+From <https://stackoverflow.com/questions/12318107/enabling-code-first-entity-framework-vs-web-express-2012/14994432#14994432> 
+
+卸载重装后，要重启一下VS。然后应该就可以了。
+
+Enable-Migrations 之后，然后你的HJ.Library project下的Migrations folder中的文件其实都是pending的状态。
+这时，事先确认一下web.config中的connection string， 因为这时候server name需要改变。
+然后，直接Update-Database, 会执行所有的migration，当然包括initialcreate, 及其中的seed.
+
+好，然后配置IIS website, virtual directory, 应该就可以了。
+所以，不用去ms management studio中去load mdf文件。直接用code first生成即可。也避免了不同版本MS sql load mdf文件兼容性的问题。
+
+最后commit的时候，有一些文件不能提交。参考下面链接：
+Git failed with a fatal error.error: open(".vs/XXXXXX.Dev.Library/v15/Server/sqlite3/db.lock"): Permission deniedfatal: Unable to process path .vs/XXXXXX.Dev.Library/v15/Server/sqlite3/db.lock
+
+From <https://stackoverflow.com/questions/47460039/vs-2017-git-local-commit-db-lock-error-on-every-commit/47472811> 
+
+
+https://stackoverflow.com/questions/47460039/vs-2017-git-local-commit-db-lock-error-on-every-commit/47472811
