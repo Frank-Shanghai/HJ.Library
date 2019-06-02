@@ -1,17 +1,17 @@
 ﻿using HJ.Library.Infrastructure;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataHandler.Encoder;
+using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http.Formatting;
-using System.Web;
 using System.Web.Http;
-using Microsoft.Owin.Security.DataHandler.Encoder;
-using Microsoft.Owin.Security.Jwt;
-using Microsoft.Owin.Security;
+using System.Web.Http.OData.Builder;
+using System.Web.Http.OData.Extensions;
 
 namespace HJ.Library
 {
@@ -74,6 +74,12 @@ namespace HJ.Library
         private void ConfigureWebApi(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Book>("BooksOData");
+            builder.EntitySet<Borrow>("BorrowsOData");
+            builder.EntitySet<ApplicationUser>("UsersOData");
+            config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+
             // Specify time zone, or the formatter will use the GMT time zone
             config.Formatters.JsonFormatter.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
 
