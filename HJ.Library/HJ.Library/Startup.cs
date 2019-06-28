@@ -74,6 +74,7 @@ namespace HJ.Library
         private void ConfigureWebApi(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
+
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Book>("BooksOData");
             builder.EntitySet<Borrow>("BorrowsOData");
@@ -84,7 +85,14 @@ namespace HJ.Library
             config.Formatters.JsonFormatter.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
-            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            // For web api, the returned data will be serialized with camel naming rule
+            // https://blog.csdn.net/xhsunnycsdn/article/details/81128699
+            // e.g. Name will be convert to name, refere to the api/books API.
+            // But it won't impact on the odata web api
+            // https://stackoverflow.com/questions/25232701/odata-and-camelcase
+            // It seems no way to configure the json output format.
+            // https://forums.asp.net/t/1923650.aspx?Unable+to+use+camelCase+for+OData+WebAPI+JSON+output
+            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();            
         }
     }
 }

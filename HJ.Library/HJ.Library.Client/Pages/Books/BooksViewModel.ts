@@ -9,22 +9,22 @@ module hj.library.pages {
                 },
                 {
                     title: 'Title',
-                    field: 'name',
+                    field: 'Name',
                     sortable: true
                 },
                 {
                     title: 'Author',
-                    field: 'author',
+                    field: 'Author',
                     sortable: true
                 },
                 {
                     title: 'Publisher',
-                    field: "publisher",
+                    field: "Publisher",
                     sortable: true
                 },
                 {
                     title: "Publication Date",
-                    field: 'publicationDate',
+                    field: 'PublicationDate',
                     sortable: true,
                     formatter: (value) => {
                         return moment(value).format("MM-DD-YYYY");
@@ -34,6 +34,27 @@ module hj.library.pages {
             striped: true,
             sortable: true,
             pagination: true,
+            sidePagination: 'server',
+            url: '/odata/BooksOData',
+            queryParams: function (params) {
+                // modify the code you need here
+                //params.$top = params.limit;
+                //params.$skip = params.offset;
+                //params.$inlinecount = 'allpages';
+
+                //return params;
+
+                params = {
+                    $inlinecount: 'allpages',
+                    $top: params.limit,
+                    $skip: params.offset
+                };
+
+                return params;
+            },
+            totalField: 'odata.count',
+            dataField: 'value',
+            method: 'get',
             pageNumber: 1,
             pageSize: 3,
             pageList: [3, 10, 20, 50, 100],
@@ -42,8 +63,19 @@ module hj.library.pages {
             detailFormatter: (index, row, element: JQuery) => {
                 element.html(books.BookDetailsTemplateView);
                 ko.applyBindings(row, element.get(0));
+            },
+            onLoadError: (status: any, res: any) => {
+                if (status === 0) return;
+                // One issue here: when refreshing table for more than 1 times, it will trigger this onLoadError event
+                // But by debugging, actually there are no errors, and the status code is 0. So use this workaround here
+
+                var error: IError = new Error("Failed to get books list.");
+                error.raw = res.responseText;
+
+                ErrorHandler.report(error, null, this);
             }
         };
+;
 
         public selectedBooks: KnockoutObservableArray<any> = ko.observableArray([]);
         public dataSource = ko.observableArray([]);

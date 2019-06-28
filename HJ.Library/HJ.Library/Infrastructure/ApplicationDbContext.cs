@@ -21,7 +21,5 @@ namespace HJ.Library.Infrastructure
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<HJ.Library.Infrastructure.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

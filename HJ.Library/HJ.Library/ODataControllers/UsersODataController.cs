@@ -35,179 +35,179 @@ namespace HJ.Library.ODataControllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: odata/UsersOData
-        [EnableQuery]
-        public IQueryable<ApplicationUser> GetUsersOData()
-        {
-            return db.ApplicationUsers;
-        }
+        //// GET: odata/UsersOData
+        //[EnableQuery]
+        //public IQueryable<ApplicationUser> GetUsersOData()
+        //{
+        //    return db.ApplicationUsers;
+        //}
 
-        // GET: odata/UsersOData(5)
-        [EnableQuery]
-        public SingleResult<ApplicationUser> GetApplicationUser([FromODataUri] string key)
-        {
-            return SingleResult.Create(db.ApplicationUsers.Where(applicationUser => applicationUser.Id == key));
-        }
+        //// GET: odata/UsersOData(5)
+        //[EnableQuery]
+        //public SingleResult<ApplicationUser> GetApplicationUser([FromODataUri] string key)
+        //{
+        //    return SingleResult.Create(db.ApplicationUsers.Where(applicationUser => applicationUser.Id == key));
+        //}
 
-        // PUT: odata/UsersOData(5)
-        public async Task<IHttpActionResult> Put([FromODataUri] string key, Delta<ApplicationUser> patch)
-        {
-            Validate(patch.GetEntity());
+        //// PUT: odata/UsersOData(5)
+        //public async Task<IHttpActionResult> Put([FromODataUri] string key, Delta<ApplicationUser> patch)
+        //{
+        //    Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            ApplicationUser applicationUser = await db.ApplicationUsers.FindAsync(key);
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
+        //    ApplicationUser applicationUser = await db.ApplicationUsers.FindAsync(key);
+        //    if (applicationUser == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            patch.Put(applicationUser);
+        //    patch.Put(applicationUser);
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ApplicationUserExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await db.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ApplicationUserExists(key))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return Updated(applicationUser);
-        }
+        //    return Updated(applicationUser);
+        //}
 
-        // POST: odata/UsersOData
-        public async Task<IHttpActionResult> Post(ApplicationUser applicationUser)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: odata/UsersOData
+        //public async Task<IHttpActionResult> Post(ApplicationUser applicationUser)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.ApplicationUsers.Add(applicationUser);
+        //    db.ApplicationUsers.Add(applicationUser);
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ApplicationUserExists(applicationUser.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await db.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (ApplicationUserExists(applicationUser.Id))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return Created(applicationUser);
-        }
+        //    return Created(applicationUser);
+        //}
 
-        // PATCH: odata/UsersOData(5)
-        [AcceptVerbs("PATCH", "MERGE")]
-        public async Task<IHttpActionResult> Patch([FromODataUri] string key, Delta<ApplicationUser> patch)
-        {
-            Validate(patch.GetEntity());
+        //// PATCH: odata/UsersOData(5)
+        //[AcceptVerbs("PATCH", "MERGE")]
+        //public async Task<IHttpActionResult> Patch([FromODataUri] string key, Delta<ApplicationUser> patch)
+        //{
+        //    Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            ApplicationUser applicationUser = await db.ApplicationUsers.FindAsync(key);
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
+        //    ApplicationUser applicationUser = await db.ApplicationUsers.FindAsync(key);
+        //    if (applicationUser == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            patch.Patch(applicationUser);
+        //    patch.Patch(applicationUser);
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ApplicationUserExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await db.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ApplicationUserExists(key))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return Updated(applicationUser);
-        }
+        //    return Updated(applicationUser);
+        //}
 
-        // DELETE: odata/UsersOData(5)
-        public async Task<IHttpActionResult> Delete([FromODataUri] string key)
-        {
-            ApplicationUser applicationUser = await db.ApplicationUsers.FindAsync(key);
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: odata/UsersOData(5)
+        //public async Task<IHttpActionResult> Delete([FromODataUri] string key)
+        //{
+        //    ApplicationUser applicationUser = await db.ApplicationUsers.FindAsync(key);
+        //    if (applicationUser == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.ApplicationUsers.Remove(applicationUser);
-            await db.SaveChangesAsync();
+        //    db.ApplicationUsers.Remove(applicationUser);
+        //    await db.SaveChangesAsync();
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
-        // GET: odata/UsersOData(5)/BorrowRecords
-        [EnableQuery]
-        public IQueryable<Borrow> GetBorrowRecords([FromODataUri] string key)
-        {
-            return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.BorrowRecords);
-        }
+        //// GET: odata/UsersOData(5)/BorrowRecords
+        //[EnableQuery]
+        //public IQueryable<Borrow> GetBorrowRecords([FromODataUri] string key)
+        //{
+        //    return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.BorrowRecords);
+        //}
 
-        // GET: odata/UsersOData(5)/Claims
-        [EnableQuery]
-        public IQueryable<IdentityUserClaim> GetClaims([FromODataUri] string key)
-        {
-            return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.Claims);
-        }
+        //// GET: odata/UsersOData(5)/Claims
+        //[EnableQuery]
+        //public IQueryable<IdentityUserClaim> GetClaims([FromODataUri] string key)
+        //{
+        //    return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.Claims);
+        //}
 
-        // GET: odata/UsersOData(5)/Logins
-        [EnableQuery]
-        public IQueryable<IdentityUserLogin> GetLogins([FromODataUri] string key)
-        {
-            return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.Logins);
-        }
+        //// GET: odata/UsersOData(5)/Logins
+        //[EnableQuery]
+        //public IQueryable<IdentityUserLogin> GetLogins([FromODataUri] string key)
+        //{
+        //    return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.Logins);
+        //}
 
-        // GET: odata/UsersOData(5)/Roles
-        [EnableQuery]
-        public IQueryable<IdentityUserRole> GetRoles([FromODataUri] string key)
-        {
-            return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.Roles);
-        }
+        //// GET: odata/UsersOData(5)/Roles
+        //[EnableQuery]
+        //public IQueryable<IdentityUserRole> GetRoles([FromODataUri] string key)
+        //{
+        //    return db.ApplicationUsers.Where(m => m.Id == key).SelectMany(m => m.Roles);
+        //}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-        private bool ApplicationUserExists(string key)
-        {
-            return db.ApplicationUsers.Count(e => e.Id == key) > 0;
-        }
+        //private bool ApplicationUserExists(string key)
+        //{
+        //    return db.ApplicationUsers.Count(e => e.Id == key) > 0;
+        //}
     }
 }
