@@ -130,6 +130,8 @@
     <Content Include="Pages\Books\BookDetailsTemplateView.html" />
     <Content Include="Pages\Books\BooksView.html" />
     <Content Include="Pages\Books\EditBookView.html" />
+    <Content Include="Pages\GCC\DataCenterView.html" />
+    <Content Include="Pages\GCC\DataCenterConfigurationView.html" />
     <Content Include="Pages\HomePageView.html" />
     <Content Include="Pages\Dialogs\ChangePasswordDialogView.html" />
     <Content Include="Components\Modal\InformationDialogComponentView.html" />
@@ -249,6 +251,8 @@
     <TypeScriptCompile Include="Pages\Borrows\BorrowingRecordsViewModel.ts" />
     <TypeScriptCompile Include="Pages\Borrows\BorrowReturnContentTemplateViewModel.ts" />
     <TypeScriptCompile Include="Pages\Borrows\ReturnBooksViewModel.ts" />
+    <TypeScriptCompile Include="Pages\GCC\DataCenterViewModel.ts" />
+    <TypeScriptCompile Include="Pages\GCC\DataCenterConfigurationViewModel.ts" />
     <TypeScriptCompile Include="Pages\HomePageViewModel.ts" />
     <TypeScriptCompile Include="Pages\Dialogs\ChangePasswordDialogViewModel.ts" />
     <TypeScriptCompile Include="Pages\NonAdmin\AllBooksViewModel.ts" />

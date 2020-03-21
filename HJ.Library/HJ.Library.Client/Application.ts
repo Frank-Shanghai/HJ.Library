@@ -99,6 +99,19 @@ module hj.library {
                         targetPageName: "UsersViewModel" // Should be the class name
                     },
                     {
+                        text: "GCC",
+                        nodes: [
+                            {
+                                text: "Configuration",
+                                targetPageName: "DataCenterConfigurationViewModel"
+                            },
+                            {
+                                text: "Data Center",
+                                targetPageName: "DataCenterViewModel"
+                            }
+                        ]
+                    },
+                    {
                         text: "Books",
                         // No need the full namespace path since it has been handled when generating menu items in Menu.ts
                         targetPageName: "BooksViewModel"
