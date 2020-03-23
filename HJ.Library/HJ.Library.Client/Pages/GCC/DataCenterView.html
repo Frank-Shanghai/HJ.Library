@@ -1,1 +1,35 @@
 ﻿<h3>Data Center Content</h3>
+<div id="C1"></div>
+<!--<object type='application/x-vlc-plugin' id='vlc1' events='false' style="width: 500px; height: 500px" data-bind="isLoaded: {isLoaded: isMainVideoContainerLoaded, domElement: mainVideoContainer}">
+    <param name='mrl' value='rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov' />
+    <param name='volume' value='50' />
+    <param name='autoplay' value='true' />
+    <param name='loop' value='false' />
+    <param name='fullscreen' value='false' />
+    <param name='controls' value='false' />
+</object>-->
+<button id="toggleVideo" class="btn btn-default" data-bind="click: toggleVideo">
+    Toggle Video
+</button>
+<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" data-bind="isLoaded: {isLoaded: isMainVideoContainerLoaded, domElement: mainVideoContainer}"
+       width="640"
+       height="480"
+       id="vlc" />
+
+
+<!--<object type='application/x-vlc-plugin' pluginspage="http://www.videolan.org/" id='vlc' events='false' width="720" height="410">
+    <param name='mrl' value='rtmp://58.200.131.2:1935/livetv/dftv' />
+    <param name='volume' value='50' />
+    <param name='autoplay' value='true' />
+    <param name='loop' value='false' />
+    <param name='fullscreen' value='false' />
+    <param name='controls' value='false' />
+</object>-->
+<!--<object type='application/x-vlc-plugin' id='vlc2' events='True' style="width: 500px; height: 500px" pluginspage="http://www.videolan.org" codebase="http://downloads.videolan.org/pub/videolan/vlc-webplugins/2.0.6/npapi-vlc-2.0.6.tar.xz">
+    <param name='mrl' value='http://localhost/ElasticSearch.mp4' />
+    <param name='volume' value='50' />
+    <param name='autoplay' value='true' />
+    <param name='loop' value='false' />
+    <param name='fullscreen' value='false' />
+</object>-->
+

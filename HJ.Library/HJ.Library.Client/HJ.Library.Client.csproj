@@ -124,7 +124,6 @@
     <Content Include="Components\Modal\_modal.scss" />
     <Content Include="Components\SearchableDropDownList\_searchableDropDownList.scss" />
     <Content Include="Pages\Borrows\_borrow.scss" />
-    <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
     <Content Include="Authentication\LogonView.html" />
     <Content Include="default.html" />
     <Content Include="Pages\Books\BookDetailsTemplateView.html" />
@@ -156,10 +155,12 @@
     <Content Include="Scripts\bootstrap-table\bootstrap-table.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-3.1.0.js" />
-    <Content Include="Scripts\jquery-3.1.0.min.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
+    <Content Include="Scripts\g2.min.js" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\knockout-kendo.js" />
@@ -171,6 +172,8 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
     <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\select2\select2.css" />
@@ -188,8 +191,6 @@
       <LastGenOutput>View.ts</LastGenOutput>
     </Content>
     <Content Include="Web.config" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.0.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -199,6 +200,8 @@
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Style\app.scss" />
     <Content Include="Style\_base.scss" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -228,6 +231,7 @@
     <TypeScriptCompile Include="CustomBindings\FlexContainer\FlexShrinkBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\Grid\GridBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\IndentBinding.ts" />
+    <TypeScriptCompile Include="CustomBindings\IsLoadedBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\KnockoutBindingContextExtensions.ts" />
     <TypeScriptCompile Include="CustomBindings\MenuItemStateBinding.ts" />
     <TypeScriptCompile Include="CustomBindings\Navigation\CollapseNavPanelBinding.ts" />
