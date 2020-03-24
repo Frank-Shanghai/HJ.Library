@@ -2,7 +2,7 @@
 //import G2 from '../../Scripts/g2.min.js';
 
 module hj.library.pages {    
-    declare var G2;
+    declare var Chart;
     export class DataCenterViewModel extends PageBase {
         private isC1Loaded = ko.observable(false);
         private isMainVideoContainerLoaded = ko.observable(false);
@@ -39,29 +39,43 @@ module hj.library.pages {
             //this.mainVideoContainer().playlist.playItem(0);
 
             setTimeout(() => {
-                const data = [
-                    { genre: 'Sports', sold: 275 },
-                    { genre: 'Strategy', sold: 115 },
-                    { genre: 'Action', sold: 120 },
-                    { genre: 'Shooter', sold: 350 },
-                    { genre: 'Other', sold: 150 },
-                ];
-
-                // Step 1: 创建 Chart 对象
-                const chart = new G2.Chart({
-                    container: 'C1', // 指定图表容器 ID
-                    width: 600, // 指定图表宽度
-                    height: 300, // 指定图表高度
+                var ctx = document.getElementById('myChart');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [12, 19, 3, 5, 2, 3],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
                 });
-
-                // Step 2: 载入数据源
-                chart.data(data);
-
-                // Step 3：创建图形语法，绘制柱状图
-                chart.interval().position('genre*sold');
-
-                // Step 4: 渲染图表
-                chart.render();
             }, 2000);
         }
     }
